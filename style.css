@@ -146,3 +146,50 @@ header p {
 .modo-edicao-ativo .linha-militar:active {
     cursor: grabbing;
 }
+
+#btn-olho {
+    margin-top: 10px;
+    margin-left: 10px;
+    background-color: #00bcd4;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#btn-olho.olho-ativo { background-color: #3f51b5; }
+
+/* Bloco Oculto de Observações (Surgirá no clique do olho) */
+.bloco-observacoes {
+    display: none;
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px dashed #ddd;
+    font-size: 11px;
+    white-space: normal;
+}
+
+/* Força a exibição quando o modo Olho Mágico estiver ativo */
+.olho-magico-ativo .bloco-observacoes {
+    display: block;
+}
+
+/* Etiquetas Coloridas por Categoria */
+.tag-obs {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-weight: bold;
+    margin: 2px 1px;
+    color: #fff;
+}
+
+.tag-ferias { background-color: #e91e63; }       /* Rosa: Férias Ativas */
+.tag-prev-ferias { background-color: #9c27b0; }  /* Roxo: Previsão de Férias */
+.tag-missao { background-color: #ff9800; }       /* Laranja: Missão */
+.tag-dispensa { background-color: #4caf50; }     /* Verde: Dispensa */
+.tag-lts { background-color: #f44336; }          /* Vermelho: LTS */
+.tag-texto-obs { background-color: #607d8b; }    /* Cinza Azulado: Observação direta (Texto) */
