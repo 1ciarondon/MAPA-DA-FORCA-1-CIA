@@ -1,46 +1,42 @@
 const API_URL = "https://script.google.com/macros/s/AKfycby5LqbrVC1udTsWiQxoay2Igda3NFFpbomBJ8d_-FjGPS6H5J42BrIQxsSwzVUZruCD/exec"; // Garanta que o seu link está aqui!
 let instanciasSortable = [];
 let modoEdicao = false;
+let modoOlho = false;
 
-document.addEventListener("DOMContentLoaded", () => {
-    carregarMapa();
-});
+document.addEventListener("DOMContentLoaded", () => { carregarMapa(); });
 
 async function carregarMapa() {
     try {
         const response = await fetch(API_URL);
         const dados = await response.json();
         
-        renderizarEquipe(dados.radiopatrulha.A, "dados-A", "RP");
-        renderizarEquipe(dados.radiopatrulha.B, "dados-B", "RP");
-        renderizarEquipe(dados.radiopatrulha.C, "dados-C", "RP");
-        renderizarEquipe(dados.radiopatrulha.D, "dados-D", "RP");
-        renderizarEquipe(dados.radiopatrulha.E, "dados-E", "RP");
-        
-        renderizarEquipe(dados.guarda.A, "dados-guarda-A", "GUARDA");
-        renderizarEquipe(dados.guarda.B, "dados-guarda-B", "GUARDA");
-        renderizarEquipe(dados.guarda.C, "dados-guarda-C", "GUARDA");
-        renderizarEquipe(dados.guarda.D, "dados-guarda-D", "GUARDA");
-        renderizarEquipe(dados.guarda.E, "dados-guarda-E", "GUARDA");
+        const blocos = [
+            {d: dados.radiopatrulha.A, id: "dados-A", s: "RP"},
+            {d: dados.radiopatrulha.B, id: "dados-B", s: "RP"},
+            {d: dados.radiopatrulha.C, id: "dados-C", s: "RP"},
+            {d: dados.radiopatrulha.D, id: "dados-D", s: "RP"},
+            {d: dados.radiopatrulha.E, id: "dados-E", s: "RP"},
+            {d: dados.guarda.A, id: "dados-guarda-A", s: "GUARDA"},
+            {d: dados.guarda.B, id: "dados-guarda-B", s: "GUARDA"},
+            {d: dados.guarda.C, id: "dados-guarda-C", s: "GUARDA"},
+            {d: dados.guarda.D, id: "dados-guarda-D", s: "GUARDA"},
+            {d: dados.guarda.E, id: "dados-guarda-E", s: "GUARDA"}
+        ];
 
-    } catch (erro) {
-        console.error("Erro ao puxar dados da planilha:", erro);
-    }
+        blocos.forEach(b => renderizarEquipe(b.d, b.id, b.s));
+    } catch (erro) { console.error("Erro ao carregar dados:", erro); }
 }
 
 function renderizarEquipe(militares, elementId, tipoServico) {
     const container = document.getElementById(elementId);
     container.innerHTML = "";
     
-    // Adiciona atributos de identificação no container da equipe
     container.setAttribute("data-servico", tipoServico);
     container.setAttribute("data-equipe", elementId.replace("dados-", "").replace("guarda-", ""));
 
     militares.forEach(militar => {
         const div = document.createElement("div");
         div.className = "linha-militar";
-        
-        // Guarda o texto bruto do militar como ID de referência
         div.setAttribute("data-militar-bruto", militar.texto);
         
         if (militar.prontidao === "INDISPONÍVEL") {
@@ -48,58 +44,73 @@ function renderizarEquipe(militares, elementId, tipoServico) {
             div.style.color = "#a0a0a0";
             div.style.backgroundColor = "#f2f2f2";
         }
-        
-        if (militar.status && militar.status !== "Disponível") {
-            div.title = `Status: ${militar.status}`;
-        }
-        
+
         const partes = militar.texto.split(" ");
         const nomeGuerra = partes.pop();
         const postoMatricula = partes.join(" ");
         
-        div.innerHTML = `<span>${postoMatricula} </span><strong>${nomeGuerra}</strong>`;
+        // --- CONSTRUTOR DO OLHO MÁGICO (DADOS EXTRAS) ---
+        let htmlTags = "";
+        
+        militar.afastamentos.forEach(af => {
+            if (af.ativo) {
+                if (af.tipo === "FÉRIAS") {
+                    htmlTags += `<span class="tag-obs tag-ferias">Férias. Pronto dia: ${af.retorno}</span>`;
+                } else if (af.tipo === "MISSÃO") {
+                    htmlTags += `<span class="tag-obs tag-missao">Missão até ${af.retorno}</span>`;
+                } else if (af.tipo === "LTS") {
+                    htmlTags += `<span class="tag-obs tag-lts">LTS: ${af.periodo}</span>`;
+                } else {
+                    htmlTags += `<span class="tag-obs tag-dispensa">${af.tipo}: ${af.periodo}</span>`;
+                }
+            } else if (af.tipo === "PREVISÃO FÉRIAS" && af.mes) {
+                htmlTags += `<span class="tag-obs tag-prev-ferias">Prev. Férias: ${af.mes}</span>`;
+            }
+        });
+
+        militar.observacoes.forEach(ob => {
+            htmlTags += `<span class="tag-obs tag-texto-obs">⚠️ ${ob}</span>`;
+        });
+
+        div.innerHTML = `
+            <div><span>${postoMatricula} </span><strong>${nomeGuerra}</strong></div>
+            <div class="bloco-observacoes">${htmlTags || '<span style="color:#999;font-style:italic;">Sem observações</span>'}</div>
+        `;
+        
         container.appendChild(div);
     });
 }
 
-// Liga e Desliga a permissão de arrastar os nomes
+function alternarOlhoMagico() {
+    const btn = document.getElementById("btn-olho");
+    modoOlho = !modoOlho;
+    
+    if (modoOlho) {
+        btn.innerText = "👁️ Ocultar Observações";
+        btn.classList.add("olho-indigo");
+        document.body.classList.add("olho-magico-ativo");
+    } else {
+        btn.innerText = "👁️ Mostrar Observações";
+        btn.classList.remove("olho-indigo");
+        document.body.classList.remove("olho-magico-ativo");
+    }
+}
+
 function alternarModoEdicao() {
     const btn = document.getElementById("btn-editar");
     modoEdicao = !modoEdicao;
-    
     if (modoEdicao) {
         btn.innerText = "💾 Salvar Alterações";
         btn.classList.add("modo-ativo");
         document.body.classList.add("modo-edicao-ativo");
-        ativarArrastabilidade();
+        document.querySelectorAll('.lista-militares').forEach(el => {
+            instanciasSortable.push(new Sortable(el, { group: el.parentNode.parentNode.className.includes('radiopatrulha') ? 'RP' : 'GUARDA', animation: 150 }));
+        });
     } else {
         btn.innerText = "⚙️ Ativar Edição";
         btn.classList.remove("modo-ativo");
         document.body.classList.remove("modo-edicao-ativo");
-        desativarArrastabilidade();
-        processarMudancasDeEquipe();
+        instanciasSortable.forEach(i => i.destroy());
+        instanciasSortable = [];
     }
-}
-
-function ativarArrastabilidade() {
-    // Inicializa o arrastador tático para a Radiopatrulha (Grupo: RP)
-    document.querySelectorAll('.painel-equipes:nth-of-type(1) .lista-militares').forEach(el => {
-        instanciasSortable.push(new Sortable(el, { group: 'RP', animation: 150 }));
-    });
-    
-    // Inicializa o arrastador tático para a Guarda (Grupo: GUARDA)
-    document.querySelectorAll('.painel-equipes:nth-of-type(2) .lista-militares').forEach(el => {
-        instanciasSortable.push(new Sortable(el, { group: 'GUARDA', animation: 150 }));
-    });
-}
-
-function desativarArrastabilidade() {
-    instanciasSortable.forEach(instancia => instancia.destroy());
-    instanciasSortable = [];
-}
-
-// Função que mapeia onde cada militar foi solto para salvar depois
-function processarMudancasDeEquipe() {
-    console.log("Calculando novas posições para enviar ao Sheets...");
-    // Próxima fase: disparar o envio para o Google Sheets!
 }
