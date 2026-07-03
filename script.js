@@ -1,6 +1,4 @@
-// LINK DO SEU WEB APP (Vamos gerar no Apps Script no próximo passo)
-const API_URL = "https://script.google.com/macros/s/AKfycby5LqbrVC1udTsWiQxoay2Igda3NFFpbomBJ8d_-FjGPS6H5J42BrIQxsSwzVUZruCD/exec"; 
-
+const API_URL = "https://script.google.com/macros/s/AKfycby5LqbrVC1udTsWiQxoay2Igda3NFFpbomBJ8d_-FjGPS6H5J42BrIQxsSwzVUZruCD/exec"; // Garanta que o seu link está aqui!
 let instanciasSortable = [];
 let modoEdicao = false;
 
