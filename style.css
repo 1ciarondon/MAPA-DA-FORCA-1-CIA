@@ -1,4 +1,6 @@
-/* Configurações Gerais */
+/* ==========================================
+   CONFIGURAÇÕES GERAIS E ESTRUTURA
+   ========================================== */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -66,7 +68,7 @@ header p {
     background-color: #fff;
 }
 
-/* Cabeçalhos de cada Equipe com as cores do seu print */
+/* Cabeçalhos de cada Equipe */
 .quadro-equipe h2 {
     margin: 0;
     padding: 8px;
@@ -83,23 +85,41 @@ header p {
 #equipe-D h2, #guarda-D h2 { background-color: #d5a6bd; color: #4c1130; } /* Rosa/Roxo */
 #equipe-E h2, #guarda-E h2 { background-color: #f4b400; color: #4e3800; } /* Laranja */
 
-/* Linhas dos Militares (Células) */
+
+/* ==========================================
+   LINHAS DOS MILITARES (CÉLULAS DO MAPA)
+   ========================================== */
 .linha-militar {
-    padding: 6px 10px;
+    padding: 8px 10px;
     font-size: 13px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px dashed #e0e0e0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: #fff;
+    box-sizing: border-box;
 }
 
-/* Destaque apenas no Nome de Guerra (igual fizemos no Sheets) */
+/* REQUISITO: Divisória firme e fixa a cada 4 nomes (Delimitação de Guarnições) */
+.lista-militares .linha-militar:nth-child(4n) {
+    border-bottom: 3px solid #0d3b66; 
+    margin-bottom: 4px;
+}
+
+/* REQUISITO: Ajuste de espessura e cores do Negrito Inteligente (Pós-Matrícula) */
 .linha-militar span {
     font-weight: normal;
+    color: #555;
 }
 
 .linha-militar strong {
     font-weight: bold;
+    color: #000;
+}
+
+/* Espaçamento extra de "dois enters" no final da lista da Guarda */
+[id^="dados-guarda-"] {
+    padding-bottom: 35px;
 }
 
 .carregando {
@@ -110,7 +130,10 @@ header p {
     padding: 15px;
 }
 
-/* Estilo do Botão de Edição */
+
+/* ==========================================
+   BOTÕES E MODO EDIÇÃO (DRAG & DROP)
+   ========================================== */
 #btn-editar {
     margin-top: 10px;
     background-color: #f4b400;
@@ -133,9 +156,9 @@ header p {
     opacity: 0.9;
 }
 
-/* Efeito visual nos quadros quando o modo edição está ativo */
+/* Alteração visual do painel em modo Edição */
 .modo-edicao-ativo .lista-militares {
-    background-color: #fffde7; /* Amarelo bem claro para indicar que pode arrastar */
+    background-color: #fffde7; /* Amarelo bem claro indicando área arrastável */
     outline: 2px dashed #f4b400;
 }
 
@@ -147,6 +170,10 @@ header p {
     cursor: grabbing;
 }
 
+
+/* ==========================================
+   PAINEL OLHO MÁGICO (OBSERVAÇÕES)
+   ========================================== */
 #btn-olho {
     margin-top: 10px;
     margin-left: 10px;
@@ -160,9 +187,12 @@ header p {
     cursor: pointer;
     transition: background 0.2s;
 }
-#btn-olho.olho-ativo { background-color: #3f51b5; }
 
-/* Bloco Oculto de Observações (Surgirá no clique do olho) */
+#btn-olho.olho-ativo { 
+    background-color: #3f51b5; 
+}
+
+/* Bloco Oculto de Observações */
 .bloco-observacoes {
     display: none;
     margin-top: 5px;
@@ -172,12 +202,12 @@ header p {
     white-space: normal;
 }
 
-/* Força a exibição quando o modo Olho Mágico estiver ativo */
+/* Exibição forçada pelo gatilho do botão */
 .olho-magico-ativo .bloco-observacoes {
     display: block;
 }
 
-/* Etiquetas Coloridas por Categoria */
+/* Etiquetas (Tags) Coloridas */
 .tag-obs {
     display: inline-block;
     padding: 2px 6px;
@@ -192,4 +222,4 @@ header p {
 .tag-missao { background-color: #ff9800; }       /* Laranja: Missão */
 .tag-dispensa { background-color: #4caf50; }     /* Verde: Dispensa */
 .tag-lts { background-color: #f44336; }          /* Vermelho: LTS */
-.tag-texto-obs { background-color: #607d8b; }    /* Cinza Azulado: Observação direta (Texto) */
+.tag-texto-obs { background-color: #607d8b; }    /* Cinza Azulado: Observação Direta */
