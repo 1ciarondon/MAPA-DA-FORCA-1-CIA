@@ -109,3 +109,40 @@ header p {
     font-style: italic;
     padding: 15px;
 }
+
+/* Estilo do Botão de Edição */
+#btn-editar {
+    margin-top: 10px;
+    background-color: #f4b400;
+    color: #222;
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#btn-editar.modo-ativo {
+    background-color: #ea4335;
+    color: white;
+}
+
+#btn-editar:hover {
+    opacity: 0.9;
+}
+
+/* Efeito visual nos quadros quando o modo edição está ativo */
+.modo-edicao-ativo .lista-militares {
+    background-color: #fffde7; /* Amarelo bem claro para indicar que pode arrastar */
+    outline: 2px dashed #f4b400;
+}
+
+.modo-edicao-ativo .linha-militar {
+    cursor: grab;
+}
+
+.modo-edicao-ativo .linha-militar:active {
+    cursor: grabbing;
+}
