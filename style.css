@@ -1,0 +1,111 @@
+/* Configurações Gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Header Geral do Topo */
+header {
+    background-color: #0d3b66;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+header p {
+    margin: 5px 0 0 0;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+/* Grandes Divisões (Radiopatrulha e Guarda) */
+.secao-titulo {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    padding: 10px 0;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.radiopatrulha-bg {
+    background-color: #3a86c8; /* Azul da Radiopatrulha */
+    margin-top: 10px;
+}
+
+.guarda-bg {
+    background-color: #b58317; /* Dourado da Guarda */
+    margin-top: 30px;
+}
+
+/* Grid que organiza os 5 Quadros Lado a Lado */
+.painel-equipes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Divide em 5 colunas iguais */
+    gap: 0px; /* Grudados igual à planilha */
+    padding: 0 5px;
+    background-color: #fff;
+}
+
+/* Estrutura dos Quadros de Equipe */
+.quadro-equipe {
+    border: 1px solid #ccc;
+    min-height: 150px;
+    background-color: #fff;
+}
+
+/* Cabeçalhos de cada Equipe com as cores do seu print */
+.quadro-equipe h2 {
+    margin: 0;
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Cores de Fundo do Cabeçalho das Equipes */
+#equipe-A h2, #guarda-A h2 { background-color: #9cd095; color: #1b4314; } /* Verde */
+#equipe-B h2, #guarda-B h2 { background-color: #79a1cc; color: #0f2742; } /* Azul Escuro */
+#equipe-C h2, #guarda-C h2 { background-color: #a4c2f4; color: #102a54; } /* Azul Claro */
+#equipe-D h2, #guarda-D h2 { background-color: #d5a6bd; color: #4c1130; } /* Rosa/Roxo */
+#equipe-E h2, #guarda-E h2 { background-color: #f4b400; color: #4e3800; } /* Laranja */
+
+/* Linhas dos Militares (Células) */
+.linha-militar {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-bottom: 1px solid #e0e0e0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Destaque apenas no Nome de Guerra (igual fizemos no Sheets) */
+.linha-militar span {
+    font-weight: normal;
+}
+
+.linha-militar strong {
+    font-weight: bold;
+}
+
+.carregando {
+    text-align: center;
+    color: #777;
+    font-size: 12px;
+    font-style: italic;
+    padding: 15px;
+}
