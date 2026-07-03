@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAPA DA FORÇA - 1º BPM</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 <body>
 
     <header>
         <h1>MAPA DA FORÇA OPERACIONAL</h1>
         <p>Status em Tempo Real (Integrado ao Google Sheets)</p>
+        <button id="btn-editar" onclick="alternarModoEdicao()">⚙️ Ativar Edição</button>
     </header>
 
     <div class="secao-titulo radiopatrulha-bg">Radiopatrulha</div>
@@ -18,27 +20,27 @@
     <main class="painel-equipes">
         <section class="quadro-equipe" id="equipe-A">
             <h2>EQUIPE A</h2>
-            <div id="dados-A"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-A" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-B">
             <h2>EQUIPE B</h2>
-            <div id="dados-B"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-B" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-C">
             <h2>EQUIPE C</h2>
-            <div id="dados-C"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-C" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-D">
             <h2>EQUIPE D</h2>
-            <div id="dados-D"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-D" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-E">
             <h2>EQUIPE E</h2>
-            <div id="dados-E"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-E" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
     </main>
 
@@ -47,27 +49,27 @@
     <main class="painel-equipes">
         <section class="quadro-equipe" id="guarda-A">
             <h2>EQUIPE A</h2>
-            <div id="dados-guarda-A"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-guarda-A" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-B">
             <h2>EQUIPE B</h2>
-            <div id="dados-guarda-B"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-guarda-B" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-C">
             <h2>EQUIPE C</h2>
-            <div id="dados-guarda-C"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-guarda-C" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-D">
             <h2>EQUIPE D</h2>
-            <div id="dados-guarda-D"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-guarda-D" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-E">
             <h2>EQUIPE E</h2>
-            <div id="dados-guarda-E"><p class="carregando">Sincronizando...</p></div>
+            <div id="dados-guarda-E" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
     </main>
 
