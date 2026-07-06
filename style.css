@@ -897,46 +897,111 @@ header p {
 }
 
 /* ==========================================
-   ESTILIZAÇÃO DO CABEÇALHO DA ESCALA (JULHO)
+   CABEÇALHO DA ESCALA MENSAL - DESIGN PREMIUM
    ========================================== */
 
 .scroll-escala {
-    margin: 12px; 
-    padding: 12px; 
+    margin: 15px; 
+    padding: 10px; 
     background: #ffffff; 
-    border: 1px solid #d6dde6; 
-    border-radius: 8px; 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
-    overflow-x: auto; /* Ativa rolagem horizontal se não couber na tela */
+    border: 1px solid #e2e8f0; 
+    border-radius: 12px; /* Cantos mais suaves e modernos */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); 
+    overflow-x: auto;
 }
 
-/* Customização da barra de rolagem horizontal da escala */
+/* Customização fina da barra de rolagem horizontal */
 .scroll-escala::-webkit-scrollbar {
-    height: 6px;
+    height: 5px;
 }
 .scroll-escala::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
+    background: #f8fafc;
+    border-radius: 10px;
 }
 .scroll-escala::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
+    background: #cbd5e1;
+    border-radius: 10px;
 }
 .scroll-escala::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
+    background: #94a3b8;
 }
 
 #tabela-espelho-sheets {
     width: 100%; 
-    border-collapse: collapse; 
-    font-size: 11px; 
-    font-family: "Segoe UI", Tahoma, sans-serif; 
+    border-collapse: separate; /* Permite efeitos visuais melhores nas células */
+    border-spacing: 0;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
     text-align: center;
 }
 
+/* Estilização geral das células */
 #tabela-espelho-sheets td {
-    border: 1px solid #b0bec5; /* Bordas ligeiramente mais suaves que preto puro */
-    padding: 6px 8px;
-    white-space: nowrap; /* Impede que o texto quebre e deforme a altura da linha */
-    min-width: 30px;
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #334155;
+    white-space: nowrap;
+    min-width: 32px;
+    transition: all 0.15s ease;
+}
+
+/* Remove a borda direita da última coluna para não duplicar com o container */
+#tabela-espelho-sheets td:last-child {
+    border-right: none;
+}
+
+/* Estilização da linha de topo (O Mês - JULHO) */
+#tabela-espelho-sheets tr:first-child td {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 4px;
+    padding: 12px;
+    background: #f8fafc !important; /* Fundo limpo e corporativo */
+    border-bottom: 2px solid #cbd5e1;
+}
+
+/* Linha dos Dias da Semana (QUA, QUI, SEX...) */
+#tabela-espelho-sheets tr:nth-child(2) td {
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: #f8fafc;
+    padding: 6px 4px;
+}
+
+/* Linha dos Números dos Dias (1, 2, 3...) */
+#tabela-espelho-sheets tr:nth-child(3) td {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Suavização das cores que vêm da planilha */
+#tabela-espelho-sheets td[style*="background-color"] {
+    font-weight: 700;
+}
+
+/* Se o fundo for o Amarelo padrão do Sheets (#ffff00 ou similar), deixa um tom pastel mais nobre */
+#tabela-espelho-sheets td[style*="255, 255, 0"],
+#tabela-espelho-sheets td[style*="ffff00"] {
+    background-color: #fef08a !important; /* Amarelo pastel moderno */
+    color: #713f12 !important;
+}
+
+/* Se o fundo for o Azul do dia atual, deixa uma identidade forte de sistema */
+#tabela-espelho-sheets td[style*="3a86c8"],
+#tabela-espelho-sheets td[style*="blue"],
+#tabela-espelho-sheets td[style*="60, 141, 188"] {
+    background: #3b82f6 !important; /* Azul moderno */
+    color: #ffffff !important;
+}
+
+/* Efeito interno de hover para conferência visual do operador */
+#tabela-espelho-sheets tr:not(:first-child) td:hover {
+    background-color: #f1f5f9 !important;
+    cursor: default;
 }
