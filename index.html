@@ -9,9 +9,45 @@
 </head>
 <body>
 
+    <div id="menu-lateral" class="menu-lateral">
+        <div class="menu-header">
+            <h3>Gestão de Afastamentos</h3>
+            <button class="btn-fechar" onclick="toggleMenuLateral()">✖</button>
+        </div>
+        <div class="menu-corpo">
+            <form id="form-afastamento" onsubmit="salvarAfastamento(event)">
+                <label>Militar (Nome de Guerra):</label>
+                <input type="text" id="afast-nome" required placeholder="Ex: M. PAES">
+
+                <label>Tipo de Impedimento:</label>
+                <select id="afast-tipo" required>
+                    <option value="FÉRIAS">FÉRIAS</option>
+                    <option value="MISSÃO">MISSÃO</option>
+                    <option value="DISPENSA">DISPENSA</option>
+                    <option value="LTS">LTS</option>
+                </select>
+
+                <label>Data Início:</label>
+                <input type="date" id="afast-inicio" required>
+
+                <label>Qtd Dias:</label>
+                <input type="number" id="afast-dias" min="1" required placeholder="Ex: 8">
+
+                <label>Observação Específica:</label>
+                <textarea id="afast-obs" placeholder="Ex: Horário especial / Não escalar com..."></textarea>
+
+                <button type="submit" id="btn-cadastrar-ausencia">Lançar Afastamento</button>
+            </form>
+            <hr style="border: 0; border-top: 1px dashed #34495e; margin: 15px 0;">
+            <h4>Militares Afastados Hoje</h4>
+            <div id="lista-afastados-atual">Carregando lista...</div>
+        </div>
+    </div>
+
     <header>
+        <button id="btn-menu" onclick="toggleMenuLateral()">☰ Menu Admin</button>
         <h1>MAPA DA FORÇA OPERACIONAL</h1>
-        <p>Status em Tempo Real</p>
+        <p>Status em Tempo Real (Integrado ao Google Sheets)</p>
         <button id="btn-editar" onclick="alternarModoEdicao()">⚙️ Ativar Edição</button>
     </header>
 
@@ -20,26 +56,31 @@
     <main class="painel-equipes">
         <section class="quadro-equipe" id="equipe-A">
             <h2>EQUIPE A <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-A', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-A">Prontos: 0 | Indisp: 0</div>
             <div id="dados-A" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-B">
             <h2>EQUIPE B <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-B', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-B">Prontos: 0 | Indisp: 0</div>
             <div id="dados-B" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-C">
             <h2>EQUIPE C <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-C', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-C">Prontos: 0 | Indisp: 0</div>
             <div id="dados-C" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-D">
             <h2>EQUIPE D <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-D', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-D">Prontos: 0 | Indisp: 0</div>
             <div id="dados-D" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="equipe-E">
             <h2>EQUIPE E <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-E', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-E">Prontos: 0 | Indisp: 0</div>
             <div id="dados-E" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
     </main>
@@ -49,26 +90,31 @@
     <main class="painel-equipes">
         <section class="quadro-equipe" id="guarda-A">
             <h2>EQUIPE A <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-guarda-A', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-guarda-A">Prontos: 0 | Indisp: 0</div>
             <div id="dados-guarda-A" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-B">
             <h2>EQUIPE B <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-guarda-B', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-guarda-B">Prontos: 0 | Indisp: 0</div>
             <div id="dados-guarda-B" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-C">
             <h2>EQUIPE C <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-guarda-C', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-guarda-C">Prontos: 0 | Indisp: 0</div>
             <div id="dados-guarda-C" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-D">
             <h2>EQUIPE D <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-guarda-D', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-guarda-D">Prontos: 0 | Indisp: 0</div>
             <div id="dados-guarda-D" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
 
         <section class="quadro-equipe" id="guarda-E">
             <h2>EQUIPE E <span class="icone-olho-equipe" onclick="alternarOlhoEquipe('dados-guarda-E', this)">👁️</span></h2>
+            <div class="contador-equipe" id="cont-guarda-E">Prontos: 0 | Indisp: 0</div>
             <div id="dados-guarda-E" class="lista-militares"><p class="carregando">Sincronizando...</p></div>
         </section>
     </main>
