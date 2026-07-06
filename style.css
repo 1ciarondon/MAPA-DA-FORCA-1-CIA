@@ -16,6 +16,7 @@ header {
     text-align: center;
     padding: 15px 0;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 header h1 {
@@ -40,6 +41,7 @@ header p {
     padding: 10px 0;
     letter-spacing: 1.5px;
     text-transform: uppercase;
+    box-sizing: border-box;
 }
 
 .radiopatrulha-bg {
@@ -66,6 +68,8 @@ header p {
     border: 1px solid #ccc;
     min-height: 150px;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Cabeçalhos de cada Equipe */
@@ -89,6 +93,11 @@ header p {
 /* ==========================================
    LINHAS DOS MILITARES (CÉLULAS DO MAPA)
    ========================================== */
+.lista-militares {
+    flex-grow: 1;
+    background-color: #fff;
+}
+
 .linha-militar {
     padding: 8px 10px;
     font-size: 13px;
@@ -128,6 +137,7 @@ header p {
     font-size: 12px;
     font-style: italic;
     padding: 15px;
+    margin: 0;
 }
 
 
@@ -160,6 +170,7 @@ header p {
 .modo-edicao-ativo .lista-militares {
     background-color: #fffde7; /* Amarelo bem claro indicando área arrastável */
     outline: 2px dashed #f4b400;
+    outline-offset: -2px;
 }
 
 .modo-edicao-ativo .linha-militar {
@@ -250,4 +261,155 @@ header p {
 /* Exibe as observações apenas na equipe que estiver com a classe olho-aberto ativo */
 .olho-aberto .bloco-observacoes {
     display: block !important;
+}
+
+
+/* ==========================================
+   BARRA LATERAL ADMINISTRATIVA E COMPONENTES
+   ========================================== */
+/* Botão do Menu no Header */
+#btn-menu {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #222;
+    color: white;
+    border: 1px solid #555;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Estrutura da Barra Lateral Oculta */
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -320px; /* Escondido para a esquerda */
+    width: 300px;
+    height: 100%;
+    background-color: #1a252f;
+    color: white;
+    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+    transition: left 0.3s ease;
+    z-index: 9999;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.menu-lateral.aberto {
+    left: 0; /* Exibe o menu */
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #34495e;
+    padding-bottom: 5px;
+}
+
+.menu-header h3 { margin: 0; font-size: 16px; color: #00bcd4; }
+
+.btn-fechar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Formulário Administrativo */
+#form-afastamento label {
+    display: block;
+    font-size: 11px;
+    margin-top: 10px;
+    color: #bdc3c7;
+}
+
+#form-afastamento input, 
+#form-afastamento select, 
+#form-afastamento textarea {
+    width: 100%;
+    padding: 6px;
+    margin-top: 2px;
+    background-color: #2c3e50;
+    border: 1px solid #34495e;
+    color: white;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+#form-afastamento textarea {
+    resize: vertical;
+    min-height: 50px;
+}
+
+#btn-cadastrar-ausencia {
+    width: 100%;
+    margin-top: 12px;
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Linhas da lista rápida de afastados dentro do menu */
+.item-lista-afastado {
+    background-color: #2c3e50;
+    padding: 6px;
+    margin-bottom: 4px;
+    border-radius: 3px;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-dar-pronto {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 2px 6px;
+    font-size: 10px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* Estilo do Contador de Militares Prontos */
+.contador-equipe {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    color: #666;
+    padding: 4px 0;
+}
+
+/* ==========================================
+   RESPONSIVIDADE (TELAS MENORES)
+   ========================================== */
+@media (max-width: 1024px) {
+    .painel-equipes {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .painel-equipes {
+        grid-template-columns: 1fr;
+    }
+    #btn-menu {
+        position: static;
+        transform: none;
+        margin: 10px auto;
+        display: block;
+    }
 }
