@@ -1,20 +1,42 @@
 // ==========================================
-// CONFIGURAÇÕES GERAIS E SESSÃO DE DADOS
+// CONFIGURAÇÕES GERAIS E ESTADO DA APLICAÇÃO
 // ==========================================
 const API_URL = "https://script.google.com/macros/s/AKfycby5LqbrVC1udTsWiQxoay2Igda3NFFpbomBJ8d_-FjGPS6H5J42BrIQxsSwzVUZruCD/exec"; 
 let instanciasSortable = [];
 let modoEdicao = false;
-let dadosGlobaisAfastados = []; // Guarda a lista em memória para o menu lateral
+let dadosGlobaisAfastados = [];
 
-document.addEventListener("DOMContentLoaded", () => { carregarMapa(); });
+document.addEventListener("DOMContentLoaded", () => { 
+    criarEstruturaToasts();
+    carregarMapa();
+    configurarAtualizacaoAutomatica();
+});
 
-// Carrega os dados da API (Google Sheets) e distribui nos blocos correspondentes
+// Exibe indicador visual de carregamento nas tabelas (Melhoria 1)
+function mostrarLoading() {
+    document.querySelectorAll(".lista-militares").forEach(div => {
+        div.innerHTML = '<p class="carregando">🔄 Sincronizando com o Sheets...</p>';
+    });
+}
+
+// Configura atualização automática em tempo real a cada 60 segundos (Melhoria 2)
+function configurarAtualizacaoAutomatica() {
+    setInterval(() => {
+        if (!modoEdicao) {
+            carregarMapa();
+        }
+    }, 60000);
+}
+
 async function carregarMapa() {
     try {
+        mostrarLoading();
         const response = await fetch(API_URL);
         const dados = await response.json();
         
-        // Salva os afastados mapeados para uso no menu admin
+        // Remove banner de erro se a conexão voltar ao normal (Melhoria 12)
+        gerenciarAlertaConexao(false);
+
         dadosGlobaisAfastados = dados.afastados_geral || [];
         renderizarListaMenuAdmin();
 
@@ -36,13 +58,54 @@ async function carregarMapa() {
             atualizarContadoresIndividuais(b.id, b.c);
         });
     } catch (erro) { 
-        console.error("Erro ao carregar dados:", erro); 
+        console.error("Erro ao carregar dados:", erro);
+        gerenciarAlertaConexao(true); // Exibe aviso de falha (Melhoria 12)
     }
 }
 
 // ==========================================
-// RENDERIZAÇÃO DA INTERFACE (EQUADRAMENTO E TAGS)
+// FUNÇÕES DE FORMATAR E GERAR ELEMENTOS (SUBFUNÇÕES)
 // ==========================================
+
+// Trata e isola a estilização visual de nomes e matrículas (Melhoria 7)
+function formatarNomeMilitar(textoBruto) {
+    const regexMatricula = /(1000\d{4,5})\s+(.+)/;
+    if (regexMatricula.test(textoBruto)) {
+        return textoBruto.replace(regexMatricula, function(match, matricula, resto) {
+            const indiceMatricula = textoBruto.indexOf(matricula);
+            return `<span>${textoBruto.substring(0, indiceMatricula)}${matricula} </span><strong>${resto}</strong>`;
+        });
+    }
+    const partes = textoBruto.split(" ");
+    const uNome = partes.pop();
+    return `<span>${partes.join(" ")} </span><strong>${uNome}</strong>`;
+}
+
+// Monta o bloco de tags usando Arrays e validação cronológica (Melhoria 6, 8 e 10)
+function montarTags(afastamentos, observacoes) {
+    const tags = []; 
+    const meses = { JANEIRO:1, FEVEREIRO:2, MARÇO:3, ABRIL:4, MAIO:5, JUNHO:6, JULHO:7, AGOSTO:8, SETEMBRO:9, OUTUBRO:10, NOVEMBRO:11, DEZEMBRO:12 };
+    const mesAtual = new Date().getMonth() + 1;
+
+    afastamentos.forEach(af => {
+        if (af.ativo) {
+            tags.push(`<span class="tag-obs tag-${af.tipo.toLowerCase()}">${af.tipo === 'FÉRIAS' ? 'Férias. Pronto dia: ' + af.retorno : af.tipo + ' até ' + af.retorno}</span>`);
+        } else if (af.tipo === "PREVISÃO FÉRIAS" && af.mes) {
+            // Regra inteligente (Melhoria 10): oculta a previsão caso o mês já tenha chegado ou passado
+            if (meses[af.mes.toUpperCase()] >= mesAtual) {
+                tags.push(`<span class="tag-obs tag-prev-ferias">Prev. Férias: ${af.mes}</span>`);
+            }
+        }
+    });
+
+    observacoes.forEach(ob => { 
+        tags.push(`<span class="tag-obs tag-texto-obs">⚠️ ${ob}</span>`); 
+    });
+
+    return tags.length > 0 ? tags.join("") : '<span style="color:#999;font-style:italic;">Sem observações</span>';
+}
+
+// Renderiza o esqueleto de cada equipe (Melhoria 5)
 function renderizarEquipe(militares, elementId, tipoServico) {
     const container = document.getElementById(elementId);
     if (!container) return;
@@ -58,42 +121,12 @@ function renderizarEquipe(militares, elementId, tipoServico) {
         div.setAttribute("data-prontidao-inicial", militar.prontidao);
         
         if (militar.prontidao === "INDISPONÍVEL") {
-            div.style.textDecoration = "line-through";
-            div.style.color = "#a0a0a0";
-            div.style.backgroundColor = "#f2f2f2";
+            div.classList.add("militar-indisponivel"); // Usa classe CSS em vez de style direto (Melhoria 5)
         }
-
-        const textoBruto = militar.texto;
-        const regexMatricula = /(1000\d{4,5})\s+(.+)/;
-        let textoFormatado = "";
-
-        if (regexMatricula.test(textoBruto)) {
-            textoFormatado = textoBruto.replace(regexMatricula, function(match, matricula, resto) {
-                const indiceMatricula = textoBruto.indexOf(matricula);
-                return `<span>${textoBruto.substring(0, indiceMatricula)}${matricula} </span><strong>${resto}</strong>`;
-            });
-        } else {
-            const partes = textoBruto.split(" ");
-            const uNome = partes.pop();
-            textoFormatado = `<span>${partes.join(" ")} </span><strong>${uNome}</strong>`;
-        }
-        
-        let htmlTags = "";
-        militar.afastamentos.forEach(af => {
-            if (af.ativo) {
-                htmlTags += `<span class="tag-obs tag-${af.tipo.toLowerCase()}">${af.tipo === 'FÉRIAS' ? 'Férias. Pronto dia: ' + af.retorno : af.tipo + ' até ' + af.retorno}</span>`;
-            } else if (af.tipo === "PREVISÃO FÉRIAS" && af.mes) {
-                htmlTags += `<span class="tag-obs tag-prev-ferias">Prev. Férias: ${af.mes}</span>`;
-            }
-        });
-
-        militar.observacoes.forEach(ob => { 
-            htmlTags += `<span class="tag-obs tag-texto-obs">⚠️ ${ob}</span>`; 
-        });
 
         div.innerHTML = `
-            <div class="militar-identidade">${textoFormatado}</div>
-            <div class="bloco-observacoes">${htmlTags || '<span style="color:#999;font-style:italic;">Sem observações</span>'}</div>
+            <div class="militar-identidade">${formatarNomeMilitar(militar.texto)}</div>
+            <div class="bloco-observacoes">${montarTags(militar.afastamentos, militar.observacoes)}</div>
         `;
         container.appendChild(div);
     });
@@ -118,7 +151,7 @@ function atualizarContadoresIndividuais(containerId, contadorId) {
 }
 
 // ==========================================
-// CONTROLES DE INTERAÇÃO (MODO EDIÇÃO E COMPORTAMENTO)
+// CONTROLES DE INTERAÇÃO (MODO EDIÇÃO)
 // ==========================================
 function toggleMenuLateral() { 
     document.getElementById("menu-lateral").classList.toggle("aberto"); 
@@ -132,9 +165,11 @@ function alternarOlhoEquipe(containerId, elementoIcone) {
     }
 }
 
+// Transições de estados textuais e desativação do botão de salvar (Melhoria 4)
 function alternarModoEdicao() {
     const btn = document.getElementById("btn-editar");
     modoEdicao = !modoEdicao;
+    
     if (modoEdicao) {
         btn.innerText = "💾 Salvar Alterações";
         btn.classList.add("modo-ativo");
@@ -144,7 +179,6 @@ function alternarModoEdicao() {
                 group: el.getAttribute("data-servico"), 
                 animation: 150,
                 onEnd: () => {
-                    // Recalcula os contadores dinamicamente ao soltar o militar em outra coluna
                     document.querySelectorAll(".lista-militares").forEach(c => {
                         atualizarContadoresIndividuais(c.id, c.getAttribute("data-cont-id"));
                     });
@@ -152,15 +186,12 @@ function alternarModoEdicao() {
             }));
         });
     } else {
-        btn.innerText = "⌛ Salvando no Sheets...";
+        btn.innerText = "⏳ Salvando...";
         btn.disabled = true;
         processarMudancasDeEquipe();
     }
 }
 
-// ==========================================
-// PROCESSAMENTO E ENVIO DE DADOS (POST / GOOGLE SHEETS)
-// ==========================================
 async function processarMudancasDeEquipe() {
     const payload = { acao: "SALVAR_EQUIPES", data: { radiopatrulha: {}, guarda: {} } };
     const colunas = ["A", "B", "C", "D", "E"];
@@ -177,19 +208,26 @@ async function processarMudancasDeEquipe() {
         });
     });
 
-    await enviarDadosAPI(payload);
-    
-    // Reseta estados visuais de edição pós envio
+    const sucesso = await enviarDadosAPI(payload);
     const btn = document.getElementById("btn-editar");
-    btn.innerText = "⚙️ Ativar Edição";
-    btn.disabled = false;
-    btn.classList.remove("modo-ativo");
-    document.body.classList.remove("modo-edicao-ativo");
+    
+    if (sucesso) {
+        btn.innerText = "✓ Salvo";
+        setTimeout(() => {
+            btn.innerText = "⚙️ Ativar Edição";
+            btn.disabled = false;
+            btn.classList.remove("modo-ativo");
+            document.body.classList.remove("modo-edicao-ativo");
+        }, 2000);
+    } else {
+        btn.innerText = "⚙️ Ativar Edição";
+        btn.disabled = false;
+    }
+
     instanciasSortable.forEach(i => i.destroy());
     instanciasSortable = [];
 }
 
-// Gatilho de Envio do Formulário da Barra Lateral Administrativa
 async function salvarAfastamento(event) {
     event.preventDefault();
     const payload = {
@@ -212,7 +250,7 @@ async function darProntoMilitar(linhaPlanilha) {
     }
 }
 
-// Gerenciador central de requisições POST com tratamento de barreira CORS (no-cors)
+// Gerenciador central POST que renderiza Toasts elegantes (Melhoria 3)
 async function enviarDadosAPI(payload) {
     try {
         await fetch(API_URL, {
@@ -222,14 +260,54 @@ async function enviarDadosAPI(payload) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-        alert("Operação enviada com sucesso!");
+        lancarToast("Operação processada com sucesso!", "sucesso");
         setTimeout(() => { carregarMapa(); }, 1500);
+        return true;
     } catch (e) { 
-        alert("Erro de conexão ao enviar comandos."); 
+        lancarToast("Erro de comunicação com o servidor.", "erro");
+        return false;
     }
 }
 
-// Renderiza a lista de quem está impedido no dia dentro da Barra Lateral Admin
+// ==========================================
+// CENTRAL DE COMPONENTES DE INTERFACE (TOASTS)
+// ==========================================
+function criarEstruturaToasts() {
+    if(!document.getElementById("toast-container")) {
+        const container = document.createElement("div");
+        container.id = "toast-container";
+        document.body.appendChild(container);
+    }
+    if(!document.getElementById("alerta-conexao")) {
+        const alerta = document.createElement("div");
+        alerta.id = "alerta-conexao";
+        alerta.innerText = "⚠️ Não foi possível sincronizar com o Google Sheets. Monitorando rede...";
+        document.body.insertBefore(alerta, document.body.firstChild);
+    }
+}
+
+function lancarToast(mensagem, tipo = "sucesso") {
+    const container = document.getElementById("toast-container");
+    const toast = document.createElement("div");
+    toast.className = `toast toast-${tipo}`;
+    toast.innerText = mensagem;
+    
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add("mostrar"), 100);
+
+    setTimeout(() => {
+        toast.classList.remove("mostrar");
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+function gerenciarAlertaConexao(exibir) {
+    const alerta = document.getElementById("alerta-conexao");
+    if(alerta) {
+        alerta.style.display = exibir ? "block" : "none";
+    }
+}
+
 function renderizarListaMenuAdmin() {
     const div = document.getElementById("lista-afastados-atual");
     if(!div) return;
