@@ -25,7 +25,7 @@ function configurarAtualizacaoAutomatica() {
         if (!modoEdicao) {
             carregarMapa();
         }
-    }, 60000);
+    }, 3600000);
 }
 
 async function carregarMapa() {
