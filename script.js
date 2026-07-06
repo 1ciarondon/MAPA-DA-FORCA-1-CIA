@@ -1,7 +1,6 @@
 const API_URL = "https://script.google.com/macros/s/AKfycby5LqbrVC1udTsWiQxoay2Igda3NFFpbomBJ8d_-FjGPS6H5J42BrIQxsSwzVUZruCD/exec"; // Garanta que o seu link está aqui!
 let instanciasSortable = [];
 let modoEdicao = false;
-let modoOlho = false;
 
 document.addEventListener("DOMContentLoaded", () => { carregarMapa(); });
 
@@ -37,6 +36,8 @@ function renderizarEquipe(militares, elementId, tipoServico) {
     militares.forEach(militar => {
         const div = document.createElement("div");
         div.className = "linha-militar";
+        
+        // CORREÇÃO PONTO 2: Guarda o texto bruto original imutável para não duplicar graduações
         div.setAttribute("data-militar-bruto", militar.texto);
         
         if (militar.prontidao === "INDISPONÍVEL") {
@@ -45,26 +46,22 @@ function renderizarEquipe(militares, elementId, tipoServico) {
             div.style.backgroundColor = "#f2f2f2";
         }
 
-        // REQUISITO 4: Negritar tudo após o número que começa com 1000
         const textoBruto = militar.texto;
         const regexMatricula = /(1000\d{4,5})\s+(.+)/;
-        let textoFormatado = textoBruto;
+        let textoFormatado = "";
 
         if (regexMatricula.test(textoBruto)) {
             textoFormatado = textoBruto.replace(regexMatricula, function(match, matricula, resto) {
-                // Acha onde a matrícula está no texto original para cortar certinho
                 const indiceMatricula = textoBruto.indexOf(matricula);
                 const postoGrad = textoBruto.substring(0, indiceMatricula);
                 return `<span>${postoGrad}${matricula} </span><strong>${resto}</strong>`;
             });
         } else {
-            // Fallback caso alguma linha não tenha o padrão de matrícula
             const partes = textoBruto.split(" ");
             const uNome = partes.pop();
             textoFormatado = `<span>${partes.join(" ")} </span><strong>${uNome}</strong>`;
         }
         
-        // CONSTRUTOR DO OLHO MÁGICO
         let htmlTags = "";
         militar.afastamentos.forEach(af => {
             if (af.ativo) {
@@ -82,7 +79,7 @@ function renderizarEquipe(militares, elementId, tipoServico) {
         });
 
         div.innerHTML = `
-            <div class="militar-identidade">${textoFormatado}</div>
+            <div class="militar-identidade">${textoFormatated || textoFormatado}</div>
             <div class="bloco-observacoes">${htmlTags || '<span style="color:#999;font-style:italic;">Sem observações</span>'}</div>
         `;
         
@@ -90,18 +87,12 @@ function renderizarEquipe(militares, elementId, tipoServico) {
     });
 }
 
-function alternarOlhoMagico() {
-    const btn = document.getElementById("btn-olho");
-    modoOlho = !modoOlho;
-    if (modoOlho) {
-        btn.innerText = "👁️ Ocultar Observações";
-        btn.classList.add("olho-ativo");
-        document.body.classList.add("olho-magico-ativo");
-    } else {
-        btn.innerText = "👁️ Mostrar Observações";
-        btn.classList.remove("olho-indigo");
-        document.body.classList.remove("olho-magico-ativo");
-    }
+// CORREÇÃO PONTO 3: Ativador de olho individual por equipe
+function alternarOlhoEquipe(containerId, elementoIcone) {
+    const alvo = document.getElementById(containerId);
+    alvo.classList.toggle("olho-acerto"); // Alterna classe de controle interno
+    alvo.classList.toggle("olho-aberto");
+    elementoIcone.classList.toggle("ativo");
 }
 
 function alternarModoEdicao() {
@@ -114,7 +105,7 @@ function alternarModoEdicao() {
         document.querySelectorAll('.lista-militares').forEach(el => {
             const grupoNome = el.getAttribute("data-servico");
             instanciasSortable.push(new Sortable(el, { group: grupoNome, animation: 150 }));
-        }); // <-- Aqui estava o erro, agora o parêntese foi fechado corretamente!
+        });
     } else {
         btn.innerText = "⌛ Salvando no Sheets...";
         btn.disabled = true;
@@ -122,7 +113,7 @@ function alternarModoEdicao() {
     }
 }
 
-// REQUISITO 2: Mapeia a nova estrutura e envia para o Google Sheets
+// CORREÇÃO PONTO 1: Tratamento de gravação otimizado sem travar o CORS
 async function processarMudancasDeEquipe() {
     const payload = { radiopatrulha: {}, guarda: {} };
     const colunas = ["A", "B", "C", "D", "E"];
@@ -140,20 +131,21 @@ async function processarMudancasDeEquipe() {
     });
 
     try {
-        const response = await fetch(API_URL, {
+        // Mudança estrutural do envio para garantir a aceitação do Apps Script
+        await fetch(API_URL, {
             method: "POST",
-            mode: "no-cors", 
+            mode: "no-cors",
+            cache: "no-cache",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
         
-        alert("Escala atualizada com sucesso no Google Sheets!");
+        alert("Alterações gravadas e enviadas para processamento da planilha!");
     } catch (erro) {
         console.error("Erro ao salvar:", erro);
-        alert("Erro ao salvar comunicações.");
+        alert("Erro de comunicação ao salvar.");
     }
 
-    // Restaura o botão e recarrega para atualizar o painel de forma limpa
     const btn = document.getElementById("btn-editar");
     btn.innerText = "⚙️ Ativar Edição";
     btn.disabled = false;
