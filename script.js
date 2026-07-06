@@ -40,23 +40,36 @@ async function carregarMapa() {
         dadosGlobaisAfastados = dados.afastados_geral || [];
         
         // Renderização automática do bloco C2:AG7 enviado pelo GAS
+       // Renderização Idêntica ao Sheets (Texto + Cores de Fundo)
         const tabelaEspelho = document.getElementById("tabela-espelho-sheets");
-        if (tabelaEspelho && dados.cabecalhoSuperior) {
+        if (tabelaEspelho && dados.cabecalhoSuperior && dados.coresSuperior) {
             tabelaEspelho.innerHTML = "";
+            
             dados.cabecalhoSuperior.forEach((linha, idxLinha) => {
                 const tr = document.createElement("tr");
                 
-                linha.forEach(celula => {
+                linha.forEach((celula, idxColuna) => {
                     const td = document.createElement("td");
-                    td.style.border = "1px solid #d6dde6";
-                    td.style.padding = "5px 8px";
+                    
+                    // Aplica as bordas padrão estruturais
+                    td.style.border = "1px solid #111111"; 
+                    td.style.padding = "6px 4px";
+                    td.style.fontSize = "11px";
+                    td.style.fontWeight = "700";
                     td.innerText = celula;
                     
-                    // Se a célula não estiver vazia, deixa em negrito suave para legibilidade
-                    if (celula.trim() !== "") {
-                        td.style.fontWeight = "600";
-                        td.style.backgroundColor = "#fcfdfd";
+                    // Puxa a cor exata que está na planilha do Sheets
+                    const corFundo = dados.coresSuperior[idxLinha][idxColuna];
+                    if (corFundo) {
+                        td.style.backgroundColor = corFundo;
                     }
+                    
+                    // Lógica para tratar o texto da linha do Mês (Julho) que fica mesclada
+                    if (idxLinha === 0) {
+                        td.style.fontSize = "16px";
+                        td.style.letterSpacing = "2px";
+                    }
+
                     tr.appendChild(td);
                 });
                 tabelaEspelho.appendChild(tr);
