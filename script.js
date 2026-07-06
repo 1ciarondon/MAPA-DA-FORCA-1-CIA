@@ -114,7 +114,7 @@ function alternarModoEdicao() {
         document.querySelectorAll('.lista-militares').forEach(el => {
             const grupoNome = el.getAttribute("data-servico");
             instanciasSortable.push(new Sortable(el, { group: grupoNome, animation: 150 }));
-        });
+        }); // <-- Aqui estava o erro, agora o parêntese foi fechado corretamente!
     } else {
         btn.innerText = "⌛ Salvando no Sheets...";
         btn.disabled = true;
@@ -142,7 +142,7 @@ async function processarMudancasDeEquipe() {
     try {
         const response = await fetch(API_URL, {
             method: "POST",
-            mode: "no-cors", // Necessário para evitar bloqueio CORS do Apps Script do Google
+            mode: "no-cors", 
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
@@ -160,9 +160,6 @@ async function processarMudancasDeEquipe() {
     btn.classList.remove("modo-ativo");
     document.body.classList.remove("modo-edicao-ativo");
     instanciasSortable.forEach(i => i.destroy());
-    instanciasSortable = [];
-    carregarMapa();
-}
     instanciasSortable = [];
     carregarMapa();
 }
