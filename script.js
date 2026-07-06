@@ -39,8 +39,7 @@ async function carregarMapa() {
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
         
-        // Renderização automática do bloco C2:AG7 enviado pelo GAS
-       // Renderização Idêntica ao Sheets (Texto + Cores de Fundo)
+        // Renderização Inteligente do Bloco de Escala Mensal
         const tabelaEspelho = document.getElementById("tabela-espelho-sheets");
         if (tabelaEspelho && dados.cabecalhoSuperior && dados.coresSuperior) {
             tabelaEspelho.innerHTML = "";
@@ -48,30 +47,51 @@ async function carregarMapa() {
             dados.cabecalhoSuperior.forEach((linha, idxLinha) => {
                 const tr = document.createElement("tr");
                 
-                linha.forEach((celula, idxColuna) => {
+                // MELHORIA: Se for a primeira linha (onde diz JULHO), mescla todas as colunas
+                if (idxLinha === 0) {
                     const td = document.createElement("td");
+                    td.setAttribute("colspan", linha.length); // Mescla dinamicamente pelo tamanho do intervalo
+                    td.style.fontSize = "16px";
+                    td.style.fontWeight = "800";
+                    td.style.letterSpacing = "3px";
+                    td.style.textTransform = "uppercase";
+                    td.style.padding = "8px";
                     
-                    // Aplica as bordas padrão estruturais
-                    td.style.border = "1px solid #111111"; 
-                    td.style.padding = "6px 4px";
-                    td.style.fontSize = "11px";
-                    td.style.fontWeight = "700";
-                    td.innerText = celula;
+                    // Pega o texto da primeira célula válida da linha
+                    td.innerText = linha.find(c => c.trim() !== "") || "ESCALA";
                     
-                    // Puxa a cor exata que está na planilha do Sheets
-                    const corFundo = dados.coresSuperior[idxLinha][idxColuna];
-                    if (corFundo) {
+                    // Aplica a cor de fundo da primeira célula
+                    const corFundo = dados.coresSuperior[idxLinha][0];
+                    if (corFundo && corFundo !== "#ffffff") {
                         td.style.backgroundColor = corFundo;
                     }
                     
-                    // Lógica para tratar o texto da linha do Mês (Julho) que fica mesclada
-                    if (idxLinha === 0) {
-                        td.style.fontSize = "16px";
-                        td.style.letterSpacing = "2px";
-                    }
-
                     tr.appendChild(td);
-                });
+                } else {
+                    // Linhas normais (Dias da semana, números e equipes)
+                    linha.forEach((celula, idxColuna) => {
+                        const td = document.createElement("td");
+                        td.innerText = celula;
+                        
+                        // Resgata a cor exata vinda do Sheets
+                        const corFundo = dados.coresSuperior[idxLinha][idxColuna];
+                        if (corFundo && corFundo !== "#ffffff") {
+                            td.style.backgroundColor = corFundo;
+                            
+                            // Ajuste automático de contraste: se o fundo for muito escuro, bota letra branca
+                            if (corFundo === "#000000" || corFundo.includes("dark")) {
+                                td.style.color = "#ffffff";
+                            }
+                        }
+
+                        // Destaca se a célula contiver dados importantes
+                        if (celula.trim() !== "") {
+                            td.style.fontWeight = "700";
+                        }
+                        
+                        tr.appendChild(td);
+                    });
+                }
                 tabelaEspelho.appendChild(tr);
             });
         }
