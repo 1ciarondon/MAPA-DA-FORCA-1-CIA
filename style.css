@@ -223,3 +223,31 @@ header p {
 .tag-dispensa { background-color: #4caf50; }     /* Verde: Dispensa */
 .tag-lts { background-color: #f44336; }          /* Vermelho: LTS */
 .tag-texto-obs { background-color: #607d8b; }    /* Cinza Azulado: Observação Direta */
+
+/* Pequeno olho ao lado da Letra da Equipe */
+.icone-olho-equipe {
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 6px;
+    padding: 2px 5px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+    transition: all 0.2s;
+    display: inline-block;
+}
+
+.icone-olho-equipe:hover {
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Quando ativo, destaca o fundo do olho */
+.icone-olho-equipe.ativo {
+    background-color: #00bcd4;
+    color: white;
+}
+
+/* Exibe as observações apenas na equipe que estiver com a classe olho-aberto ativo */
+.olho-aberto .bloco-observacoes {
+    display: block !important;
+}
