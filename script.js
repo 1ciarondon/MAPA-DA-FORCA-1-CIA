@@ -38,6 +38,30 @@ async function carregarMapa() {
         gerenciarAlertaConexao(false);
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
+        
+        // Renderização automática do bloco C2:AG7 enviado pelo GAS
+        const tabelaEspelho = document.getElementById("tabela-espelho-sheets");
+        if (tabelaEspelho && dados.cabecalhoSuperior) {
+            tabelaEspelho.innerHTML = "";
+            dados.cabecalhoSuperior.forEach((linha, idxLinha) => {
+                const tr = document.createElement("tr");
+                
+                linha.forEach(celula => {
+                    const td = document.createElement("td");
+                    td.style.border = "1px solid #d6dde6";
+                    td.style.padding = "5px 8px";
+                    td.innerText = celula;
+                    
+                    // Se a célula não estiver vazia, deixa em negrito suave para legibilidade
+                    if (celula.trim() !== "") {
+                        td.style.fontWeight = "600";
+                        td.style.backgroundColor = "#fcfdfd";
+                    }
+                    tr.appendChild(td);
+                });
+                tabelaEspelho.appendChild(tr);
+            });
+        }
         renderizarListaMenuAdmin();
 
         const blocos = [
