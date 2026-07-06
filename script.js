@@ -163,3 +163,6 @@ async function processarMudancasDeEquipe() {
     instanciasSortable = [];
     carregarMapa();
 }
+    instanciasSortable = [];
+    carregarMapa();
+}
