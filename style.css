@@ -824,5 +824,74 @@ header p {
     .menu-header h3 {
         font-size: 18px;
     }
+}
 
+/* ==========================================
+   NOVAS CLASSES SUPORTE PARA O SCRIPT.JS
+   ========================================== */
+
+/* Linha cortada e cinza para militares indisponíveis (Melhoria 5) */
+.linha-militar.militar-indisponivel {
+    text-decoration: line-through;
+    color: #a0a0a0;
+    background-color: #f2f2f2 !important;
+}
+
+/* Força o texto cortado também no nome forte dentro da linha */
+.linha-militar.militar-indisponivel strong,
+.linha-militar.militar-indisponivel span {
+    color: #a0a0a0 !important;
+}
+
+/* Container flutuante que segura as notificações (Melhoria 3) */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Não atrapalha cliques na tela */
+}
+
+/* Estilo base de cada Toast (Melhoria 3) */
+.toast {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Transição suave para fazer o toast subir e aparecer */
+.toast.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Cores variantes de acordo com o retorno da operação */
+.toast-sucesso { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.toast-erro { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.toast-aviso { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #222; }
+
+/* Banner discreto no topo caso o Sheets caia ou perca conexão (Melhoria 12) */
+#alerta-conexao {
+    display: none;
+    background-color: #e74c3c;
+    color: white;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 10001;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: aparecer .18s ease;
 }
