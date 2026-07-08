@@ -171,29 +171,49 @@ function montarTags(afastamentos, observacoes) {
 
 // Renderiza o esqueleto de cada equipe (Melhoria 5)
 function renderizarEquipe(militares, elementId, tipoServico) {
+
     const container = document.getElementById(elementId);
+
     if (!container) return;
-    
+
     container.innerHTML = "";
-    container.setAttribute("data-servico", tipoServico);
-    container.setAttribute("data-cont-id", elementId.replace("dados-", "cont-").replace("guarda-", "guarda-"));
+
+    container.dataset.servico = tipoServico;
+    container.dataset.contId = elementId
+        .replace("dados-", "cont-")
+        .replace("guarda-", "guarda-");
+
+    const fragment = document.createDocumentFragment();
 
     militares.forEach(militar => {
-        const div = document.createElement("div");
-        div.className = "linha-militar";
-        div.setAttribute("data-militar-bruto", militar.texto);
-        div.setAttribute("data-prontidao-inicial", militar.prontidao);
-        
+
+        const linha = document.createElement("div");
+
+        linha.className = "linha-militar";
+
+        linha.dataset.militarBruto = militar.texto;
+        linha.dataset.prontidaoInicial = militar.prontidao;
+
         if (militar.prontidao === "INDISPONÍVEL") {
-            div.classList.add("militar-indisponivel"); // Usa classe CSS em vez de style direto (Melhoria 5)
+            linha.classList.add("militar-indisponivel");
         }
 
-        div.innerHTML = `
-            <div class="militar-identidade">${formatarNomeMilitar(militar.texto)}</div>
-            <div class="bloco-observacoes">${montarTags(militar.afastamentos, militar.observacoes)}</div>
+        linha.innerHTML = `
+            <div class="militar-identidade">
+                ${formatarNomeMilitar(militar.texto)}
+            </div>
+
+            <div class="bloco-observacoes">
+                ${montarTags(militar.afastamentos, militar.observacoes)}
+            </div>
         `;
-        container.appendChild(div);
+
+        fragment.appendChild(linha);
+
     });
+
+    container.appendChild(fragment);
+
 }
 
 // Atualizador Matemático de Prontos por Coluna
