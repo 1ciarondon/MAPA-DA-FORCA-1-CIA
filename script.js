@@ -29,8 +29,6 @@ function configurarAtualizacaoAutomatica() {
 }
 
 async function carregarMapa() {
-    mostrarLoading();
-
     try {
         const response = await fetch(API_URL);
 
@@ -43,8 +41,6 @@ async function carregarMapa() {
         gerenciarAlertaConexao(false);
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
-
-        renderizarCabecalhoEscala(dados);
 
         renderizarListaMenuAdmin();
 
@@ -73,12 +69,10 @@ async function carregarMapa() {
 
         gerenciarAlertaConexao(true);
 
-    } finally {
-
-        esconderLoading();
-
     }
 }
+
+
 // ==========================================
 // FUNÇÕES DE FORMATAR E GERAR ELEMENTOS (SUBFUNÇÕES)
 // ==========================================
