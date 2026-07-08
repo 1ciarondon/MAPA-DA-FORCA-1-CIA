@@ -29,97 +29,56 @@ function configurarAtualizacaoAutomatica() {
 }
 
 async function carregarMapa() {
+    mostrarLoading();
+
     try {
-        mostrarLoading();
         const response = await fetch(API_URL);
+
+        if (!response.ok) {
+            throw new Error(`Erro HTTP ${response.status}`);
+        }
+
         const dados = await response.json();
-        
-        // Remove banner de erro se a conexão voltar ao normal (Melhoria 12)
+
         gerenciarAlertaConexao(false);
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
-        
-        // Renderização Inteligente do Bloco de Escala Mensal
-        const tabelaEspelho = document.getElementById("tabela-espelho-sheets");
-        if (tabelaEspelho && dados.cabecalhoSuperior && dados.coresSuperior) {
-            tabelaEspelho.innerHTML = "";
-            
-            dados.cabecalhoSuperior.forEach((linha, idxLinha) => {
-                const tr = document.createElement("tr");
-                
-                // MELHORIA: Se for a primeira linha (onde diz JULHO), mescla todas as colunas
-                if (idxLinha === 0) {
-                    const td = document.createElement("td");
-                    td.setAttribute("colspan", linha.length); // Mescla dinamicamente pelo tamanho do intervalo
-                    td.style.fontSize = "16px";
-                    td.style.fontWeight = "800";
-                    td.style.letterSpacing = "3px";
-                    td.style.textTransform = "uppercase";
-                    td.style.padding = "8px";
-                    
-                    // Pega o texto da primeira célula válida da linha
-                    td.innerText = linha.find(c => c.trim() !== "") || "ESCALA";
-                    
-                    // Aplica a cor de fundo da primeira célula
-                    const corFundo = dados.coresSuperior[idxLinha][0];
-                    if (corFundo && corFundo !== "#ffffff") {
-                        td.style.backgroundColor = corFundo;
-                    }
-                    
-                    tr.appendChild(td);
-                } else {
-                    // Linhas normais (Dias da semana, números e equipes)
-                    linha.forEach((celula, idxColuna) => {
-                        const td = document.createElement("td");
-                        td.innerText = celula;
-                        
-                        // Resgata a cor exata vinda do Sheets
-                        const corFundo = dados.coresSuperior[idxLinha][idxColuna];
-                        if (corFundo && corFundo !== "#ffffff") {
-                            td.style.backgroundColor = corFundo;
-                            
-                            // Ajuste automático de contraste: se o fundo for muito escuro, bota letra branca
-                            if (corFundo === "#000000" || corFundo.includes("dark")) {
-                                td.style.color = "#ffffff";
-                            }
-                        }
 
-                        // Destaca se a célula contiver dados importantes
-                        if (celula.trim() !== "") {
-                            td.style.fontWeight = "700";
-                        }
-                        
-                        tr.appendChild(td);
-                    });
-                }
-                tabelaEspelho.appendChild(tr);
-            });
-        }
+        renderizarCabecalhoEscala(dados);
+
         renderizarListaMenuAdmin();
 
         const blocos = [
-            {d: dados.radiopatrulha.A, id: "dados-A", s: "RP", c: "cont-A"},
-            {d: dados.radiopatrulha.B, id: "dados-B", s: "RP", c: "cont-B"},
-            {d: dados.radiopatrulha.C, id: "dados-C", s: "RP", c: "cont-C"},
-            {d: dados.radiopatrulha.D, id: "dados-D", s: "RP", c: "cont-D"},
-            {d: dados.radiopatrulha.E, id: "dados-E", s: "RP", c: "cont-E"},
-            {d: dados.guarda.A, id: "dados-guarda-A", s: "GUARDA", c: "cont-guarda-A"},
-            {d: dados.guarda.B, id: "dados-guarda-B", s: "GUARDA", c: "cont-guarda-B"},
-            {d: dados.guarda.C, id: "dados-guarda-C", s: "GUARDA", c: "cont-guarda-C"},
-            {d: dados.guarda.D, id: "dados-guarda-D", s: "GUARDA", c: "cont-guarda-D"},
-            {d: dados.guarda.E, id: "dados-guarda-E", s: "GUARDA", c: "cont-guarda-E"}
+            { d: dados.radiopatrulha.A, id: "dados-A", s: "RP", c: "cont-A" },
+            { d: dados.radiopatrulha.B, id: "dados-B", s: "RP", c: "cont-B" },
+            { d: dados.radiopatrulha.C, id: "dados-C", s: "RP", c: "cont-C" },
+            { d: dados.radiopatrulha.D, id: "dados-D", s: "RP", c: "cont-D" },
+            { d: dados.radiopatrulha.E, id: "dados-E", s: "RP", c: "cont-E" },
+
+            { d: dados.guarda.A, id: "dados-guarda-A", s: "GUARDA", c: "cont-guarda-A" },
+            { d: dados.guarda.B, id: "dados-guarda-B", s: "GUARDA", c: "cont-guarda-B" },
+            { d: dados.guarda.C, id: "dados-guarda-C", s: "GUARDA", c: "cont-guarda-C" },
+            { d: dados.guarda.D, id: "dados-guarda-D", s: "GUARDA", c: "cont-guarda-D" },
+            { d: dados.guarda.E, id: "dados-guarda-E", s: "GUARDA", c: "cont-guarda-E" }
         ];
 
-        blocos.forEach(b => {
-            renderizarEquipe(b.d, b.id, b.s);
-            atualizarContadoresIndividuais(b.id, b.c);
-        });
-    } catch (erro) { 
+        for (const bloco of blocos) {
+            renderizarEquipe(bloco.d, bloco.id, bloco.s);
+            atualizarContadoresIndividuais(bloco.id, bloco.c);
+        }
+
+    } catch (erro) {
+
         console.error("Erro ao carregar dados:", erro);
-        gerenciarAlertaConexao(true); // Exibe aviso de falha (Melhoria 12)
+
+        gerenciarAlertaConexao(true);
+
+    } finally {
+
+        esconderLoading();
+
     }
 }
-
 // ==========================================
 // FUNÇÕES DE FORMATAR E GERAR ELEMENTOS (SUBFUNÇÕES)
 // ==========================================
@@ -336,21 +295,40 @@ async function darProntoMilitar(linhaPlanilha) {
 
 // Gerenciador central POST que renderiza Toasts elegantes (Melhoria 3)
 async function enviarDadosAPI(payload) {
+
     try {
+
+        lancarToast("Processando solicitação...", "info");
+
         await fetch(API_URL, {
             method: "POST",
             mode: "no-cors",
             cache: "no-cache",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify(payload)
         });
-        lancarToast("Operação processada com sucesso!", "sucesso");
-        setTimeout(() => { carregarMapa(); }, 1500);
+
+        lancarToast("Operação enviada com sucesso!", "sucesso");
+
+        setTimeout(carregarMapa, 1200);
+
         return true;
-    } catch (e) { 
-        lancarToast("Erro de comunicação com o servidor.", "erro");
+
+    } catch (erro) {
+
+        console.error("Erro ao enviar dados:", erro);
+
+        lancarToast(
+            "Não foi possível comunicar com o servidor.",
+            "erro"
+        );
+
         return false;
+
     }
+
 }
 
 // ==========================================
