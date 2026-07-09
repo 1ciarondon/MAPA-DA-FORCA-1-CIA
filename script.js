@@ -153,15 +153,15 @@ function renderizarEquipe(militares, elementId, tipoServico) {
             linha.classList.add("militar-indisponivel");
         }
 
-        linha.innerHTML = `
-            <div class="militar-identidade">
-                ${formatarNomeMilitar(militar.texto)}
-            </div>
+       linha.innerHTML = `
+    <div class="militar-identidade">
+        TESTE
+    </div>
 
-            <div class="bloco-observacoes">
-                ${montarTags(militar.afastamentos, militar.observacoes)}
-            </div>
-        `;
+    <div class="bloco-observacoes">
+        ${montarTags(militar.afastamentos, militar.observacoes)}
+    </div>
+`;
 
         fragment.appendChild(linha);
 
