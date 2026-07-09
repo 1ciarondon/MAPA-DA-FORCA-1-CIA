@@ -79,23 +79,11 @@ async function carregarMapa() {
 
 // Trata e isola a estilização visual de nomes e matrículas (Melhoria 7)
 function formatarNomeMilitar(textoBruto) {
-    // 1. Remove termos duplicados adjacentes comuns (Ex: "1º SGT PM 1º SGT PM" vira "1º SGT PM")
-    // Esta regex identifica palavras ou grupos repetidos seguidos e limpa a duplicação
-    let textoLimpo = textoBruto.replace(/\b(\d+º?\s*[A-Z]+(?:\s+[A-Z]+)?)\s+\1\b/gi, '$1');
-    
-    // Tratamento extra caso haja duplicações mistas textuais puras
-    textoLimpo = textoLimpo.replace(/\b(CB PM|SD PM|1º SGT PM|2º SGT PM|3º SGT PM|SUB TEN PM|CAP PM|MAJ\s+PM)\s+\1\b/gi, '$1');
 
-    const regexMatricula = /(1000\d{4,5})\s+(.+)/;
-    if (regexMatricula.test(textoLimpo)) {
-        return textoLimpo.replace(regexMatricula, function(match, matricula, resto) {
-            const indiceMatricula = textoLimpo.indexOf(matricula);
-            return `<span>${textoLimpo.substring(0, indiceMatricula)}${matricula} </span><strong>${resto}</strong>`;
-        });
-    }
-    const partes = textoLimpo.split(" ");
-    const uNome = partes.pop();
-    return `<span>${partes.join(" ")} </span><strong>${uNome}</strong>`;
+    console.log("ENTROU:", textoBruto);
+
+    return textoBruto;
+
 }
 
 // Monta o bloco de tags usando Arrays e validação cronológica (Melhoria 6, 8 e 10)
@@ -155,7 +143,7 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 
        linha.innerHTML = `
     <div class="militar-identidade">
-        TESTE
+        ${formatarNomeMilitar(militar.texto)}
     </div>
 
     <div class="bloco-observacoes">
