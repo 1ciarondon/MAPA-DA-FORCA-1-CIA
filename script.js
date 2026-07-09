@@ -140,7 +140,9 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 
     militares.forEach(militar => {
 
-        const linha = document.createElement("div");
+    console.log(militar.texto);
+
+    const linha = document.createElement("div");
 
         linha.className = "linha-militar";
 
