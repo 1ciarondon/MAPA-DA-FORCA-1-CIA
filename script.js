@@ -80,10 +80,48 @@ async function carregarMapa() {
 // Trata e isola a estilização visual de nomes e matrículas (Melhoria 7)
 function formatarNomeMilitar(textoBruto) {
 
-    console.log("ENTROU:", textoBruto);
+    if (!textoBruto) return "";
 
-    return textoBruto;
+    // Remove espaços duplicados
+    textoBruto = textoBruto
+        .trim()
+        .replace(/\s+/g, " ");
 
+    // Procura a matrícula (1000xxxxx)
+    const m = textoBruto.match(/^(.*?)\s(1000\d+)\s(.+)$/);
+
+    if (!m) {
+        return `<strong>${textoBruto}</strong>`;
+    }
+
+    let graduacao = m[1].trim();
+    const matricula = m[2].trim();
+    const nome = m[3].trim();
+
+    // Remove qualquer graduação repetida no início
+    while (graduacao.startsWith(graduacao + " ")) {
+        graduacao = graduacao.replace(graduacao + " ", "");
+    }
+
+    // Remove repetições como:
+    // CB PM CB PM
+    // 3º SGT PM 3º SGT PM
+    // CAP PM CAP PM
+    graduacao = graduacao.replace(
+        /^(.+?)\s+\1$/i,
+        "$1"
+    );
+
+    console.log({
+    graduacao,
+    matricula,
+    nome
+});
+    
+    return `
+        <span>${graduacao} ${matricula}</span>
+        <strong>${nome}</strong>
+    `;
 }
 
 // Monta o bloco de tags usando Arrays e validação cronológica (Melhoria 6, 8 e 10)
