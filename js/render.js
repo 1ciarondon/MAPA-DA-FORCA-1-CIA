@@ -48,23 +48,33 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 }
 
 function renderizarListaMenuAdmin() {
+
     const div = document.getElementById("lista-afastados-atual");
-    if(!div) return;
-    
-    if(dadosGlobaisAfastados.length === 0) { 
-        div.innerHTML = "<em>Ninguém afastado hoje</em>"; 
-        return; 
+
+    if (!div) return;
+
+    if (dadosGlobaisAfastados.length === 0) {
+        div.innerHTML = "<em>Ninguém afastado hoje</em>";
+        return;
     }
-    
-    div.innerHTML = "";
-    dadosGlobaisAfastados.forEach(a => {
-        div.innerHTML += `
-            <div class="item-lista-afastado">
-                <div><strong>${a.nome}</strong> (${a.tipo})<br><small>Retorno: ${a.retorno}</small></div>
-                <button class="btn-dar-pronto" onclick="darProntoMilitar(${a.linha})">Pronto</button>
+
+    div.innerHTML = dadosGlobaisAfastados.map(a => `
+        <div class="item-lista-afastado">
+            <div>
+                <strong>${a.nome}</strong> (${a.tipo})<br>
+                <small>Retorno: ${a.retorno}</small>
             </div>
-        `;
-    });
+
+            <button
+                class="btn-dar-pronto"
+                onclick="darProntoMilitar(${a.linha})">
+
+                Pronto
+
+            </button>
+        </div>
+    `).join("");
+
 }
 
 // Atualizador Matemático de Prontos por Coluna
