@@ -1,3 +1,5 @@
+const API_URL = CONFIG.API_URL;
+
 async function carregarMapa() {
     try {
         const response = await fetch(API_URL);
