@@ -1,7 +1,7 @@
 // ==========================================
 // CONFIGURAÇÕES GERAIS E ESTADO DA APLICAÇÃO
 // ==========================================
-const API_URL = "https://script.google.com/macros/s/AKfycby5LqbrVC1udTsWiQxoay2Igda3NFFpbomBJ8d_-FjGPS6H5J42BrIQxsSwzVUZruCD/exec"; 
+const API_URL = CONFIG.API_URL;
 let instanciasSortable = [];
 let modoEdicao = false;
 let dadosGlobaisAfastados = [];
