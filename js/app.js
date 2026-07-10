@@ -70,39 +70,66 @@ function alternarModoEdicao() {
 }
 
 async function processarMudancasDeEquipe() {
-    const payload = { acao: "SALVAR_EQUIPES", data: { radiopatrulha: {}, guarda: {} } };
-    const colunas = ["A", "B", "C", "D", "E"];
-    
-    colunas.forEach(eq => {
-        payload.data.radiopatrulha[eq] = [];
-        document.querySelectorAll(`#dados-${eq} .linha-militar`).forEach(el => { 
-            payload.data.radiopatrulha[eq].push(el.getAttribute("data-militar-bruto")); 
-        });
-        
-        payload.data.guarda[eq] = [];
-        document.querySelectorAll(`#dados-guarda-${eq} .linha-militar`).forEach(el => { 
-            payload.data.guarda[eq].push(el.getAttribute("data-militar-bruto")); 
-        });
+
+    const payload = {
+        acao: "SALVAR_EQUIPES",
+        data: {
+            radiopatrulha: {},
+            guarda: {}
+        }
+    };
+
+    CONFIG.EQUIPES.forEach(equipe => {
+
+        payload.data.radiopatrulha[equipe] = [];
+
+        document
+            .querySelectorAll(`#dados-${equipe} .linha-militar`)
+            .forEach(el => {
+                payload.data.radiopatrulha[equipe].push(
+                    el.dataset.militarBruto
+                );
+            });
+
+        payload.data.guarda[equipe] = [];
+
+        document
+            .querySelectorAll(`#dados-guarda-${equipe} .linha-militar`)
+            .forEach(el => {
+                payload.data.guarda[equipe].push(
+                    el.dataset.militarBruto
+                );
+            });
+
     });
 
     const sucesso = await enviarDadosAPI(payload);
+
     const btn = document.getElementById("btn-editar");
-    
+
     if (sucesso) {
+
         btn.innerText = "✓ Salvo";
+
         setTimeout(() => {
+
             btn.innerText = "⚙️ Ativar Edição";
             btn.disabled = false;
             btn.classList.remove("modo-ativo");
             document.body.classList.remove("modo-edicao-ativo");
+
         }, 2000);
+
     } else {
+
         btn.innerText = "⚙️ Ativar Edição";
         btn.disabled = false;
+
     }
 
-    instanciasSortable.forEach(i => i.destroy());
+    instanciasSortable.forEach(instancia => instancia.destroy());
     instanciasSortable = [];
+
 }
 
 async function salvarAfastamento(event) {
