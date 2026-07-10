@@ -1,7 +1,6 @@
 // ==========================================
 // CONFIGURAÇÕES GERAIS E ESTADO DA APLICAÇÃO
 // ==========================================
-const API_URL = CONFIG.API_URL;
 let instanciasSortable = [];
 let modoEdicao = false;
 let dadosGlobaisAfastados = [];
