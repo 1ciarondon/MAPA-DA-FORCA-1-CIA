@@ -14,6 +14,8 @@ async function carregarMapa() {
 
         gerenciarAlertaConexao(false);
 
+        renderizarEspelhoCabecalho(dados.cabecalho_info || []);
+
         dadosGlobaisAfastados = dados.afastados_geral || [];
 
         renderizarListaMenuAdmin();
