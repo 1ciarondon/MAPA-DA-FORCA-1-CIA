@@ -1,7 +1,9 @@
 const API_URL = CONFIG.API_URL;
 
 async function carregarMapa() {
+
     try {
+
         const response = await fetch(API_URL);
 
         if (!response.ok) {
@@ -16,24 +18,30 @@ async function carregarMapa() {
 
         renderizarListaMenuAdmin();
 
-        const blocos = [
-            { d: dados.radiopatrulha.A, id: "dados-A", s: "RP", c: "cont-A" },
-            { d: dados.radiopatrulha.B, id: "dados-B", s: "RP", c: "cont-B" },
-            { d: dados.radiopatrulha.C, id: "dados-C", s: "RP", c: "cont-C" },
-            { d: dados.radiopatrulha.D, id: "dados-D", s: "RP", c: "cont-D" },
-            { d: dados.radiopatrulha.E, id: "dados-E", s: "RP", c: "cont-E" },
+        const blocos = [];
 
-            { d: dados.guarda.A, id: "dados-guarda-A", s: "GUARDA", c: "cont-guarda-A" },
-            { d: dados.guarda.B, id: "dados-guarda-B", s: "GUARDA", c: "cont-guarda-B" },
-            { d: dados.guarda.C, id: "dados-guarda-C", s: "GUARDA", c: "cont-guarda-C" },
-            { d: dados.guarda.D, id: "dados-guarda-D", s: "GUARDA", c: "cont-guarda-D" },
-            { d: dados.guarda.E, id: "dados-guarda-E", s: "GUARDA", c: "cont-guarda-E" }
-        ];
+        CONFIG.EQUIPES.forEach(equipe => {
 
-        for (const bloco of blocos) {
+            blocos.push({
+                d: dados.radiopatrulha[equipe],
+                id: `dados-${equipe}`,
+                s: "RP",
+                c: `cont-${equipe}`
+            });
+
+            blocos.push({
+                d: dados.guarda[equipe],
+                id: `dados-guarda-${equipe}`,
+                s: "GUARDA",
+                c: `cont-guarda-${equipe}`
+            });
+
+        });
+
+        blocos.forEach(bloco => {
             renderizarEquipe(bloco.d, bloco.id, bloco.s);
             atualizarContadoresIndividuais(bloco.id, bloco.c);
-        }
+        });
 
     } catch (erro) {
 
@@ -42,8 +50,8 @@ async function carregarMapa() {
         gerenciarAlertaConexao(true);
 
     }
-}
 
+}
 
 // Gerenciador central POST que renderiza Toasts elegantes (Melhoria 3)
 async function enviarDadosAPI(payload) {
