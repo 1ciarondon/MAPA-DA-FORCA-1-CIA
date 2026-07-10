@@ -1,4 +1,32 @@
 // Renderiza o esqueleto de cada equipe (Melhoria 5)
+
+function criarLinhaMilitar(militar) {
+
+    const linha = document.createElement("div");
+
+    linha.className = "linha-militar";
+
+    linha.dataset.militarBruto = militar.texto;
+    linha.dataset.prontidaoInicial = militar.prontidao;
+
+    if (militar.prontidao === "INDISPONÍVEL") {
+        linha.classList.add("militar-indisponivel");
+    }
+
+    linha.innerHTML = `
+        <div class="militar-identidade">
+            ${formatarNomeMilitar(militar.texto)}
+        </div>
+
+        <div class="bloco-observacoes">
+            ${montarTags(militar.afastamentos, militar.observacoes)}
+        </div>
+    `;
+
+    return linha;
+
+}
+
 function renderizarEquipe(militares, elementId, tipoServico) {
 
     const container = document.getElementById(elementId);
@@ -18,28 +46,9 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 
     console.log(militar.texto);
 
-    const linha = document.createElement("div");
-
-        linha.className = "linha-militar";
-
-        linha.dataset.militarBruto = militar.texto;
-        linha.dataset.prontidaoInicial = militar.prontidao;
-
-        if (militar.prontidao === "INDISPONÍVEL") {
-            linha.classList.add("militar-indisponivel");
-        }
-
-       linha.innerHTML = `
-    <div class="militar-identidade">
-        ${formatarNomeMilitar(militar.texto)}
-    </div>
-
-    <div class="bloco-observacoes">
-        ${montarTags(militar.afastamentos, militar.observacoes)}
-    </div>
-`;
-
-        fragment.appendChild(linha);
+    fragment.appendChild(
+    criarLinhaMilitar(militar)
+);
 
     });
 
