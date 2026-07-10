@@ -27,6 +27,52 @@ function criarLinhaMilitar(militar) {
 
 }
 
+// Renderiza o cabeçalho informativo/espelho vindo das primeiras linhas da planilha
+function renderizarEspelhoCabecalho(linhasCabecalho) {
+    const tabela = document.getElementById("tabela-espelho-sheets");
+    const wrapper = document.getElementById("wrapper-cabecalho-sheets");
+    
+    if (!tabela) return;
+
+    // Se não vierem dados de cabeçalho, esconde o contêiner para não ficar um bloco vazio
+    if (!linhasCabecalho || linhasCabecalho.length === 0) {
+        if (wrapper) wrapper.style.display = "none";
+        return;
+    }
+
+    if (wrapper) wrapper.style.display = "block";
+    tabela.innerHTML = "";
+
+    const fragment = document.createDocumentFragment();
+
+    linhasCabecalho.forEach((linha, index) => {
+        const tr = document.createElement("tr");
+        
+        // Estilização básica: se for a primeira linha, trata como cabeçalho (th)
+        linha.forEach(celula => {
+            const td = document.createElement(index === 0 ? "th" : "td");
+            td.innerText = celula || "";
+            
+            // Estilização cirúrgica via JS para manter o padrão militar limpo
+            td.style.padding = "6px 10px";
+            td.style.border = "1px solid #d6dde6";
+            if (index === 0) {
+                td.style.background = "#f1f5f9";
+                td.style.fontWeight = "bold";
+                td.style.color = "#1e293b";
+            } else {
+                td.style.color = "#334155";
+            }
+            
+            tr.appendChild(td);
+        });
+        
+        fragment.appendChild(tr);
+    });
+
+    tabela.appendChild(fragment);
+}
+
 function renderizarEquipe(militares, elementId, tipoServico) {
 
     const container = document.getElementById(elementId);
