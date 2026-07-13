@@ -1,9 +1,7 @@
 const API_URL = CONFIG.API_URL;
 
 async function carregarMapa() {
-
     try {
-
         const response = await fetch(API_URL);
 
         if (!response.ok) {
@@ -14,16 +12,21 @@ async function carregarMapa() {
 
         gerenciarAlertaConexao(false);
 
-        renderizarEspelhoCabecalho(dados.cabecalho_info || []);
+        // >>> MELHORIA: Passa os dados de texto e cores originais para o cabeçalho espelho
+        renderizarEspelhoCabecalho(dados.cabecalho_info || [], dados.coresSuperior || []);
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
+        
+        // >>> MELHORIA: Alimenta a lista de devedores do Caveirinha se a função de render existir
+        if (typeof renderizarListaCaveirinhas === "function") {
+            renderizarListaCaveirinhas(dados.caveirinhas || []);
+        }
 
         renderizarListaMenuAdmin();
 
         const blocos = [];
 
         CONFIG.EQUIPES.forEach(equipe => {
-
             blocos.push({
                 d: dados.radiopatrulha[equipe],
                 id: `dados-${equipe}`,
@@ -37,7 +40,6 @@ async function carregarMapa() {
                 s: "GUARDA",
                 c: `cont-guarda-${equipe}`
             });
-
         });
 
         blocos.forEach(bloco => {
@@ -46,13 +48,9 @@ async function carregarMapa() {
         });
 
     } catch (erro) {
-
         console.error("Erro ao carregar dados:", erro);
-
         gerenciarAlertaConexao(true);
-
     }
-
 }
 
 // Gerenciador central POST que renderiza Toasts elegantes (Melhoria 3)
