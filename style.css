@@ -1005,3 +1005,36 @@ header p {
     background-color: #f1f5f9 !important;
     cursor: default;
 }
+
+.bloco-pesquisa{
+    margin:15px 0;
+}
+
+#pesquisa-militar{
+    width:100%;
+    box-sizing:border-box;
+    padding:8px 10px;
+    border:1px solid #bfc8d4;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.militar-encontrado{
+    animation:piscarMilitar .8s infinite alternate;
+    outline:3px solid #0f4c81;
+    border-radius:6px;
+}
+
+@keyframes piscarMilitar{
+
+    from{
+        background:#fff7cc;
+    }
+
+    to{
+        background:#ffe66d;
+    }
+
+}
+
+
