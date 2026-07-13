@@ -1,28 +1,24 @@
 let timeoutPesquisa = null;
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", iniciarPesquisa);
+
+function iniciarPesquisa(){
 
     const campo = document.getElementById("pesquisa-militar");
 
-    if (!campo) return;
+    if(!campo) return;
 
-    campo.addEventListener("input", () => {
+    campo.addEventListener("input",()=>{
 
         clearTimeout(timeoutPesquisa);
 
-        timeoutPesquisa = setTimeout(filtrarMilitares, 120);
+        timeoutPesquisa = setTimeout(filtrarMilitares,80);
 
     });
 
-    const botaoLimpar = document.getElementById("btn-limpar-pesquisa");
-
-if (botaoLimpar) {
-    botaoLimpar.addEventListener("click", limparPesquisa);
 }
 
-});
-
-function filtrarMilitares() {
+function filtrarMilitares(){
 
     const texto = document
         .getElementById("pesquisa-militar")
@@ -30,51 +26,42 @@ function filtrarMilitares() {
         .trim()
         .toUpperCase();
 
-    let primeiroResultado = null;
+    const militares =
+        document.querySelectorAll(".linha-militar");
 
-    document
-        .querySelectorAll(".linha-militar")
-        .forEach(linha => {
+    let encontrados = 0;
 
-            const encontrado =
-                linha.dataset.pesquisa.includes(texto);
+    let primeiro = null;
 
-            if (texto === "") {
+    militares.forEach(linha=>{
 
-                linha.style.display = "";
+        linha.classList.remove("resultado-pesquisa");
 
-                linha.classList.remove("resultado-pesquisa");
+        if(texto==="")
+            return;
 
-                return;
+        if(linha.dataset.pesquisa.includes(texto)){
 
-            }
+            encontrados++;
 
-            if (encontrado) {
+            linha.classList.add("resultado-pesquisa");
 
-                linha.style.display = "";
+            if(!primeiro)
+                primeiro = linha;
 
-                linha.classList.add("resultado-pesquisa");
+        }
 
-                if (!primeiroResultado)
-                    primeiroResultado = linha;
+    });
 
-            } else {
+    atualizarContadorPesquisa(encontrados);
 
-                linha.style.display = "none";
+    if(primeiro){
 
-                linha.classList.remove("resultado-pesquisa");
+        primeiro.scrollIntoView({
 
-            }
+            behavior:"smooth",
 
-        });
-
-    if (primeiroResultado) {
-
-        primeiroResultado.scrollIntoView({
-
-            behavior: "smooth",
-
-            block: "center"
+            block:"center"
 
         });
 
@@ -82,10 +69,32 @@ function filtrarMilitares() {
 
 }
 
-function limparPesquisa() {
+function atualizarContadorPesquisa(qtd){
 
-    document.getElementById("pesquisa-militar").value = "";
+    let contador =
+        document.getElementById("contador-pesquisa");
 
-    filtrarMilitares();
+    if(!contador){
+
+        contador=document.createElement("span");
+
+        contador.id="contador-pesquisa";
+
+        document
+            .getElementById("barra-pesquisa")
+            .appendChild(contador);
+
+    }
+
+    if(document.getElementById("pesquisa-militar").value===""){
+
+        contador.innerHTML="";
+
+        return;
+
+    }
+
+    contador.innerHTML=
+        qtd+" militar(es) encontrado(s)";
 
 }
