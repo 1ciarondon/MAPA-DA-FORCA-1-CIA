@@ -7,6 +7,7 @@ function criarLinhaMilitar(militar) {
     linha.className = "linha-militar";
 
     linha.dataset.militarBruto = militar.texto;
+    linha.dataset.pesquisa = militar.texto.toUpperCase();
     linha.dataset.prontidaoInicial = militar.prontidao;
     linha.dataset.pesquisa = [
     militar.texto,
