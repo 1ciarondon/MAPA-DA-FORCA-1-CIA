@@ -153,3 +153,27 @@ async function darProntoMilitar(linhaPlanilha) {
         await enviarDadosAPI({ acao: "DAR_PRONTO", data: { linha: linhaPlanilha } });
     }
 }
+
+function pesquisarMilitar(texto){
+
+    texto = texto
+        .trim()
+        .toUpperCase();
+
+    document
+        .querySelectorAll(".linha-militar")
+        .forEach(linha=>{
+
+            linha.classList.remove("militar-encontrado");
+
+            if(texto==="") return;
+
+            if(linha.dataset.pesquisa.includes(texto)){
+
+                linha.classList.add("militar-encontrado");
+
+            }
+
+        });
+
+}
