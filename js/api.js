@@ -53,6 +53,7 @@ async function carregarMapa() {
     }
 }
 
+
 // Gerenciador central POST que renderiza Toasts elegantes (Melhoria 3)
 async function enviarDadosAPI(payload) {
 
