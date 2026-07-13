@@ -1010,6 +1010,1018 @@ header p {
     margin:15px 0;
 }
 
+/* ========================================== 
+   CONFIGURAÇÕES GERAIS E ESTRUTURA
+   ========================================== */
+
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f6f9;
+    color: #333;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+} 
+
+/* ==========================================
+   HEADER GERAL
+   ========================================== */
+
+header {
+    background: linear-gradient(180deg, #0d3b66 0%, #114b82 100%);
+    color: #fff;
+    text-align: center;
+    padding: 18px 0 16px;
+    position: relative;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .18);
+    border-bottom: 3px solid #1d5fa3;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+
+header p {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: rgba(255,255,255,.88);
+    letter-spacing: .3px;
+}
+
+/* ==========================================
+   GRANDES DIVISÕES
+   ========================================== */
+
+.secao-titulo {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    color: #fff;
+    font-size: 21px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 11px 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,.25);
+}
+
+.radiopatrulha-bg {
+    background: linear-gradient(180deg, #3a86c8, #2f75b3);
+    margin-top: 12px;
+    box-shadow: inset 0 -2px rgba(255,255,255,.08);
+}
+
+.guarda-bg {
+    background: linear-gradient(180deg, #b58317, #9c6f0f);
+    margin-top: 28px;
+    box-shadow: inset 0 -2px rgba(255,255,255,.08);
+}
+
+/* ==========================================
+   GRID DAS EQUIPES
+   ========================================== */
+
+.painel-equipes {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding: 8px;
+    background: #eef2f6;
+}
+
+/* ==========================================
+   QUADROS DAS EQUIPES
+   ========================================== */
+
+.quadro-equipe {
+    display: flex;
+    flex-direction: column;
+    min-height: 150px;
+    background: #fff;
+    border: 1px solid #d6dde6;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.quadro-equipe:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0,0,0,.10);
+}
+
+/* ==========================================
+   CABEÇALHOS DAS EQUIPES
+   ========================================== */
+
+.quadro-equipe h2 {
+    margin: 0;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: .6px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+/* ==========================================
+   CORES DAS EQUIPES
+   ========================================== */
+
+#equipe-A h2,
+#guarda-A h2 {
+    background: linear-gradient(#9cd095, #89c781);
+    color: #184514;
+}
+
+#equipe-B h2,
+#guarda-B h2 {
+    background: linear-gradient(#79a1cc, #658fbd);
+    color: #102c48;
+}
+
+#equipe-C h2,
+#guarda-C h2 {
+    background: linear-gradient(#a4c2f4, #90b4ef);
+    color: #143563;
+}
+
+#equipe-D h2,
+#guarda-D h2 {
+    background: linear-gradient(#d5a6bd, #ca92ae);
+    color: #4b1731;
+}
+
+#equipe-E h2,
+#guarda-E h2 {
+    background: linear-gradient(#f4b400, #e0a400);
+    color: #533c00;
+}
+
+/* ==========================================
+   LINHAS DOS MILITARES (CÉLULAS DO MAPA)
+   ========================================== */
+
+.lista-militares {
+    flex-grow: 1;
+    background: #ffffff;
+}
+
+/* Linha individual */
+.linha-militar {
+    padding: 9px 10px;
+    font-size: 13px;
+    line-height: 1.35;
+    border-bottom: 1px dashed #e2e6ea;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: #fff;
+    box-sizing: border-box;
+    transition: background-color .18s ease,
+                padding-left .18s ease,
+                box-shadow .18s ease;
+}
+
+/* Destaque suave ao passar o mouse */
+.linha-militar:hover {
+    background: #f6faff;
+    padding-left: 14px;
+    box-shadow: inset 3px 0 0 #0d6efd;
+}
+
+/* Delimitação das guarnições */
+.lista-militares .linha-militar:nth-child(4n) {
+    border-bottom: 3px solid #0d3b66;
+    margin-bottom: 5px;
+}
+
+/* Parte antes do nome */
+.linha-militar span {
+    font-weight: 400;
+    color: #666;
+}
+
+/* Nome de guerra */
+.linha-militar strong {
+    font-weight: 700;
+    color: #111;
+    letter-spacing: .2px;
+}
+
+/* Espaço inferior da Guarda */
+[id^="dados-guarda-"] {
+    padding-bottom: 35px;
+}
+
+/* Mensagem de carregamento */
+.carregando {
+    margin: 0;
+    padding: 18px;
+    text-align: center;
+    color: #7b7b7b;
+    font-size: 12px;
+    font-style: italic;
+}
+
+
+/* ==========================================
+   BOTÕES E MODO EDIÇÃO (DRAG & DROP)
+   ========================================== */
+
+#btn-editar {
+    margin-top: 10px;
+    background: linear-gradient(180deg, #f6c328, #e8ad00);
+    color: #222;
+    border: none;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    transition: all .18s ease;
+}
+
+#btn-editar:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    filter: brightness(1.03);
+}
+
+#btn-editar:active {
+    transform: translateY(0);
+}
+
+#btn-editar.modo-ativo {
+    background: linear-gradient(180deg, #ef5350, #d93025);
+    color: #fff;
+}
+
+/* ==========================================
+   MODO EDIÇÃO
+   ========================================== */
+
+.modo-edicao-ativo .lista-militares {
+    background: #fffdf0;
+    outline: 2px dashed #f4b400;
+    outline-offset: -2px;
+    transition: background .2s ease;
+}
+
+.modo-edicao-ativo .linha-militar {
+    cursor: grab;
+    user-select: none;
+}
+
+.modo-edicao-ativo .linha-militar:hover {
+    background: #fff6cf;
+    box-shadow: inset 4px 0 0 #f4b400;
+}
+
+.modo-edicao-ativo .linha-militar:active {
+    cursor: grabbing;
+    background: #ffeaa0;
+}
+
+/* Aparência do item sendo arrastado */
+.sortable-ghost {
+    opacity: .45;
+    background: #dbeeff !important;
+}
+
+.sortable-chosen {
+    box-shadow: 0 6px 16px rgba(0,0,0,.20);
+}
+
+.sortable-drag {
+    transform: rotate(1deg);
+}
+
+/* ==========================================
+   PAINEL OLHO MÁGICO (OBSERVAÇÕES)
+   ========================================== */
+
+#btn-olho {
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 9px 16px;
+    background: linear-gradient(180deg, #26c6da, #00acc1);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.18);
+    transition: all .18s ease;
+}
+
+#btn-olho:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,.25);
+}
+
+#btn-olho.olho-ativo {
+    background: linear-gradient(180deg, #5c6bc0, #3949ab);
+}
+
+/* ==========================================
+   BLOCO DE OBSERVAÇÕES
+   ========================================== */
+
+.bloco-observacoes {
+    display: none;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px dashed #d9d9d9;
+    font-size: 11px;
+    line-height: 1.6;
+    white-space: normal;
+    animation: aparecer .18s ease;
+}
+
+.olho-magico-ativo .bloco-observacoes {
+    display: block;
+}
+
+.olho-aberto .bloco-observacoes {
+    display: block !important;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   TAGS DAS OBSERVAÇÕES
+   ========================================== */
+
+.tag-obs {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    margin: 2px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    transition: .18s ease;
+}
+
+.tag-obs:hover {
+    transform: translateY(-1px);
+}
+
+/* Férias */
+
+.tag-ferias {
+    background: #ffdce8;
+    color: #9d003f;
+    border-color: #ff8ab8;
+}
+
+/* Previsão de férias */
+
+.tag-prev-ferias {
+    background: #efe6ff;
+    color: #4b248a;
+    border-color: #b39ddb;
+}
+
+/* Missão */
+
+.tag-missao {
+    background: #ffe7c7;
+    color: #9b5d00;
+    border-color: #ffc46d;
+}
+
+/* Dispensa */
+
+.tag-dispensa {
+    background: #ddf5dd;
+    color: #216d2b;
+    border-color: #83c985;
+}
+
+/* LTS */
+
+.tag-lts {
+    background: #ffdede;
+    color: #b00020;
+    border-color: #ff8d8d;
+}
+
+/* Observações */
+
+.tag-texto-obs {
+    background: #edf2f6;
+    color: #44515c;
+    border-color: #c9d2d9;
+}
+
+/* ==========================================
+   ÍCONE DO OLHO
+   ========================================== */
+
+.icone-olho-equipe {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 5px;
+    background: rgba(255,255,255,.45);
+    transition: all .18s ease;
+}
+
+.icone-olho-equipe:hover {
+    background: rgba(255,255,255,.95);
+    transform: scale(1.08);
+    box-shadow: 0 2px 6px rgba(0,0,0,.18);
+}
+
+.icone-olho-equipe.ativo {
+    background: #00acc1;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,188,212,.35);
+}
+
+/* ==========================================
+   BARRA LATERAL ADMINISTRATIVA E COMPONENTES
+   ========================================== */
+
+/* ==========================================
+   BOTÃO DO MENU
+   ========================================== */
+
+#btn-menu {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 9px 16px;
+    background: linear-gradient(180deg, #2f3338, #1f2327);
+    color: #fff;
+    border: 1px solid #4b535c;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    transition: all .18s ease;
+}
+
+#btn-menu:hover {
+    transform: translateY(-50%) translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0,0,0,.35);
+    background: linear-gradient(180deg, #3a4046, #25292d);
+}
+
+#btn-menu:active {
+    transform: translateY(-50%);
+}
+
+
+/* ==========================================
+   MENU LATERAL
+   ========================================== */
+
+.menu-lateral {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    width: 300px;
+    height: 100%;
+    background: linear-gradient(180deg, #1d2a36, #18222c);
+    color: #fff;
+    box-shadow: 8px 0 24px rgba(0,0,0,.35);
+    transition: left .28s ease;
+    z-index: 9999;
+    padding: 14px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.menu-lateral.aberto {
+    left: 0;
+}
+
+/* Scroll personalizada */
+
+.menu-lateral::-webkit-scrollbar {
+    width: 8px;
+}
+
+.menu-lateral::-webkit-scrollbar-track {
+    background: #1d2a36;
+}
+
+.menu-lateral::-webkit-scrollbar-thumb {
+    background: #4c6479;
+    border-radius: 10px;
+}
+
+.menu-lateral::-webkit-scrollbar-thumb:hover {
+    background: #64839d;
+}
+
+
+/* ==========================================
+   CABEÇALHO DO MENU
+   ========================================== */
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #3d4d5d;
+}
+
+.menu-header h3 {
+    margin: 0;
+    font-size: 17px;
+    color: #39d0e5;
+    font-weight: 700;
+}
+
+.btn-fechar {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: .18s ease;
+}
+
+.btn-fechar:hover {
+    background: rgba(255,255,255,.12);
+}
+
+
+/* ==========================================
+   FORMULÁRIO
+   ========================================== */
+
+#form-afastamento label {
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #c8d2da;
+}
+
+#form-afastamento input,
+#form-afastamento select,
+#form-afastamento textarea {
+
+    width: 100%;
+    padding: 8px 10px;
+    background: #2c3e50;
+    color: #fff;
+    border: 1px solid #41586d;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 12px;
+    transition: .18s ease;
+}
+
+#form-afastamento input:focus,
+#form-afastamento select:focus,
+#form-afastamento textarea:focus {
+
+    outline: none;
+    border-color: #39d0e5;
+    box-shadow: 0 0 0 3px rgba(57,208,229,.15);
+
+}
+
+#form-afastamento textarea {
+    resize: vertical;
+    min-height: 65px;
+}
+
+
+/* ==========================================
+   BOTÃO CADASTRAR
+   ========================================== */
+
+#btn-cadastrar-ausencia {
+
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background: linear-gradient(180deg, #35bf70, #239653);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.20);
+    transition: .18s ease;
+
+}
+
+#btn-cadastrar-ausencia:hover {
+
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0,0,0,.25);
+
+}
+
+
+/* ==========================================
+   LISTA DE AFASTADOS
+   ========================================== */
+
+.item-lista-afastado {
+
+    background: #2b3d4e;
+    border-left: 4px solid #39d0e5;
+    padding: 8px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: .18s ease;
+
+}
+
+.item-lista-afastado:hover {
+
+    background: #33495d;
+
+}
+
+
+/* ==========================================
+   BOTÃO DAR PRONTO
+   ========================================== */
+
+.btn-dar-pronto {
+
+    background: linear-gradient(180deg, #ef5350, #d32f2f);
+    border: none;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .18s ease;
+
+}
+
+.btn-dar-pronto:hover {
+
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(211,47,47,.35);
+
+}
+
+
+/* ==========================================
+   CONTADOR
+   ========================================== */
+
+.contador-equipe {
+
+    background: linear-gradient(180deg, #fafbfc, #f0f2f5);
+    border-bottom: 1px solid #dfe4ea;
+    color: #4f5b66;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 6px 4px;
+    letter-spacing: .2px;
+
+}
+
+/* ==========================================
+   RESPONSIVIDADE (TELAS MENORES)
+   ========================================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+
+    header {
+        padding: 18px 12px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    .painel-equipes {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .quadro-equipe {
+        min-height: 180px;
+    }
+
+    .secao-titulo {
+        font-size: 19px;
+    }
+
+}
+
+
+/* Celulares */
+@media (max-width: 600px) {
+
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 15px 10px;
+    }
+
+    header h1 {
+        font-size: 20px;
+        line-height: 1.3;
+    }
+
+    header p {
+        font-size: 13px;
+    }
+
+    .secao-titulo {
+        font-size: 17px;
+        letter-spacing: 1px;
+        padding: 10px 0;
+    }
+
+    .painel-equipes {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .quadro-equipe {
+        border-radius: 8px;
+    }
+
+    .quadro-equipe h2 {
+        font-size: 15px;
+    }
+
+    .contador-equipe {
+        font-size: 11px;
+    }
+
+    .linha-militar {
+        font-size: 13px;
+        padding: 10px 12px;
+    }
+
+    /* Botão Menu */
+
+    #btn-menu {
+        position: static;
+        transform: none;
+        width: 100%;
+        margin: 0 0 12px;
+    }
+
+    /* Botão Editar */
+
+    #btn-editar {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Barra lateral */
+
+    .menu-lateral {
+        width: 92%;
+        left: -100%;
+    }
+
+    .menu-lateral.aberto {
+        left: 0;
+    }
+
+    .menu-header h3 {
+        font-size: 18px;
+    }
+}
+
+/* ==========================================
+   NOVAS CLASSES SUPORTE PARA O SCRIPT.JS
+   ========================================== */
+
+/* Linha cortada e cinza para militares indisponíveis (Melhoria 5) */
+.linha-militar.militar-indisponivel {
+    text-decoration: line-through;
+    color: #a0a0a0;
+    background-color: #f2f2f2 !important;
+}
+
+/* Força o texto cortado também no nome forte dentro da linha */
+.linha-militar.militar-indisponivel strong,
+.linha-militar.militar-indisponivel span {
+    color: #a0a0a0 !important;
+}
+
+/* Container flutuante que segura as notificações (Melhoria 3) */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Não atrapalha cliques na tela */
+}
+
+/* Estilo base de cada Toast (Melhoria 3) */
+.toast {
+    background-color: #333;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Transição suave para fazer o toast subir e aparecer */
+.toast.mostrar {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Cores variantes de acordo com o retorno da operação */
+.toast-sucesso { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+.toast-erro { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+.toast-aviso { background: linear-gradient(135deg, #f1c40f, #f39c12); color: #222; }
+
+/* Banner discreto no topo caso o Sheets caia ou perca conexão (Melhoria 12) */
+#alerta-conexao {
+    display: none;
+    background-color: #e74c3c;
+    color: white;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 10001;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: aparecer .18s ease;
+}
+
+/* ==========================================
+   CABEÇALHO DA ESCALA MENSAL - DESIGN PREMIUM
+   ========================================== */
+
+.scroll-escala {
+    margin: 15px; 
+    padding: 10px; 
+    background: #ffffff; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 12px; /* Cantos mais suaves e modernos */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); 
+    overflow-x: auto;
+}
+
+/* Customização fina da barra de rolagem horizontal */
+.scroll-escala::-webkit-scrollbar {
+    height: 5px;
+}
+.scroll-escala::-webkit-scrollbar-track {
+    background: #f8fafc;
+    border-radius: 10px;
+}
+.scroll-escala::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+.scroll-escala::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+#tabela-espelho-sheets {
+    width: 100%; 
+    border-collapse: separate; /* Permite efeitos visuais melhores nas células */
+    border-spacing: 0;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+    text-align: center;
+}
+
+/* Estilização geral das células */
+#tabela-espelho-sheets td {
+    border-right: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 8px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #334155;
+    white-space: nowrap;
+    min-width: 32px;
+    transition: all 0.15s ease;
+}
+
+/* Remove a borda direita da última coluna para não duplicar com o container */
+#tabela-espelho-sheets td:last-child {
+    border-right: none;
+}
+
+/* Estilização da linha de topo (O Mês - JULHO) */
+#tabela-espelho-sheets tr:first-child td {
+    font-size: 15px;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: 4px;
+    padding: 12px;
+    background: #f8fafc !important; /* Fundo limpo e corporativo */
+    border-bottom: 2px solid #cbd5e1;
+}
+
+/* Linha dos Dias da Semana (QUA, QUI, SEX...) */
+#tabela-espelho-sheets tr:nth-child(2) td {
+    font-size: 10px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: #f8fafc;
+    padding: 6px 4px;
+}
+
+/* Linha dos Números dos Dias (1, 2, 3...) */
+#tabela-espelho-sheets tr:nth-child(3) td {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+/* Suavização das cores que vêm da planilha */
+#tabela-espelho-sheets td[style*="background-color"] {
+    font-weight: 700;
+}
+
+/* Se o fundo for o Amarelo padrão do Sheets (#ffff00 ou similar), deixa um tom pastel mais nobre */
+#tabela-espelho-sheets td[style*="255, 255, 0"],
+#tabela-espelho-sheets td[style*="ffff00"] {
+    background-color: #fef08a !important; /* Amarelo pastel moderno */
+    color: #713f12 !important;
+}
+
+/* Se o fundo for o Azul do dia atual, deixa uma identidade forte de sistema */
+#tabela-espelho-sheets td[style*="3a86c8"],
+#tabela-espelho-sheets td[style*="blue"],
+#tabela-espelho-sheets td[style*="60, 141, 188"] {
+    background: #3b82f6 !important; /* Azul moderno */
+    color: #ffffff !important;
+}
+
+/* Efeito interno de hover para conferência visual do operador */
+#tabela-espelho-sheets tr:not(:first-child) td:hover {
+    background-color: #f1f5f9 !important;
+    cursor: default;
+}
+
+.bloco-pesquisa{
+    margin:15px 0;
+}
+
 #barra-pesquisa{
 
     margin-top:12px;
