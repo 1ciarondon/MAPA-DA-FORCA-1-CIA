@@ -89,7 +89,9 @@
     </aside>
 
     <!-- Cabeçalho -->
-    <header>
+  <header>
+
+    <div class="header-esquerda">
 
         <button
             id="btn-menu"
@@ -99,31 +101,37 @@
             ☰ Menu Admin
         </button>
 
-        <div class="titulo-principal">
-            <h1>MAPA DA FORÇA OPERACIONAL</h1>
-            <p>Status em Tempo Real</p>
-        </div>
+    </div>
+
+    <div class="titulo-principal">
+
+        <h1>MAPA DA FORÇA OPERACIONAL</h1>
+        <p>Status em Tempo Real</p>
+
+    </div>
+
+    <div class="header-direita">
+
+        <input
+            type="text"
+            id="pesquisa-militar"
+            placeholder="🔍 Pesquisar militar..."
+            oninput="pesquisarMilitar(this.value)"
+        >
 
         <button
             id="btn-editar"
             type="button"
             aria-label="Ativar modo de edição"
             onclick="alternarModoEdicao()">
+
             ⚙️ Ativar Edição
+
         </button>
 
-       <div id="barra-pesquisa">
+    </div>
 
-    <input
-        type="text"
-        id="pesquisa-militar"
-        placeholder="🔍 Pesquisar militar..."
-        oninput="pesquisarMilitar(this.value)"
-    >
-
-</div> 
-
-    </header>
+</header>
 
     <!-- Conteúdo Principal -->
     <main>
