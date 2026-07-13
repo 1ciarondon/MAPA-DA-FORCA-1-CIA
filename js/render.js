@@ -142,6 +142,7 @@ function renderizarEspelhoCabecalho(linhasCabecalho, coresCabecalho) {
 
     tabela.appendChild(fragment);
 }
+
 function renderizarEquipe(militares, elementId, tipoServico) {
 
     const container = document.getElementById(elementId);
