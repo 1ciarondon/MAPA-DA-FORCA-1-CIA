@@ -2032,39 +2032,21 @@ header p {
 
 }
 
-#pesquisa-militar{
+.resultado-pesquisa{
 
-    width:260px;
+    background:#fff8c9 !important;
 
-    padding:9px 12px;
+    border-left:5px solid #0d6efd;
 
-    border:1px solid #cbd5e1;
-
-    border-radius:8px;
-
-    font-size:14px;
+    box-shadow:0 0 12px rgba(13,110,253,.20);
 
     transition:.2s;
 
 }
 
-#pesquisa-militar:focus{
+.resultado-pesquisa strong{
 
-    outline:none;
-
-    border-color:#0f4c81;
-
-    box-shadow:0 0 0 3px rgba(15,76,129,.15);
-
-}
-
-.resultado-pesquisa{
-
-    background:#fff4a8 !important;
-
-    border-left:5px solid #0d6efd;
-
-    animation:pulsarPesquisa .35s;
+    color:#0d3b66;
 
 }
 
@@ -2073,6 +2055,12 @@ header p {
     from{
 
         transform:scale(.98);
+
+    }
+
+    50%{
+
+        transform:scale(1.01);
 
     }
 
