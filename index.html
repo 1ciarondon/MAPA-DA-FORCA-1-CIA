@@ -19,20 +19,7 @@
     <!-- Menu Administrativo -->
     <aside id="menu-lateral" class="menu-lateral">
 
-       <div class="menu-header">
-        <h3>Gestão de Afastamentos</h3>
-
-           <div class="bloco-pesquisa">
-
-    <input
-        type="text"
-        id="pesquisa-militar"
-        placeholder="Pesquisar militar..."
-        oninput="pesquisarMilitar(this.value)"
-    >
-
-</div>
-           
+                
         <button class="btn-fechar" type="button" aria-label="Fechar menu" onclick="toggleMenuLateral()">✖</button>
     </div>
 
@@ -124,6 +111,17 @@
             onclick="alternarModoEdicao()">
             ⚙️ Ativar Edição
         </button>
+
+       <div id="barra-pesquisa">
+
+    <input
+        type="text"
+        id="pesquisa-militar"
+        placeholder="🔍 Pesquisar militar..."
+        oninput="pesquisarMilitar(this.value)"
+    >
+
+</div> 
 
     </header>
 
