@@ -8,6 +8,7 @@ function criarLinhaMilitar(militar) {
 
     linha.dataset.militarBruto = militar.texto;
     linha.dataset.prontidaoInicial = militar.prontidao;
+    linha.dataset.pesquisa = militar.texto.toUpperCase();
 
     if (militar.prontidao === "INDISPONÍVEL") {
         linha.classList.add("militar-indisponivel");
