@@ -1,10 +1,18 @@
+let timeoutPesquisa = null;
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const campo = document.getElementById("pesquisa-militar");
 
     if (!campo) return;
 
-    campo.addEventListener("input", pesquisarMilitar);
+    campo.addEventListener("input", () => {
+
+        clearTimeout(timeoutPesquisa);
+
+        timeoutPesquisa = setTimeout(filtrarMilitares, 120);
+
+    });
 
     document
         .getElementById("btn-limpar-pesquisa")
@@ -12,43 +20,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-function pesquisarMilitar() {
+function filtrarMilitares() {
 
     const texto = document
         .getElementById("pesquisa-militar")
         .value
-        .toUpperCase()
-        .trim();
+        .trim()
+        .toUpperCase();
+
+    let primeiroResultado = null;
 
     document
         .querySelectorAll(".linha-militar")
         .forEach(linha => {
 
-            const nome = linha.dataset.militarBruto.toUpperCase();
+            const encontrado =
+                linha.dataset.pesquisa.includes(texto);
 
-            if(nome.includes(texto)){
+            if (texto === "") {
 
-                linha.style.display="block";
+                linha.style.display = "";
 
-                linha.style.background="#fff9c4";
+                linha.classList.remove("resultado-pesquisa");
 
-            }else{
+                return;
 
-                linha.style.display=
-                    texto===""
-                    ? "block"
-                    : "none";
+            }
+
+            if (encontrado) {
+
+                linha.style.display = "";
+
+                linha.classList.add("resultado-pesquisa");
+
+                if (!primeiroResultado)
+                    primeiroResultado = linha;
+
+            } else {
+
+                linha.style.display = "none";
+
+                linha.classList.remove("resultado-pesquisa");
 
             }
 
         });
 
+    if (primeiroResultado) {
+
+        primeiroResultado.scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "center"
+
+        });
+
+    }
+
 }
 
-function limparPesquisa(){
+function limparPesquisa() {
 
-    document.getElementById("pesquisa-militar").value="";
+    document.getElementById("pesquisa-militar").value = "";
 
-    pesquisarMilitar();
+    filtrarMilitares();
 
 }
