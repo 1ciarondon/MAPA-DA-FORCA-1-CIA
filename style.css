@@ -2057,3 +2057,29 @@ header p {
     box-shadow:0 0 0 3px rgba(15,76,129,.15);
 
 }
+
+.resultado-pesquisa{
+
+    background:#fff4a8 !important;
+
+    border-left:5px solid #0d6efd;
+
+    animation:pulsarPesquisa .35s;
+
+}
+
+@keyframes pulsarPesquisa{
+
+    from{
+
+        transform:scale(.98);
+
+    }
+
+    to{
+
+        transform:scale(1);
+
+    }
+
+}
