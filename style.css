@@ -1010,31 +1010,38 @@ header p {
     margin:15px 0;
 }
 
+#barra-pesquisa{
+
+    margin-top:12px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+}
+
 #pesquisa-militar{
-    width:100%;
-    box-sizing:border-box;
-    padding:8px 10px;
-    border:1px solid #bfc8d4;
-    border-radius:6px;
+
+    width:260px;
+
+    padding:9px 12px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:8px;
+
     font-size:14px;
-}
 
-.militar-encontrado{
-    animation:piscarMilitar .8s infinite alternate;
-    outline:3px solid #0f4c81;
-    border-radius:6px;
-}
-
-@keyframes piscarMilitar{
-
-    from{
-        background:#fff7cc;
-    }
-
-    to{
-        background:#ffe66d;
-    }
+    transition:.2s;
 
 }
 
+#pesquisa-militar:focus{
 
+    outline:none;
+
+    border-color:#0f4c81;
+
+    box-shadow:0 0 0 3px rgba(15,76,129,.15);
+
+}
