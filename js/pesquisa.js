@@ -14,9 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    document
-        .getElementById("btn-limpar-pesquisa")
-        .addEventListener("click", limparPesquisa);
+    const botaoLimpar = document.getElementById("btn-limpar-pesquisa");
+
+if (botaoLimpar) {
+    botaoLimpar.addEventListener("click", limparPesquisa);
+}
 
 });
 
