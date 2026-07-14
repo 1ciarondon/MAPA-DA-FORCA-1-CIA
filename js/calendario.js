@@ -35,7 +35,9 @@ function renderizarEspelhoCabecalho(calendario) {
             const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
             thMes.innerText = nomeMes.toUpperCase();
-            thMes.setAttribute("colspan", linha.length);
+            
+            // CORREÇÃO AQUI: Uso direto de .length seguro para evitar erros de escopo
+            thMes.setAttribute("colspan", linha ? linha.length : 1);
             
             thMes.style.background = "linear-gradient(90deg, #1e3a8a, #0f4c81)";
             thMes.style.color = "#ffffff";
@@ -53,7 +55,7 @@ function renderizarEspelhoCabecalho(calendario) {
 
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
-            td.style.position = "relative"; // Permite posicionar o ponto indicador absolutamente
+            td.style.position = "relative"; 
             td.innerText = celula || "";
             
             td.style.padding = "6px 4px";
@@ -95,11 +97,9 @@ function renderizarEspelhoCabecalho(calendario) {
             // ==========================================
             // MARCAÇÃO DA AGENDA (PONTO INDICADOR)
             // ==========================================
-            // Identifica se a célula atual representa o número do dia (indexLinha === 2)
             if (indexLinha === 2 && celula) {
                 const diaNumero = parseInt(celula, 10);
                 if (!isNaN(diaNumero)) {
-                    // Descobre o mês corrente com base no título do calendário (index 0)
                     const mesTexto = String(linhasValidas[0].find(c => c && c.trim() !== "")).toUpperCase();
                     const mesesMap = { JANEIRO:0, FEVEREIRO:1, MARÇO:2, ABRIL:3, MAIO:4, JUNHO:5, JULHO:6, AGOSTO:7, SETEMBRO:8, OUTUBRO:9, NOVEMBRO:10, DEZEMBRO:11 };
                     
@@ -111,20 +111,19 @@ function renderizarEspelhoCabecalho(calendario) {
                         }
                     }
 
-                    // Monta a data da célula para verificar se há eventos futuros cadastrados
-                    const dataCelula = new Date(anoAtualNum, mesIndex, diaNumero);
-                    const dataCelulaStr = Utilities_formatarDataISO(dataCelula);
+                    // Formatação manual simples ISO (YYYY-MM-DD) nativa para evitar dependências externas
+                    const anoStr = String(anoAtualNum);
+                    const mesStr = String(mesIndex + 1).padStart(2, '0');
+                    const diaStr = String(diaNumero).padStart(2, '0');
+                    const dataCelulaStr = `${anoStr}-${mesStr}-${diaStr}`;
 
                     if (eventosGlobais[dataCelulaStr]) {
-                        // Cria o ponto indicador (dot)
                         const ponto = document.createElement("span");
                         ponto.className = "ponto-evento";
                         
-                        // Tooltip descritiva para passar o mouse e ler os eventos
                         const resumoEventos = eventosGlobais[dataCelulaStr].map(ev => `• ${ev.descricao}`).join("\n");
                         ponto.title = resumoEventos; 
 
-                        // Estilos táticos para o ponto indicador
                         ponto.style.position = "absolute";
                         ponto.style.bottom = "2px";
                         ponto.style.left = "50%";
@@ -132,7 +131,7 @@ function renderizarEspelhoCabecalho(calendario) {
                         ponto.style.width = "5px";
                         ponto.style.height = "5px";
                         ponto.style.borderRadius = "50%";
-                        ponto.style.background = "#f43f5e"; // Rosa/Vermelho vibrante de atenção
+                        ponto.style.background = "#f43f5e"; 
                         
                         td.appendChild(ponto);
                     }
@@ -148,86 +147,48 @@ function renderizarEspelhoCabecalho(calendario) {
     tabela.appendChild(fragment);
 }
 
-// Função utilitária para converter Date para String YYYY-MM-DD localmente
-function Utilities_formatarDataISO(date) {
-    const d = new Date(date);
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
-
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-
-    return [year, month, day].join('-');
-}
-
 function renderizarCalendarioAtual() {
-
     if (!calendarios.length) return;
 
     const calendario = calendarios[calendarioAtual];
-
     renderizarEspelhoCabecalho(calendario);
-
     atualizarTituloCalendario();
-
     atualizarBotoesCalendario();
-
 }
 
-
 function atualizarTituloCalendario() {
-
     if (!calendarios.length) return;
 
     const titulo = document.getElementById("titulo-calendario");
-
     if (!titulo) return;
 
-    const nomeMes =
-        calendarios[calendarioAtual].dados[0]
-            .find(c => c && c.trim() !== "");
-
+    const nomeMes = calendarios[calendarioAtual].dados[0].find(c => c && c.trim() !== "");
     titulo.innerText = nomeMes || "";
-
 }
-
 
 function atualizarBotoesCalendario() {
-
     const btnAnterior = document.getElementById("btn-mes-anterior");
-
     const btnProximo = document.getElementById("btn-proximo-mes");
 
-    if (btnAnterior)
+    if (btnAnterior) {
         btnAnterior.disabled = calendarioAtual === 0;
+    }
 
-    if (btnProximo)
-        btnProximo.disabled =
-            calendarioAtual >= calendarios.length - 1;
-
+    if (btnProximo) {
+        btnProximo.disabled = calendarioAtual >= calendarios.length - 1;
+    }
 }
-
 
 function proximoMes() {
-
-    if (calendarioAtual >= calendarios.length - 1)
-        return;
+    if (calendarioAtual >= calendarios.length - 1) return;
 
     calendarioAtual++;
-
     renderizarCalendarioAtual();
-
 }
 
-
 function mesAnterior() {
-
-    if (calendarioAtual <= 0)
-        return;
+    if (calendarioAtual <= 0) return;
 
     calendarioAtual--;
-
     renderizarCalendarioAtual();
-
 }
