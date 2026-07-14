@@ -1,8 +1,9 @@
 function renderizarEspelhoCabecalho(calendario) {
+    if (!calendario) return;
+    
     const linhasCabecalho = calendario.dados;
     const coresCabecalho = calendario.cores;
     
-    // Obtém os eventos enviados pela API (salvos no estado global)
     const eventosGlobais = window.dadosGlobaisEventos || {}; 
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
@@ -17,26 +18,46 @@ function renderizarEspelhoCabecalho(calendario) {
     if (wrapper) wrapper.style.display = "block";
     tabela.innerHTML = "";
 
+    // Filtra linhas que possuem conteúdo real
     const linhasValidas = linhasCabecalho.filter(linha => 
-        linha.some(celula => celula !== null && String(celula).trim() !== "")
+        linha && linha.some(celula => celula !== null && String(celula).trim() !== "")
     );
 
-    const fragment = document.createDocumentFragment();
+    if (linhasValidas.length === 0) return;
+
     const dataHoje = new Date();
-    const diaAtualStr = String(dataHoje.getDate()); 
-    const mesAtualNum = dataHoje.getMonth(); // 0-11
+    const diaHojeStr = String(dataHoje.getDate()).trim(); 
+    const mesAtualNum = dataHoje.getMonth(); 
     const anoAtualNum = dataHoje.getFullYear();
+
+    // =========================================================================
+    // DESCOBERTA DINÂMICA DA LINHA DOS DIAS
+    // Procura qual linha possui números sequenciais característicos de dias (ex: 1, 2, 3...)
+    // =========================================================================
+    let indexLinhaDias = -1;
+    for (let i = 0; i < linhasValidas.length; i++) {
+        // Verifica se a linha tem valores numéricos pequenos típicos de dias do mês
+        let temDiasValidos = linhasValidas[i].some(c => {
+            let n = parseInt(c, 10);
+            return !isNaN(n) && n >= 1 && n <= 31;
+        });
+        if (temDiasValidos) {
+            indexLinhaDias = i;
+            break;
+        }
+    }
+
+    const fragment = document.createDocumentFragment();
 
     linhasValidas.forEach((linha, indexLinha) => {
         const tr = document.createElement("tr");
         
-        if (indexLinha === 0) {
+        // Se for a primeira linha e parecer um título (um texto longo isolado)
+        if (indexLinha === 0 && linha.filter(c => c && String(c).trim() !== "").length <= 2) {
             const thMes = document.createElement("th");
             const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
             thMes.innerText = nomeMes.toUpperCase();
-            
-            // CORREÇÃO AQUI: Uso direto de .length seguro para evitar erros de escopo
             thMes.setAttribute("colspan", linha ? linha.length : 1);
             
             thMes.style.background = "linear-gradient(90deg, #1e3a8a, #0f4c81)";
@@ -56,7 +77,7 @@ function renderizarEspelhoCabecalho(calendario) {
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
             td.style.position = "relative"; 
-            td.innerText = celula || "";
+            td.innerText = celula !== null && celula !== undefined ? celula : "";
             
             td.style.padding = "6px 4px";
             td.style.border = "1px solid #cbd5e1";
@@ -65,6 +86,7 @@ function renderizarEspelhoCabecalho(calendario) {
             td.style.minWidth = "28px";
             td.style.textAlign = "center";
 
+            // Aplicação de cores vindas do Sheets
             let corFundoOriginal = (coresCabecalho && coresCabecalho[indexLinha]) ? coresCabecalho[indexLinha][indexColuna] : "#ffffff";
             if (corFundoOriginal === "#ffffff" || corFundoOriginal === "transparent") {
                 corFundoOriginal = "";
@@ -78,26 +100,30 @@ function renderizarEspelhoCabecalho(calendario) {
                 td.style.color = "#1e293b";
             }
 
-            // MARCAÇÃO DO DIA DE HOJE
-            const valorLinhaDias = linhasValidas[2] ? linhasValidas[2][indexColuna] : "";
-            
-            if (String(valorLinhaDias).trim() === diaAtualStr) {
-                td.style.borderLeft = "2px solid #2563eb";
-                td.style.borderRight = "2px solid #2563eb";
+            // ==========================================================
+            // DESTAQUE DINÂMICO DO DIA DE HOJE
+            // ==========================================================
+            if (indexLinhaDias !== -1) {
+                const valorDiaNaColuna = String(linhasValidas[indexLinhaDias][indexColuna]).trim();
                 
-                if (indexLinha === 1 || indexLinha === 2) {
-                    td.style.background = "#2563eb"; 
-                    td.style.color = "#ffffff";
-                    td.style.fontWeight = "bold";
-                } else {
-                    td.style.background = "#eff6ff"; 
+                if (valorDiaNaColuna && valorDiaNaColuna === diaHojeStr) {
+                    td.style.borderLeft = "2px solid #2563eb";
+                    td.style.borderRight = "2px solid #2563eb";
+                    
+                    if (indexLinha === indexLinhaDias) {
+                        td.style.background = "#2563eb"; 
+                        td.style.color = "#ffffff";
+                        td.style.fontWeight = "bold";
+                    } else {
+                        td.style.background = "#eff6ff"; 
+                    }
                 }
             }
 
             // ==========================================
             // MARCAÇÃO DA AGENDA (PONTO INDICADOR)
             // ==========================================
-            if (indexLinha === 2 && celula) {
+            if (indexLinha === indexLinhaDias && celula) {
                 const diaNumero = parseInt(celula, 10);
                 if (!isNaN(diaNumero)) {
                     const mesTexto = String(linhasValidas[0].find(c => c && c.trim() !== "")).toUpperCase();
@@ -111,7 +137,6 @@ function renderizarEspelhoCabecalho(calendario) {
                         }
                     }
 
-                    // Formatação manual simples ISO (YYYY-MM-DD) nativa para evitar dependências externas
                     const anoStr = String(anoAtualNum);
                     const mesStr = String(mesIndex + 1).padStart(2, '0');
                     const diaStr = String(diaNumero).padStart(2, '0');
