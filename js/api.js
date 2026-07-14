@@ -1,5 +1,13 @@
 const API_URL = CONFIG.API_URL;
 
+// =========================================================================
+// DECLARAÇÃO FORÇADA DE ESCOPO GLOBAL (Para garantir visibilidade entre scripts)
+// =========================================================================
+window.calendarios = window.calendarios || [];
+window.calendarioAtual = window.calendarioAtual || 0;
+window.dadosGlobaisAfastados = window.dadosGlobaisAfastados || [];
+window.dadosGlobaisEventos = window.dadosGlobaisEventos || {};
+
 async function carregarMapa() {
     try {
         const response = await fetch(API_URL);
@@ -18,19 +26,28 @@ async function carregarMapa() {
         window.dadosGlobaisEventos = dados.eventos || {};
 
         // ==========================================
-        // CALENDÁRIOS
+        // CALENDÁRIOS (ATRIBUÍDOS DIRETAMENTE AO WINDOW)
         // ==========================================
-        calendarios = dados.calendarios || [];
-        calendarioAtual = 0;
+        window.calendarios = dados.calendarios || [];
+        window.calendarioAtual = 0;
 
-        if (calendarios.length > 0) {
+        // Força a atualização local das variáveis caso o outro arquivo precise delas diretamente
+        if (typeof calendarios !== 'undefined') {
+            calendarios = window.calendarios;
+            calendarioAtual = window.calendarioAtual;
+        }
+
+        if (window.calendarios.length > 0) {
             renderizarCalendarioAtual();
         }
 
         // ==========================================
         // DADOS GERAIS
         // ==========================================
-        dadosGlobaisAfastados = dados.afastados_geral || [];
+        window.dadosGlobaisAfastados = dados.afastados_geral || [];
+        if (typeof dadosGlobaisAfastados !== 'undefined') {
+            dadosGlobaisAfastados = window.dadosGlobaisAfastados;
+        }
 
         if (typeof renderizarListaCaveirinhas === "function") {
             renderizarListaCaveirinhas(
