@@ -17,13 +17,19 @@
 <body>
 
     <!-- Menu Administrativo -->
-    <aside id="menu-lateral" class="menu-lateral">
+   <aside id="menu-lateral" class="menu-lateral">
 
-                
-        <button class="btn-fechar" type="button" aria-label="Fechar menu" onclick="toggleMenuLateral()">✖</button>
-    </div>
+    <button
+        class="btn-fechar"
+        type="button"
+        onclick="toggleMenuLateral()">
+
+        ✖
+
+    </button>
 
     <div class="menu-corpo">
+        
         <form id="form-afastamento" onsubmit="salvarAfastamento(event)">
             <label for="afast-nome">Militar (Nome de Guerra):</label>
             <input type="text" id="afast-nome" list="lista-militares" placeholder="Busque ou digite o nome..." required>
@@ -89,16 +95,17 @@
     </aside>
 
     <!-- Cabeçalho -->
-  <header>
+ <header class="cabecalho-principal">
 
     <div class="header-esquerda">
 
         <button
             id="btn-menu"
             type="button"
-            aria-label="Abrir menu administrativo"
             onclick="toggleMenuLateral()">
-            ☰ Menu Admin
+
+            ☰ Menu
+
         </button>
 
     </div>
@@ -106,23 +113,25 @@
     <div class="titulo-principal">
 
         <h1>MAPA DA FORÇA OPERACIONAL</h1>
-        <p>Status em Tempo Real</p>
+
+        <p>1º BPM • Status em Tempo Real</p>
 
     </div>
 
     <div class="header-direita">
 
-        <input
-            type="text"
-            id="pesquisa-militar"
-            placeholder="🔍 Pesquisar militar..."
-           
-        >
+        <div id="barra-pesquisa">
+
+            <input
+                type="text"
+                id="pesquisa-militar"
+                placeholder="🔍 Pesquisar militar">
+
+        </div>
 
         <button
             id="btn-editar"
             type="button"
-            aria-label="Ativar modo de edição"
             onclick="alternarModoEdicao()">
 
             ⚙️ Ativar Edição
@@ -136,10 +145,35 @@
     <!-- Conteúdo Principal -->
     <main>
 
-       <div id="wrapper-cabecalho-sheets" style="margin: 12px; padding: 12px; background: #ffffff; border: 1px solid #d6dde6; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow-x: auto;">
-    <table id="tabela-espelho-sheets" style="width: 100%; border-collapse: collapse; font-size: 11px; font-family: sans-serif; text-align: center;">
-        </table>
-</div> 
+     <section id="painel-calendario">
+
+    <div class="calendario-topo">
+
+        <button id="btn-mes-anterior">
+            ◀
+        </button>
+
+        <h2 id="titulo-calendario">
+            Escala
+        </h2>
+
+        <button id="btn-mes-proximo">
+            ▶
+        </button>
+
+    </div>
+
+    <div id="calendario-container">
+
+        <p class="carregando">
+            Carregando calendário...
+        </p>
+
+    </div>
+
+</section>   
+
+   <div class="conteudo-principal">
 
         <!-- Radiopatrulha -->
         <section>
@@ -269,16 +303,19 @@
 
         </section>
 
-    </main>
+     </div>
+
+</main>
 
 <script src="js/config.js"></script>
 <script src="js/formatadores.js"></script>
+<script src="js/calendario.js"></script>
 <script src="js/render.js"></script>
 <script src="js/toast.js"></script>
 <script src="js/dragdrop.js"></script>
 <script src="js/api.js"></script>
 <script src="js/app.js"></script>
-<script src="js/pesquisa.js"></script>   
+<script src="js/pesquisa.js"></script>
 
 </body>
 </html>
