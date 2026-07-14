@@ -1,9 +1,7 @@
 const API_URL = CONFIG.API_URL;
 
 async function carregarMapa() {
-
     try {
-
         const response = await fetch(API_URL);
 
         if (!response.ok) {
@@ -15,33 +13,29 @@ async function carregarMapa() {
         gerenciarAlertaConexao(false);
 
         // ==========================================
+        // EVENTOS DA AGENDA (SALVAMENTO GLOBAL)
+        // ==========================================
+        window.dadosGlobaisEventos = dados.eventos || {};
+
+        // ==========================================
         // CALENDÁRIOS
         // ==========================================
-
         calendarios = dados.calendarios || [];
-
         calendarioAtual = 0;
 
         if (calendarios.length > 0) {
-
             renderizarCalendarioAtual();
-
         }
 
         // ==========================================
         // DADOS GERAIS
         // ==========================================
-
         dadosGlobaisAfastados = dados.afastados_geral || [];
 
         if (typeof renderizarListaCaveirinhas === "function") {
-
             renderizarListaCaveirinhas(
-
                 dados.caveirinhas || []
-
             );
-
         }
 
         renderizarListaMenuAdmin();
@@ -49,71 +43,43 @@ async function carregarMapa() {
         // ==========================================
         // EQUIPES
         // ==========================================
-
         const blocos = [];
 
         CONFIG.EQUIPES.forEach(equipe => {
-
             blocos.push({
-
                 d: dados.radiopatrulha[equipe],
-
                 id: `dados-${equipe}`,
-
                 s: "RP",
-
                 c: `cont-${equipe}`
-
             });
 
             blocos.push({
-
                 d: dados.guarda[equipe],
-
                 id: `dados-guarda-${equipe}`,
-
                 s: "GUARDA",
-
                 c: `cont-guarda-${equipe}`
-
             });
-
         });
 
         blocos.forEach(bloco => {
-
             renderizarEquipe(
-
                 bloco.d,
-
                 bloco.id,
-
                 bloco.s
-
             );
 
             atualizarContadoresIndividuais(
-
                 bloco.id,
-
                 bloco.c
-
             );
-
         });
 
     }
-
     catch (erro) {
-
         console.error("Erro ao carregar dados:", erro);
-
         gerenciarAlertaConexao(true);
-
     }
-
 }
-
 
 // ==========================================
 // POST
