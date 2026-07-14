@@ -120,64 +120,30 @@ async function carregarMapa() {
 // ==========================================
 
 async function enviarDadosAPI(payload) {
-
     try {
+        lancarToast("Processando solicitação...", "info");
 
-        lancarToast(
-
-            "Processando solicitação...",
-
-            "info"
-
-        );
-
+        // Usar fetch com tratamento adequado para o comportamento do GAS redirecionado
         await fetch(API_URL, {
-
             method: "POST",
-
-            mode: "no-cors",
-
+            mode: "no-cors", // Necessário para evitar bloqueios de CORS pré-flight no GAS
             cache: "no-cache",
-
             headers: {
-
-                "Content-Type": "application/json"
-
+                "Content-Type": "text/plain" // Evita o pré-flight do CORS que o GAS rejeita
             },
-
             body: JSON.stringify(payload)
-
         });
 
-        lancarToast(
-
-            "Operação enviada com sucesso!",
-
-            "sucesso"
-
-        );
-
+        // Como o modo é "no-cors", a resposta é opaca e não podemos ler o JSON de retorno.
+        // Assumimos sucesso caso a promessa de fetch não dispare erro de rede (catch)
+        lancarToast("Operação enviada com sucesso!", "sucesso");
+        
         setTimeout(carregarMapa, 1200);
-
         return true;
-
     }
-
     catch (erro) {
-
-        console.error(erro);
-
-        lancarToast(
-
-            "Não foi possível comunicar com o servidor.",
-
-            "erro"
-
-        );
-
+        console.error("Erro na comunicação com a API:", erro);
+        lancarToast("Não foi possível comunicar com o servidor.", "erro");
         return false;
-
     }
-
 }
-
