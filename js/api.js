@@ -13,7 +13,7 @@ async function carregarMapa() {
         gerenciarAlertaConexao(false);
 
         // >>> MELHORIA: Passa os dados de texto e cores originais para o cabeçalho espelho
-        renderizarEspelhoCabecalho(dados.cabecalho_info || [], dados.coresSuperior || []);
+       renderizarCalendario(0);
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
         
