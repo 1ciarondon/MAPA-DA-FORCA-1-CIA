@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ?.addEventListener("click", mesAnterior);
 
     document
-        .getElementById("btn-mes-proximo")
+        .getElementById("btn-proximo-mes")
         ?.addEventListener("click", proximoMes);
 
 });
