@@ -37,7 +37,13 @@ linha.dataset.pesquisa = [
 }
 
 // Renderiza o cabeçalho informativo/espelho vindo das primeiras linhas da planilha
-function renderizarEspelhoCabecalho(linhasCabecalho, coresCabecalho) {
+function renderizarEspelhoCabecalho(calendario) {
+
+    const linhasCabecalho = calendario.dados;
+
+    const coresCabecalho = calendario.cores;
+
+    const eventos = calendario.eventos || {};
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
     
@@ -169,9 +175,7 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 
     militares.forEach(militar => {
 
-    console.log(militar.texto);
-
-    fragment.appendChild(
+   fragment.appendChild(
     criarLinhaMilitar(militar)
 );
 
@@ -229,39 +233,61 @@ function atualizarContadoresIndividuais(containerId, contadorId) {
     painelContador.innerText = `Prontos: ${prontos} | Indisp: ${indisp}`;
 }
 
-function renderizarCalendarioAtual(){
+// ==========================================
+// CALENDÁRIO
+// ==========================================
 
-    if(!calendarios.length) return;
+function renderizarCalendarioAtual() {
+
+    if (!calendarios.length) return;
 
     const calendario = calendarios[calendarioAtual];
 
-    renderizarEspelhoCabecalho(
-        calendario.dados,
-        calendario.cores
-    );
+    renderizarEspelhoCabecalho(calendario);
 
     atualizarTituloCalendario();
 
+    atualizarBotoesCalendario();
+
 }
 
-function atualizarTituloCalendario(){
 
-    if(!calendarios.length) return;
+function atualizarTituloCalendario() {
 
-    const primeiraLinha = calendarios[calendarioAtual].dados[0];
-
-    const nomeMes = primeiraLinha.find(c=>c && c.trim()!="");
+    if (!calendarios.length) return;
 
     const titulo = document.getElementById("titulo-calendario");
 
-    if(titulo)
-        titulo.innerText = nomeMes;
+    if (!titulo) return;
+
+    const nomeMes =
+        calendarios[calendarioAtual].dados[0]
+            .find(c => c && c.trim() !== "");
+
+    titulo.innerText = nomeMes || "";
 
 }
 
-function proximoMes(){
 
-    if(calendarioAtual >= calendarios.length-1)
+function atualizarBotoesCalendario() {
+
+    const btnAnterior = document.getElementById("btn-mes-anterior");
+
+    const btnProximo = document.getElementById("btn-proximo-mes");
+
+    if (btnAnterior)
+        btnAnterior.disabled = calendarioAtual === 0;
+
+    if (btnProximo)
+        btnProximo.disabled =
+            calendarioAtual >= calendarios.length - 1;
+
+}
+
+
+function proximoMes() {
+
+    if (calendarioAtual >= calendarios.length - 1)
         return;
 
     calendarioAtual++;
@@ -270,9 +296,10 @@ function proximoMes(){
 
 }
 
-function mesAnterior(){
 
-    if(calendarioAtual<=0)
+function mesAnterior() {
+
+    if (calendarioAtual <= 0)
         return;
 
     calendarioAtual--;
