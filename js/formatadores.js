@@ -24,7 +24,7 @@ function formatarNomeMilitar(textoBruto) {
     const nome = m[3].trim();
 
     // Remove qualquer graduação repetida no início
-    while (graduacao.startsWith(graduacao + " ")) {
+    {
         graduacao = graduacao.replace(graduacao + " ", "");
     }
 
@@ -37,12 +37,7 @@ function formatarNomeMilitar(textoBruto) {
         "$1"
     );
 
-    console.log({
-    graduacao,
-    matricula,
-    nome
-});
-    
+       
     return `
         <span>${graduacao} ${matricula}</span>
         <strong>${nome}</strong>
