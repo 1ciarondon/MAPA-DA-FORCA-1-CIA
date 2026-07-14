@@ -8,21 +8,45 @@ let calendarioAtual = 0;
 let calendarios = [];
 
 document.addEventListener("DOMContentLoaded", () => {
+    // 1. Inicializa a estrutura de Toasts de forma segura
+    if (typeof criarEstruturaToasts === "function") {
+        criarEstruturaToasts();
+    } else {
+        console.warn("Aviso: Função 'criarEstruturaToasts' não encontrada no escopo global.");
+    }
 
-    criarEstruturaToasts();
+    // 2. Dispara a carga de dados inicial do sistema
+    if (typeof carregarMapa === "function") {
+        carregarMapa();
+    }
 
-    carregarMapa();
+    // 3. Configura a atualização em segundo plano (Polling)
+    if (typeof configurarAtualizacaoAutomatica === "function") {
+        configurarAtualizacaoAutomatica();
+    }
 
-    configurarAtualizacaoAutomatica();
+    // 4. Sincroniza os botões de navegação do calendário (com tratamento de existência)
+    const btnAnterior = document.getElementById("btn-mes-anterior");
+    if (btnAnterior) {
+        btnAnterior.addEventListener("click", () => {
+            if (typeof mesAnterior === "function") {
+                mesAnterior();
+            } else {
+                console.error("Erro: Função 'mesAnterior' não está definida.");
+            }
+        });
+    }
 
-    document
-        .getElementById("btn-mes-anterior")
-        ?.addEventListener("click", mesAnterior);
-
-    document
-        .getElementById("btn-proximo-mes")
-        ?.addEventListener("click", proximoMes);
-
+    const btnProximo = document.getElementById("btn-proximo-mes");
+    if (btnProximo) {
+        btnProximo.addEventListener("click", () => {
+            if (typeof proximoMes === "function") {
+                proximoMes();
+            } else {
+                console.error("Erro: Função 'proximoMes' não está definida.");
+            }
+        });
+    }
 });
 
 // Exibe indicador visual de carregamento nas tabelas (Melhoria 1)
