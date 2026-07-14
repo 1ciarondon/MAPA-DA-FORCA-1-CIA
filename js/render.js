@@ -229,3 +229,51 @@ function atualizarContadoresIndividuais(containerId, contadorId) {
     painelContador.innerText = `Prontos: ${prontos} | Indisp: ${indisp}`;
 }
 
+function renderizarCalendarioAtual() {
+
+    if (!calendarios.length) return;
+
+    const calendario = calendarios[calendarioAtual];
+
+    renderizarEspelhoCabecalho(
+
+        calendario.dados,
+
+        calendario.cores
+
+    );
+
+   function atualizarTituloCalendario() {
+
+    if (!calendarios.length) return;
+
+    const primeiraLinha = calendarios[calendarioAtual].dados[0];
+
+    const nomeMes = primeiraLinha.find(c => c && c.trim() !== "");
+
+    document.getElementById("titulo-calendario").innerText = nomeMes;
+
+}
+
+function proximoMes() {
+
+    if (calendarioAtual >= calendarios.length - 1)
+        return;
+
+    calendarioAtual++;
+
+    renderizarCalendarioAtual();
+
+}
+
+function proximoMes() {
+
+    if (calendarioAtual >= calendarios.length - 1)
+        return;
+
+    calendarioAtual++;
+
+    renderizarCalendarioAtual();
+
+}
+
