@@ -1,16 +1,14 @@
 function renderizarEspelhoCabecalho(calendario) {
-
     const linhasCabecalho = calendario.dados;
-
     const coresCabecalho = calendario.cores;
-
-    const eventos = calendario.eventos || {};
+    
+    // Obtém os eventos enviados pela API (salvos no estado global)
+    const eventosGlobais = window.dadosGlobaisEventos || {}; 
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
     
     if (!tabela) return;
 
-    // Se não houver dados, esconde o contêiner
     if (!linhasCabecalho || linhasCabecalho.length === 0) {
         if (wrapper) wrapper.style.display = "none";
         return;
@@ -19,31 +17,26 @@ function renderizarEspelhoCabecalho(calendario) {
     if (wrapper) wrapper.style.display = "block";
     tabela.innerHTML = "";
 
-    // Filtra para eliminar possíveis linhas completamente vazias enviadas pelo intervalo do Sheets
     const linhasValidas = linhasCabecalho.filter(linha => 
         linha.some(celula => celula !== null && String(celula).trim() !== "")
     );
 
     const fragment = document.createDocumentFragment();
-
-    // Captura a data atual do sistema para a marcação dinâmica do dia de hoje
     const dataHoje = new Date();
     const diaAtualStr = String(dataHoje.getDate()); 
-    // Nota: O destaque do mês é validado pelo dia numérico na linha correspondente
+    const mesAtualNum = dataHoje.getMonth(); // 0-11
+    const anoAtualNum = dataHoje.getFullYear();
 
     linhasValidas.forEach((linha, indexLinha) => {
         const tr = document.createElement("tr");
         
-        // REGRA 1: TRATAMENTO DA PRIMEIRA LINHA (O MÊS - EX: JULHO)
         if (indexLinha === 0) {
             const thMes = document.createElement("th");
-            // Filtra o nome do mês removendo células vazias adjacentes
             const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
             thMes.innerText = nomeMes.toUpperCase();
-            thMes.setAttribute("colspan", linha.length); // Mescla todas as colunas automaticamente
+            thMes.setAttribute("colspan", linha.length);
             
-            // Estilização institucional de Comando para o Mês Centralizado
             thMes.style.background = "linear-gradient(90deg, #1e3a8a, #0f4c81)";
             thMes.style.color = "#ffffff";
             thMes.style.fontSize = "16px";
@@ -58,12 +51,11 @@ function renderizarEspelhoCabecalho(calendario) {
             return; 
         }
 
-        // REGRA 2: TRATAMENTO DAS DEMAIS LINHAS (DIAS DA SEMANA, DIAS DO MÊS, ESCALAS)
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
+            td.style.position = "relative"; // Permite posicionar o ponto indicador absolutamente
             td.innerText = celula || "";
             
-            // Estilo base de célula militar limpa
             td.style.padding = "6px 4px";
             td.style.border = "1px solid #cbd5e1";
             td.style.fontSize = "11px";
@@ -71,42 +63,79 @@ function renderizarEspelhoCabecalho(calendario) {
             td.style.minWidth = "28px";
             td.style.textAlign = "center";
 
-            // Recupera a cor de fundo original enviada pelo GAS se ela for válida
             let corFundoOriginal = (coresCabecalho && coresCabecalho[indexLinha]) ? coresCabecalho[indexLinha][indexColuna] : "#ffffff";
-            
-            // Padroniza células sem cor para transparente/branco
             if (corFundoOriginal === "#ffffff" || corFundoOriginal === "transparent") {
                 corFundoOriginal = "";
             }
 
-            // Aplica as cores de fim de semana baseadas na planilha ou na identificação de texto
             if (corFundoOriginal) {
                 td.style.background = corFundoOriginal;
-                // Ajusta o contraste do texto caso o fundo seja escuro
                 td.style.color = (corFundoOriginal === "#424242" || corFundoOriginal === "#000000") ? "#ffffff" : "#1e293b";
             } else {
                 td.style.background = "#ffffff";
                 td.style.color = "#1e293b";
             }
 
-            // REGRA 3: MARCAÇÃO DINÂMICA EM TEMPO REAL DO DIA DE HOJE
-            // Localiza a linha dos dias (geralmente indexLinha = 2 na planilha limpa)
+            // MARCAÇÃO DO DIA DE HOJE
             const valorLinhaDias = linhasValidas[2] ? linhasValidas[2][indexColuna] : "";
-            const valorLinhaSemana = linhasValidas[1] ? String(linhasValidas[1][indexColuna]).toUpperCase() : "";
             
-            // Verifica se a coluna atual bate com o dia numérico de hoje
             if (String(valorLinhaDias).trim() === diaAtualStr) {
                 td.style.borderLeft = "2px solid #2563eb";
                 td.style.borderRight = "2px solid #2563eb";
                 
-                // Se for a própria célula do número ou do dia da semana, aplica o destaque tático azul
                 if (indexLinha === 1 || indexLinha === 2) {
                     td.style.background = "#2563eb"; 
                     td.style.color = "#ffffff";
                     td.style.fontWeight = "bold";
                 } else {
-                    // Nas linhas de escala abaixo do dia de hoje, suaviza o fundo para manter a leitura legível
                     td.style.background = "#eff6ff"; 
+                }
+            }
+
+            // ==========================================
+            // MARCAÇÃO DA AGENDA (PONTO INDICADOR)
+            // ==========================================
+            // Identifica se a célula atual representa o número do dia (indexLinha === 2)
+            if (indexLinha === 2 && celula) {
+                const diaNumero = parseInt(celula, 10);
+                if (!isNaN(diaNumero)) {
+                    // Descobre o mês corrente com base no título do calendário (index 0)
+                    const mesTexto = String(linhasValidas[0].find(c => c && c.trim() !== "")).toUpperCase();
+                    const mesesMap = { JANEIRO:0, FEVEREIRO:1, MARÇO:2, ABRIL:3, MAIO:4, JUNHO:5, JULHO:6, AGOSTO:7, SETEMBRO:8, OUTUBRO:9, NOVEMBRO:10, DEZEMBRO:11 };
+                    
+                    let mesIndex = mesAtualNum;
+                    for (let m in mesesMap) {
+                        if (mesTexto.includes(m)) {
+                            mesIndex = mesesMap[m];
+                            break;
+                        }
+                    }
+
+                    // Monta a data da célula para verificar se há eventos futuros cadastrados
+                    const dataCelula = new Date(anoAtualNum, mesIndex, diaNumero);
+                    const dataCelulaStr = Utilities_formatarDataISO(dataCelula);
+
+                    if (eventosGlobais[dataCelulaStr]) {
+                        // Cria o ponto indicador (dot)
+                        const ponto = document.createElement("span");
+                        ponto.className = "ponto-evento";
+                        
+                        // Tooltip descritiva para passar o mouse e ler os eventos
+                        const resumoEventos = eventosGlobais[dataCelulaStr].map(ev => `• ${ev.descricao}`).join("\n");
+                        ponto.title = resumoEventos; 
+
+                        // Estilos táticos para o ponto indicador
+                        ponto.style.position = "absolute";
+                        ponto.style.bottom = "2px";
+                        ponto.style.left = "50%";
+                        ponto.style.transform = "translateX(-50%)";
+                        ponto.style.width = "5px";
+                        ponto.style.height = "5px";
+                        ponto.style.borderRadius = "50%";
+                        ponto.style.background = "#f43f5e"; // Rosa/Vermelho vibrante de atenção
+                        
+                        td.appendChild(ponto);
+                    }
                 }
             }
             
@@ -117,6 +146,19 @@ function renderizarEspelhoCabecalho(calendario) {
     });
 
     tabela.appendChild(fragment);
+}
+
+// Função utilitária para converter Date para String YYYY-MM-DD localmente
+function Utilities_formatarDataISO(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 
 function renderizarCalendarioAtual() {
