@@ -1,7 +1,9 @@
 const API_URL = CONFIG.API_URL;
 
 async function carregarMapa() {
+
     try {
+
         const response = await fetch(API_URL);
 
         if (!response.ok) {
@@ -12,78 +14,165 @@ async function carregarMapa() {
 
         gerenciarAlertaConexao(false);
 
-        // >>> MELHORIA: Passa os dados de texto e cores originais para o cabeçalho espelho
-       renderizarCalendario(0);
+        // ==========================================
+        // CALENDÁRIOS
+        // ==========================================
+
+        calendarios = dados.calendarios || [];
+
+        calendarioAtual = 0;
+
+        if (calendarios.length > 0) {
+
+            renderizarCalendarioAtual();
+
+        }
+
+        // ==========================================
+        // DADOS GERAIS
+        // ==========================================
 
         dadosGlobaisAfastados = dados.afastados_geral || [];
-        
-        // >>> MELHORIA: Alimenta a lista de devedores do Caveirinha se a função de render existir
+
         if (typeof renderizarListaCaveirinhas === "function") {
-            renderizarListaCaveirinhas(dados.caveirinhas || []);
+
+            renderizarListaCaveirinhas(
+
+                dados.caveirinhas || []
+
+            );
+
         }
 
         renderizarListaMenuAdmin();
 
+        // ==========================================
+        // EQUIPES
+        // ==========================================
+
         const blocos = [];
 
         CONFIG.EQUIPES.forEach(equipe => {
+
             blocos.push({
+
                 d: dados.radiopatrulha[equipe],
+
                 id: `dados-${equipe}`,
+
                 s: "RP",
+
                 c: `cont-${equipe}`
+
             });
 
             blocos.push({
+
                 d: dados.guarda[equipe],
+
                 id: `dados-guarda-${equipe}`,
+
                 s: "GUARDA",
+
                 c: `cont-guarda-${equipe}`
+
             });
+
         });
 
         blocos.forEach(bloco => {
-            renderizarEquipe(bloco.d, bloco.id, bloco.s);
-            atualizarContadoresIndividuais(bloco.id, bloco.c);
+
+            renderizarEquipe(
+
+                bloco.d,
+
+                bloco.id,
+
+                bloco.s
+
+            );
+
+            atualizarContadoresIndividuais(
+
+                bloco.id,
+
+                bloco.c
+
+            );
+
         });
 
-    } catch (erro) {
-        console.error("Erro ao carregar dados:", erro);
-        gerenciarAlertaConexao(true);
     }
+
+    catch (erro) {
+
+        console.error("Erro ao carregar dados:", erro);
+
+        gerenciarAlertaConexao(true);
+
+    }
+
 }
 
 
-// Gerenciador central POST que renderiza Toasts elegantes (Melhoria 3)
+// ==========================================
+// POST
+// ==========================================
+
 async function enviarDadosAPI(payload) {
 
     try {
 
-        lancarToast("Processando solicitação...", "info");
+        lancarToast(
+
+            "Processando solicitação...",
+
+            "info"
+
+        );
 
         await fetch(API_URL, {
+
             method: "POST",
+
             mode: "no-cors",
+
             cache: "no-cache",
+
             headers: {
+
                 "Content-Type": "application/json"
+
             },
+
             body: JSON.stringify(payload)
+
         });
 
-        lancarToast("Operação enviada com sucesso!", "sucesso");
+        lancarToast(
+
+            "Operação enviada com sucesso!",
+
+            "sucesso"
+
+        );
 
         setTimeout(carregarMapa, 1200);
 
         return true;
 
-    } catch (erro) {
+    }
 
-        console.error("Erro ao enviar dados:", erro);
+    catch (erro) {
+
+        console.error(erro);
 
         lancarToast(
+
             "Não foi possível comunicar com o servidor.",
+
             "erro"
+
         );
 
         return false;
