@@ -229,35 +229,39 @@ function atualizarContadoresIndividuais(containerId, contadorId) {
     painelContador.innerText = `Prontos: ${prontos} | Indisp: ${indisp}`;
 }
 
-function renderizarCalendarioAtual() {
+function renderizarCalendarioAtual(){
 
-    if (!calendarios.length) return;
+    if(!calendarios.length) return;
 
     const calendario = calendarios[calendarioAtual];
 
     renderizarEspelhoCabecalho(
-
         calendario.dados,
-
         calendario.cores
-
     );
 
-   function atualizarTituloCalendario() {
+    atualizarTituloCalendario();
 
-    if (!calendarios.length) return;
+}
+
+function atualizarTituloCalendario(){
+
+    if(!calendarios.length) return;
 
     const primeiraLinha = calendarios[calendarioAtual].dados[0];
 
-    const nomeMes = primeiraLinha.find(c => c && c.trim() !== "");
+    const nomeMes = primeiraLinha.find(c=>c && c.trim()!="");
 
-    document.getElementById("titulo-calendario").innerText = nomeMes;
+    const titulo = document.getElementById("titulo-calendario");
+
+    if(titulo)
+        titulo.innerText = nomeMes;
 
 }
 
-function proximoMes() {
+function proximoMes(){
 
-    if (calendarioAtual >= calendarios.length - 1)
+    if(calendarioAtual >= calendarios.length-1)
         return;
 
     calendarioAtual++;
@@ -266,14 +270,13 @@ function proximoMes() {
 
 }
 
-function proximoMes() {
+function mesAnterior(){
 
-    if (calendarioAtual >= calendarios.length - 1)
+    if(calendarioAtual<=0)
         return;
 
-    calendarioAtual++;
+    calendarioAtual--;
 
     renderizarCalendarioAtual();
 
 }
-
