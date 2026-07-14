@@ -1,42 +1,41 @@
 function renderizarEspelhoCabecalho(calendario) {
-    if (!calendario) return;
-    
-    const linhasCabecalho = calendario.dados;
-    const coresCabecalho = calendario.cores;
-    
-    const eventosGlobais = window.dadosGlobaisEventos || {}; 
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
     
-    if (!tabela) return;
+    if (!tabela) {
+        console.error("Erro Crítico: Não foi encontrada uma tag com id='tabela-espelho-sheets' no seu HTML.");
+        return;
+    }
 
-    if (!linhasCabecalho || linhasCabecalho.length === 0) {
+    // 1. LIMPA O "Carregando calendário..." IMEDIATAMENTE
+    tabela.innerHTML = "";
+
+    if (!calendario || !calendario.dados || calendario.dados.length === 0) {
+        console.warn("Aviso: Dados do calendário vieram vazios ou nulos da API.");
         if (wrapper) wrapper.style.display = "none";
+        tabela.innerHTML = "<tr><td style='padding:10px; color:red;'>Nenhum dado de calendário encontrado na planilha.</td></tr>";
         return;
     }
 
     if (wrapper) wrapper.style.display = "block";
-    tabela.innerHTML = "";
 
-    // Filtra linhas que possuem conteúdo real
+    const linhasCabecalho = calendario.dados;
+    const coresCabecalho = calendario.cores;
+    const eventosGlobais = window.dadosGlobaisEventos || {}; 
+
+    // Remove linhas totalmente vazias
     const linhasValidas = linhasCabecalho.filter(linha => 
         linha && linha.some(celula => celula !== null && String(celula).trim() !== "")
     );
-
-    if (linhasValidas.length === 0) return;
 
     const dataHoje = new Date();
     const diaHojeStr = String(dataHoje.getDate()).trim(); 
     const mesAtualNum = dataHoje.getMonth(); 
     const anoAtualNum = dataHoje.getFullYear();
 
-    // =========================================================================
-    // DESCOBERTA DINÂMICA DA LINHA DOS DIAS
-    // Procura qual linha possui números sequenciais característicos de dias (ex: 1, 2, 3...)
-    // =========================================================================
+    // Localiza a linha dos dias (onde tem 1, 2, 3...)
     let indexLinhaDias = -1;
     for (let i = 0; i < linhasValidas.length; i++) {
-        // Verifica se a linha tem valores numéricos pequenos típicos de dias do mês
         let temDiasValidos = linhasValidas[i].some(c => {
             let n = parseInt(c, 10);
             return !isNaN(n) && n >= 1 && n <= 31;
@@ -52,8 +51,8 @@ function renderizarEspelhoCabecalho(calendario) {
     linhasValidas.forEach((linha, indexLinha) => {
         const tr = document.createElement("tr");
         
-        // Se for a primeira linha e parecer um título (um texto longo isolado)
-        if (indexLinha === 0 && linha.filter(c => c && String(c).trim() !== "").length <= 2) {
+        // Se for a primeira linha (Título do Mês)
+        if (indexLinha === 0) {
             const thMes = document.createElement("th");
             const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
@@ -77,7 +76,7 @@ function renderizarEspelhoCabecalho(calendario) {
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
             td.style.position = "relative"; 
-            td.innerText = celula !== null && celula !== undefined ? celula : "";
+            td.innerText = (celula !== null && celula !== undefined) ? celula : "";
             
             td.style.padding = "6px 4px";
             td.style.border = "1px solid #cbd5e1";
@@ -86,7 +85,7 @@ function renderizarEspelhoCabecalho(calendario) {
             td.style.minWidth = "28px";
             td.style.textAlign = "center";
 
-            // Aplicação de cores vindas do Sheets
+            // Cores vindas do Sheets
             let corFundoOriginal = (coresCabecalho && coresCabecalho[indexLinha]) ? coresCabecalho[indexLinha][indexColuna] : "#ffffff";
             if (corFundoOriginal === "#ffffff" || corFundoOriginal === "transparent") {
                 corFundoOriginal = "";
@@ -100,29 +99,22 @@ function renderizarEspelhoCabecalho(calendario) {
                 td.style.color = "#1e293b";
             }
 
-            // ==========================================================
-            // DESTAQUE DINÂMICO DO DIA DE HOJE
-            // ==========================================================
-            if (indexLinhaDias !== -1) {
+            // Destaque do Dia de Hoje
+            if (indexLinhaDias !== -1 && linhasValidas[indexLinhaDias]) {
                 const valorDiaNaColuna = String(linhasValidas[indexLinhaDias][indexColuna]).trim();
-                
                 if (valorDiaNaColuna && valorDiaNaColuna === diaHojeStr) {
                     td.style.borderLeft = "2px solid #2563eb";
                     td.style.borderRight = "2px solid #2563eb";
-                    
                     if (indexLinha === indexLinhaDias) {
                         td.style.background = "#2563eb"; 
                         td.style.color = "#ffffff";
-                        td.style.fontWeight = "bold";
                     } else {
                         td.style.background = "#eff6ff"; 
                     }
                 }
             }
 
-            // ==========================================
-            // MARCAÇÃO DA AGENDA (PONTO INDICADOR)
-            // ==========================================
+            // Marcador de Eventos da Agenda
             if (indexLinha === indexLinhaDias && celula) {
                 const diaNumero = parseInt(celula, 10);
                 if (!isNaN(diaNumero)) {
@@ -137,18 +129,12 @@ function renderizarEspelhoCabecalho(calendario) {
                         }
                     }
 
-                    const anoStr = String(anoAtualNum);
-                    const mesStr = String(mesIndex + 1).padStart(2, '0');
-                    const diaStr = String(diaNumero).padStart(2, '0');
-                    const dataCelulaStr = `${anoStr}-${mesStr}-${diaStr}`;
+                    const dataCelulaStr = `${anoAtualNum}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
 
                     if (eventosGlobais[dataCelulaStr]) {
                         const ponto = document.createElement("span");
                         ponto.className = "ponto-evento";
-                        
-                        const resumoEventos = eventosGlobais[dataCelulaStr].map(ev => `• ${ev.descricao}`).join("\n");
-                        ponto.title = resumoEventos; 
-
+                        ponto.title = eventosGlobais[dataCelulaStr].map(ev => `• ${ev.descricao}`).join("\n");
                         ponto.style.position = "absolute";
                         ponto.style.bottom = "2px";
                         ponto.style.left = "50%";
@@ -157,15 +143,12 @@ function renderizarEspelhoCabecalho(calendario) {
                         ponto.style.height = "5px";
                         ponto.style.borderRadius = "50%";
                         ponto.style.background = "#f43f5e"; 
-                        
                         td.appendChild(ponto);
                     }
                 }
             }
-            
             tr.appendChild(td);
         });
-
         fragment.appendChild(tr);
     });
 
@@ -173,47 +156,83 @@ function renderizarEspelhoCabecalho(calendario) {
 }
 
 function renderizarCalendarioAtual() {
-    if (!calendarios.length) return;
+    // Busca a variável de forma segura na janela global
+    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
 
-    const calendario = calendarios[calendarioAtual];
+    if (!listaCalendarios || !listaCalendarios.length) {
+        console.warn("Aviso: Variável 'calendarios' ainda não está pronta ou está vazia.");
+        return;
+    }
+
+    // Garante que o index atual é válido
+    const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
+    const calendario = listaCalendarios[index];
+
+    if (!calendario) {
+        console.error("Erro: Calendário não encontrado para o índice:", index);
+        return;
+    }
+
     renderizarEspelhoCabecalho(calendario);
     atualizarTituloCalendario();
     atualizarBotoesCalendario();
 }
 
 function atualizarTituloCalendario() {
-    if (!calendarios.length) return;
+    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
+    const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
+
+    if (!listaCalendarios || !listaCalendarios[index]) return;
 
     const titulo = document.getElementById("titulo-calendario");
     if (!titulo) return;
 
-    const nomeMes = calendarios[calendarioAtual].dados[0].find(c => c && c.trim() !== "");
-    titulo.innerText = nomeMes || "";
+    const dadosCalendario = listaCalendarios[index].dados;
+    if (dadosCalendario && dadosCalendario[0]) {
+        const nomeMes = dadosCalendario[0].find(c => c && String(c).trim() !== "");
+        titulo.innerText = nomeMes || "";
+    }
 }
 
 function atualizarBotoesCalendario() {
+    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
+    const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
+
     const btnAnterior = document.getElementById("btn-mes-anterior");
     const btnProximo = document.getElementById("btn-proximo-mes");
 
+    if (!listaCalendarios) return;
+
     if (btnAnterior) {
-        btnAnterior.disabled = calendarioAtual === 0;
+        btnAnterior.disabled = index === 0;
     }
 
     if (btnProximo) {
-        btnProximo.disabled = calendarioAtual >= calendarios.length - 1;
+        btnProximo.disabled = index >= listaCalendarios.length - 1;
     }
 }
 
 function proximoMes() {
-    if (calendarioAtual >= calendarios.length - 1) return;
+    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
+    let index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
 
-    calendarioAtual++;
+    if (!listaCalendarios || index >= listaCalendarios.length - 1) return;
+
+    index++;
+    if (window.calendarioAtual !== undefined) window.calendarioAtual = index;
+    if (typeof calendarioAtual !== 'undefined') calendarioAtual = index;
+
     renderizarCalendarioAtual();
 }
 
 function mesAnterior() {
-    if (calendarioAtual <= 0) return;
+    let index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
 
-    calendarioAtual--;
+    if (index <= 0) return;
+
+    index--;
+    if (window.calendarioAtual !== undefined) window.calendarioAtual = index;
+    if (typeof calendarioAtual !== 'undefined') calendarioAtual = index;
+
     renderizarCalendarioAtual();
 }
