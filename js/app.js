@@ -7,10 +7,22 @@ let dadosGlobaisAfastados = [];
 let calendarioAtual = 0;
 let calendarios = [];
 
-document.addEventListener("DOMContentLoaded", () => { 
+document.addEventListener("DOMContentLoaded", () => {
+
     criarEstruturaToasts();
+
     carregarMapa();
+
     configurarAtualizacaoAutomatica();
+
+    document
+        .getElementById("btn-mes-anterior")
+        ?.addEventListener("click", mesAnterior);
+
+    document
+        .getElementById("btn-mes-proximo")
+        ?.addEventListener("click", proximoMes);
+
 });
 
 // Exibe indicador visual de carregamento nas tabelas (Melhoria 1)
