@@ -4,6 +4,8 @@
 let instanciasSortable = [];
 let modoEdicao = false;
 let dadosGlobaisAfastados = [];
+let calendarioAtual = 0;
+let calendarios = [];
 
 document.addEventListener("DOMContentLoaded", () => { 
     criarEstruturaToasts();
