@@ -145,29 +145,38 @@
     <!-- Conteúdo Principal -->
     <main>
 
-     <section id="painel-calendario">
+<!-- Seção do Calendário Corrigida -->
+    <section id="painel-calendario">
+        <div class="calendario-topo">
+            <button id="btn-mes-anterior" onclick="mesAnterior()">
+                ◀
+            </button>
 
-    <div class="calendario-topo">
+            <h2 id="titulo-calendario">
+                Carregando...
+            </h2>
 
-        <button id="btn-mes-anterior">
-            ◀
-        </button>
+            <button id="btn-proximo-mes" onclick="proximoMes()">
+                ▶
+            </button>
+        </div>
 
-        <h2 id="titulo-calendario">
-            Escala
-        </h2>
-
-        <button id="btn-proximo-mes">
-            ▶
-        </button>
-
-    </div>
-
-    <div id="calendario-container">
-
-        <p class="carregando">
-            Carregando calendário...
-        </p>
+        <!-- Wrapper que o JS usa para controlar a exibição -->
+        <div id="wrapper-cabecalho-sheets">
+            <div id="calendario-container" style="overflow-x: auto; width: 100%;">
+                <!-- A tabela real que o JS procura usando o ID obrigatório -->
+                <table id="tabela-espelho-sheets" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 15px; color: #64748b; font-style: italic; text-align: center;">
+                                Carregando calendário...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     </div>
 
