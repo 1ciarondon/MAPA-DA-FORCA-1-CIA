@@ -249,3 +249,13 @@ function mesAnterior() {
 
     renderizarCalendarioAtual();
 }
+
+// =====================================
+// JANELA DE ANOTAÇÕES
+// =====================================
+
+function abrirJanelaAnotacao(data) {
+
+    alert("Anotação do dia: " + data);
+
+}
