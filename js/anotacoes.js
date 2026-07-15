@@ -56,9 +56,29 @@ function abrirJanelaAnotacao(data) {
 
     }
 
-    modal.style.display = "flex";
+   modal.style.display = "flex";
 
-    document.getElementById("data-anotacao").innerText = data;
+document.getElementById("data-anotacao").innerText = data;
+
+
+// Carrega anotação existente
+const anotacaoSalva = localStorage.getItem("anotacao_" + data);
+
+if (anotacaoSalva) {
+
+    const anotacao = JSON.parse(anotacaoSalva);
+
+    document.getElementById("titulo-anotacao").value = anotacao.titulo || "";
+
+    document.getElementById("texto-anotacao").value = anotacao.texto || "";
+
+} else {
+
+    document.getElementById("titulo-anotacao").value = "";
+
+    document.getElementById("texto-anotacao").value = "";
+
+}
 
 }
 
@@ -71,10 +91,16 @@ function fecharJanelaAnotacao(){
 function salvarAnotacao(){
 
     const data = document.getElementById("data-anotacao").innerText;
-    const titulo = document.getElementById("titulo-anotacao").value;
-    const texto = document.getElementById("texto-anotacao").value;
+    const titulo = document.getElementById("titulo-anotacao").value.trim();
+    const texto = document.getElementById("texto-anotacao").value.trim();
+
+    if (!titulo && !texto) {
+        alert("Digite uma anotação antes de salvar.");
+        return;
+    }
 
     const anotacao = {
+        data: data,
         titulo: titulo,
         texto: texto
     };
@@ -88,4 +114,3 @@ function salvarAnotacao(){
 
     fecharJanelaAnotacao();
 }
-
