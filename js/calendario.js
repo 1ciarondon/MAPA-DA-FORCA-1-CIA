@@ -250,12 +250,3 @@ function mesAnterior() {
     renderizarCalendarioAtual();
 }
 
-// =====================================
-// JANELA DE ANOTAÇÕES
-// =====================================
-
-function abrirJanelaAnotacao(data) {
-
-    console.log("Abrindo janela de evento para o dia:", data);
-
-}
