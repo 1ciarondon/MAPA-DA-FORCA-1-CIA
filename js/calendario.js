@@ -249,25 +249,4 @@ function mesAnterior() {
 
     renderizarCalendarioAtual();
 
-    function salvarAnotacao(){
-
-    const data = document.getElementById("data-anotacao").innerText;
-    const titulo = document.getElementById("titulo-anotacao").value;
-    const texto = document.getElementById("texto-anotacao").value;
-
-    const anotacao = {
-        titulo: titulo,
-        texto: texto
-    };
-
-    localStorage.setItem(
-        "anotacao_" + data,
-        JSON.stringify(anotacao)
-    );
-
-    alert("Anotação salva!");
-
-    fecharJanelaAnotacao();
-}
-}
-
+    
