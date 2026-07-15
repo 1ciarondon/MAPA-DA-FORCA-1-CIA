@@ -40,9 +40,15 @@ async function carregarMapa() {
             calendarioAtual = window.calendarioAtual;
         }
 
-        if (window.calendarios.length > 0) {
-            renderizarCalendarioAtual();
-        }
+        console.log("1");
+
+if (window.calendarios.length > 0) {
+    console.log("2");
+    renderizarCalendarioAtual();
+    console.log("3");
+}
+
+console.log("4");
 
         // ==========================================
         // DADOS GERAIS
