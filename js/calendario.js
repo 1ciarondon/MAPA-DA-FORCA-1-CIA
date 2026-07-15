@@ -149,15 +149,49 @@ function renderizarEspelhoCabecalho(calendario) {
                 }
             }
             // Apenas os dias do mês podem ser clicados
-if(indexLinha === 2 && celula){
+if(indexLinha === indexLinhaDias && celula){
 
-    td.style.cursor = "pointer";
+    const diaNumeroClique = parseInt(celula, 10);
 
-    td.onclick = () => {
+    if(!isNaN(diaNumeroClique)){
 
-        abrirJanelaAnotacao(dataCelulaStr);
+        const mesTextoClique = String(linhasValidas[0].find(c => c && String(c).trim() !== "")).toUpperCase();
 
-    };
+        const mesesMapClique = {
+            JANEIRO:0,
+            FEVEREIRO:1,
+            MARÇO:2,
+            ABRIL:3,
+            MAIO:4,
+            JUNHO:5,
+            JULHO:6,
+            AGOSTO:7,
+            SETEMBRO:8,
+            OUTUBRO:9,
+            NOVEMBRO:10,
+            DEZEMBRO:11
+        };
+
+        let mesIndexClique = mesAtualNum;
+
+        for (let m in mesesMapClique) {
+            if (mesTextoClique.includes(m)) {
+                mesIndexClique = mesesMapClique[m];
+                break;
+            }
+        }
+
+        const dataClique = `${anoAtualNum}-${String(mesIndexClique + 1).padStart(2,'0')}-${String(diaNumeroClique).padStart(2,'0')}`;
+
+        td.style.cursor = "pointer";
+
+        td.onclick = () => {
+
+            abrirJanelaAnotacao(dataClique);
+
+        };
+
+    }
 
 }
             tr.appendChild(td);
