@@ -77,6 +77,7 @@ function renderizarEspelhoCabecalho(calendario) {
             const td = document.createElement("td");
             td.style.position = "relative"; 
             td.innerText = (celula !== null && celula !== undefined) ? celula : "";
+            td.dataset.valor = celula;
             
             td.style.padding = "6px 4px";
             td.style.border = "1px solid #cbd5e1";
@@ -147,6 +148,18 @@ function renderizarEspelhoCabecalho(calendario) {
                     }
                 }
             }
+            // Apenas os dias do mês podem ser clicados
+if(indexLinha === 2 && celula){
+
+    td.style.cursor = "pointer";
+
+    td.onclick = () => {
+
+        abrirJanelaAnotacao(celula);
+
+    };
+
+}
             tr.appendChild(td);
         });
         fragment.appendChild(tr);
