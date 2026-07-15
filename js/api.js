@@ -9,7 +9,7 @@ window.dadosGlobaisAfastados = window.dadosGlobaisAfastados || [];
 window.dadosGlobaisEventos = window.dadosGlobaisEventos || {};
 
 async function carregarMapa() {
-    console.log(dados.calendarios);
+    
     try {
         const response = await fetch(API_URL);
 
@@ -18,6 +18,7 @@ async function carregarMapa() {
         }
 
         const dados = await response.json();
+        console.log(dados.calendarios);
 
         gerenciarAlertaConexao(false);
 
