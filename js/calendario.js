@@ -256,6 +256,6 @@ function mesAnterior() {
 
 function abrirJanelaAnotacao(data) {
 
-    alert("Anotação do dia: " + data);
+    console.log("Abrindo janela de evento para o dia:", data);
 
 }
