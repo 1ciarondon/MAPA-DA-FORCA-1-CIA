@@ -28,7 +28,9 @@ async function carregarMapa() {
         // ==========================================
         // CALENDÁRIOS (ATRIBUÍDOS DIRETAMENTE AO WINDOW)
         // ==========================================
+        
         window.calendarios = dados.calendarios || [];
+        console.log(calendarios);
         window.calendarioAtual = 0;
 
         // Força a atualização local das variáveis caso o outro arquivo precise delas diretamente
