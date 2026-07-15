@@ -131,6 +131,30 @@ function renderizarEspelhoCabecalho(calendario) {
                     }
 
                     const dataCelulaStr = `${anoAtualNum}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
+                    
+                    // Verifica se existe anotação salva para este dia
+const anotacaoSalva = localStorage.getItem("anotacao_" + dataCelulaStr);
+
+if (anotacaoSalva) {
+
+    const pontoAnotacao = document.createElement("span");
+
+    pontoAnotacao.className = "ponto-anotacao";
+
+    pontoAnotacao.title = "Existe anotação neste dia";
+
+    pontoAnotacao.style.position = "absolute";
+    pontoAnotacao.style.bottom = "2px";
+    pontoAnotacao.style.left = "50%";
+    pontoAnotacao.style.transform = "translateX(-50%)";
+    pontoAnotacao.style.width = "7px";
+    pontoAnotacao.style.height = "7px";
+    pontoAnotacao.style.borderRadius = "50%";
+    pontoAnotacao.style.background = "#dc2626";
+
+    td.appendChild(pontoAnotacao);
+
+}
 
                     if (eventosGlobais[dataCelulaStr]) {
                         const ponto = document.createElement("span");
