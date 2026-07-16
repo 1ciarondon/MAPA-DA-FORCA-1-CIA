@@ -37,6 +37,43 @@ function descobrirMesCalendario(calendario){
 
 }
 
+function obterAnoMesDoCalendario(calendario){
+
+    const nomeMes = String(
+        calendario.dados[0].find(
+            c => c && String(c).trim() !== ""
+        )
+    ).toUpperCase();
+
+
+    const meses = [
+        "JANEIRO",
+        "FEVEREIRO",
+        "MARÇO",
+        "ABRIL",
+        "MAIO",
+        "JUNHO",
+        "JULHO",
+        "AGOSTO",
+        "SETEMBRO",
+        "OUTUBRO",
+        "NOVEMBRO",
+        "DEZEMBRO"
+    ];
+
+
+    const mes = meses.findIndex(
+        m => nomeMes.includes(m)
+    );
+
+
+    return {
+        ano: 2026,
+        mes: mes
+    };
+
+}
+
 // ==========================================================
 // GERADOR AUTOMÁTICO DE CALENDÁRIO DE ESCALA
 // Base da sequência: 01/03/2026
@@ -235,8 +272,11 @@ const diaHoje = dataHoje.getDate();
 const mesHoje = dataHoje.getMonth();
 const anoHoje = dataHoje.getFullYear();
 
-const mesAtualNum = mesHoje;
-const anoAtualNum = anoHoje;
+
+const calendarioData = obterAnoMesDoCalendario(calendario);
+
+const mesAtualNum = calendarioData.mes;
+const anoAtualNum = calendarioData.ano;
 
     // Localiza a linha dos dias (onde tem 1, 2, 3...)
     let indexLinhaDias = -1;
@@ -262,9 +302,12 @@ const anoAtualNum = anoHoje;
             const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
             thMes.innerText = nomeMes.toUpperCase();
-            thMes.setAttribute("colspan", linha ? linha.length : 1);
+            thMes.setAttribute(
+    "colspan",
+    linhasValidas[1].length
+);
             
-            thMes.style.background = "linear-gradient(90deg, #1e3a8a, #0f4c81)";
+            thMes.style.background = "#0f4c81";
             thMes.style.color = "#ffffff";
             thMes.style.fontSize = "16px";
             thMes.style.fontWeight = "800";
@@ -272,6 +315,8 @@ const anoAtualNum = anoHoje;
             thMes.style.padding = "10px";
             thMes.style.border = "2px solid #0f4c81";
             thMes.style.textAlign = "center";
+            thMes.style.verticalAlign = "middle";
+            thMes.style.height = "40px";
             
             tr.appendChild(thMes);
             fragment.appendChild(tr);
@@ -321,6 +366,40 @@ td.style.fontWeight = "700";
 td.style.minWidth = "38px";
 td.style.height = "35px";
 td.style.textAlign = "center";
+            // Marca finais de semana
+
+if(indexLinha === indexLinhaDias && celula){
+
+    const dia = Number(celula);
+
+    const data = new Date(
+        anoAtualNum,
+        mesAtualNum,
+        dia
+    );
+
+
+    const semana = data.getDay();
+
+
+    // Domingo
+    if(semana === 0){
+
+        td.style.background = "#d4af37";
+        td.style.color = "#000";
+
+    }
+
+
+    // Sábado
+    if(semana === 6){
+
+        td.style.background = "#2563eb";
+        td.style.color = "#fff";
+
+    }
+
+}
 td.style.verticalAlign = "middle";
 
             // Cores vindas do Sheets
@@ -462,7 +541,6 @@ function renderizarCalendarioAtual() {
     }
 
     renderizarEspelhoCabecalho(calendario);
-    atualizarTituloCalendario();
     atualizarBotoesCalendario();
 }
 
