@@ -531,6 +531,12 @@ function renderizarCalendarioAtual() {
     const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
     const calendario = listaCalendarios[index];
 
+    console.log(
+    "CALENDÁRIO ATUAL:",
+    index,
+    calendario.dados[0][0]
+);
+
     if (!calendario) {
         console.error("Erro: Calendário não encontrado para o índice:", index);
         return;
