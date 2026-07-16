@@ -28,28 +28,38 @@ async function carregarMapa() {
         window.dadosGlobaisEventos = dados.eventos || {};
 
         // ==========================================
-        // CALENDÁRIOS (ATRIBUÍDOS DIRETAMENTE AO WINDOW)
-        // ==========================================
-        console.log(calendarios);
-        window.calendarios = dados.calendarios || [];
-        window.calendarioAtual = 0;
+// CALENDÁRIOS AUTOMÁTICOS
+// MÊS ATUAL + 5 FUTUROS
+// BASE DA ESCALA: 01/03/2026
+// ==========================================
 
-        // Força a atualização local das variáveis caso o outro arquivo precise delas diretamente
-        if (typeof calendarios !== 'undefined') {
-            calendarios = window.calendarios;
-            calendarioAtual = window.calendarioAtual;
-        }
+window.calendarios = gerarCalendariosAutomaticos();
 
-        console.log("1");
+window.calendarioAtual = 0;
 
-if (window.calendarios.length > 0) {
-    console.log("2");
-    renderizarCalendarioAtual();
-    console.log("3");
+
+// Sincroniza variáveis globais antigas
+if (typeof calendarios !== 'undefined') {
+
+    calendarios = window.calendarios;
+
 }
 
-console.log("4");
+if (typeof calendarioAtual !== 'undefined') {
 
+    calendarioAtual = window.calendarioAtual;
+
+}
+
+
+console.log(
+    "Calendários gerados automaticamente:",
+    window.calendarios
+);
+
+
+renderizarCalendarioAtual();
+        
         // ==========================================
         // DADOS GERAIS
         // ==========================================
