@@ -302,11 +302,7 @@ const anoAtualNum = calendarioData.ano;
             const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
             thMes.innerText = nomeMes.toUpperCase();
-            thMes.setAttribute(
-    "colspan",
-    linhasValidas[1].length
-);
-            
+           thMes.setAttribute("colspan",linhasValidas[indexLinhaDias].length);
             thMes.style.background = "#0f4c81";
             thMes.style.color = "#ffffff";
             thMes.style.fontSize = "16px";
@@ -544,20 +540,14 @@ function renderizarCalendarioAtual() {
     atualizarBotoesCalendario();
 }
 
-function atualizarTituloCalendario() {
-    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
-    const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
-
-    if (!listaCalendarios || !listaCalendarios[index]) return;
+function atualizarTituloCalendario(){
 
     const titulo = document.getElementById("titulo-calendario");
-    if (!titulo) return;
 
-    const dadosCalendario = listaCalendarios[index].dados;
-    if (dadosCalendario && dadosCalendario[0]) {
-        const nomeMes = dadosCalendario[0].find(c => c && String(c).trim() !== "");
-        titulo.innerText = "";
-    }
+    if(!titulo) return;
+
+    titulo.innerText = "";
+
 }
 
 function atualizarBotoesCalendario() {
