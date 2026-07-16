@@ -29,6 +29,168 @@ function descobrirMesCalendario(calendario){
 
 }
 
+// ==========================================================
+// GERADOR AUTOMÁTICO DE CALENDÁRIO DE ESCALA
+// Base da sequência: 01/03/2026
+// ==========================================================
+
+function gerarCalendariosAutomaticos(){
+
+    const hoje = new Date();
+
+    const lista = [];
+
+    // Remove horário para evitar erro de comparação
+    hoje.setHours(0,0,0,0);
+
+
+    for(let i = 0; i <= 5; i++){
+
+        const dataMes = new Date(
+            hoje.getFullYear(),
+            hoje.getMonth() + i,
+            1
+        );
+
+
+        lista.push(
+            gerarMesEscala(
+                dataMes.getFullYear(),
+                dataMes.getMonth()
+            )
+        );
+
+    }
+
+
+    return lista;
+
+}
+
+
+
+function gerarMesEscala(ano, mes){
+
+    const nomesMeses = [
+        "JANEIRO",
+        "FEVEREIRO",
+        "MARÇO",
+        "ABRIL",
+        "MAIO",
+        "JUNHO",
+        "JULHO",
+        "AGOSTO",
+        "SETEMBRO",
+        "OUTUBRO",
+        "NOVEMBRO",
+        "DEZEMBRO"
+    ];
+
+
+    const primeiroDia = new Date(ano, mes, 1);
+
+    const ultimoDia = new Date(
+        ano,
+        mes + 1,
+        0
+    ).getDate();
+
+
+
+    const linhaMes = [
+        nomesMeses[mes]
+    ];
+
+
+    const linhaDias = [];
+    const linhaPrimeiroTurno = [];
+    const linhaSegundoTurno = [];
+
+
+
+    for(let dia = 1; dia <= ultimoDia; dia++){
+
+
+        linhaDias.push(dia);
+
+
+        const dataAtual = new Date(
+            ano,
+            mes,
+            dia
+        );
+
+
+        const referencia = new Date(
+    2026,
+    2,
+    1
+);
+
+referencia.setHours(0,0,0,0);
+dataAtual.setHours(0,0,0,0);
+
+
+        const diferenca =
+            Math.floor(
+                (dataAtual - referencia)
+                /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        const ciclo =
+            ((diferenca % 5) + 5) % 5;
+
+
+
+        // Primeiro turno
+        const turno1 = [
+            "B",
+            "A",
+            "E",
+            "C",
+            "D"
+        ][ciclo];
+
+
+
+        // Segundo turno
+        const turno2 = [
+            "D",
+            "B",
+            "A",
+            "E",
+            "C"
+        ][ciclo];
+
+
+
+        linhaPrimeiroTurno.push(turno1);
+
+        linhaSegundoTurno.push(turno2);
+
+
+    }
+
+
+
+    return {
+
+        dados:[
+            linhaMes,
+            linhaDias,
+            linhaPrimeiroTurno,
+            linhaSegundoTurno
+        ],
+
+        cores:[]
+
+    };
+
+
+}
+
 function renderizarEspelhoCabecalho(calendario) {
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
@@ -59,10 +221,14 @@ function renderizarEspelhoCabecalho(calendario) {
         linha && linha.some(celula => celula !== null && String(celula).trim() !== "")
     );
 
-    const dataHoje = new Date();
-    const diaHojeStr = String(dataHoje.getDate()).trim(); 
-    const mesAtualNum = descobrirMesCalendario(calendario);
-    const anoAtualNum = dataHoje.getFullYear();
+   const dataHoje = new Date();
+
+const diaHoje = dataHoje.getDate();
+const mesHoje = dataHoje.getMonth();
+const anoHoje = dataHoje.getFullYear();
+
+const mesAtualNum = mesHoje;
+const anoAtualNum = anoHoje;
 
     // Localiza a linha dos dias (onde tem 1, 2, 3...)
     let indexLinhaDias = -1;
@@ -106,6 +272,36 @@ function renderizarEspelhoCabecalho(calendario) {
 
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
+            // Destaque real do dia atual
+if(indexLinha === indexLinhaDias){
+
+    const diaCelula = parseInt(celula,10);
+
+    if(!isNaN(diaCelula)){
+
+        const mesDoCalendario = descobrirMesCalendario(calendario);
+
+
+        const dataCelula = new Date(
+            anoAtualNum,
+            mesDoCalendario,
+            diaCelula
+        );
+
+
+        if(
+            dataCelula.getDate() === diaHoje &&
+            dataCelula.getMonth() === mesHoje &&
+            dataCelula.getFullYear() === anoHoje
+        ){
+
+            td.classList.add("dia-hoje");
+
+        }
+
+    }
+
+}
             td.style.position = "relative"; 
             td.innerText = (celula !== null && celula !== undefined) ? celula : "";
             td.dataset.valor = celula;
@@ -137,7 +333,7 @@ function renderizarEspelhoCabecalho(calendario) {
             if (indexLinha === indexLinhaDias && celula) {
                 const diaNumero = parseInt(celula, 10);
                 if (!isNaN(diaNumero)) {
-                    const mesIndex = mesAtualNum;
+                    const mesIndex = descobrirMesCalendario(calendario);
 
                     const dataCelulaStr = `${anoAtualNum}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
                     
@@ -188,7 +384,7 @@ if(indexLinha === indexLinhaDias && celula){
 
     if(!isNaN(diaNumeroClique)){
 
-        const mesIndexClique = mesAtualNum;
+        const mesIndexClique = descobrirMesCalendario(calendario);
 
         const dataClique = `${anoAtualNum}-${String(mesIndexClique + 1).padStart(2,'0')}-${String(diaNumeroClique).padStart(2,'0')}`;
 
