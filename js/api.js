@@ -5,8 +5,8 @@ const API_URL = CONFIG.API_URL;
 // =========================================================================
 window.calendarios = [];
 window.calendarioAtual = 0;
-window.dadosGlobaisAfastados = window.dadosGlobaisAfastados || [];
-window.dadosGlobaisEventos = window.dadosGlobaisEventos || {};
+window.dadosGlobaisAfastados = [];
+window.dadosGlobaisEventos = {};
 
 async function carregarMapa() {
     
