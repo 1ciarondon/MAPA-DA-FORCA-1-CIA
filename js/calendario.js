@@ -1,3 +1,34 @@
+function descobrirMesCalendario(calendario){
+
+    const nomeMes = String(
+        calendario.dados[0].find(
+            c => c && String(c).trim() !== ""
+        )
+    ).toUpperCase();
+
+
+    const meses = [
+        "JANEIRO",
+        "FEVEREIRO",
+        "MARÇO",
+        "ABRIL",
+        "MAIO",
+        "JUNHO",
+        "JULHO",
+        "AGOSTO",
+        "SETEMBRO",
+        "OUTUBRO",
+        "NOVEMBRO",
+        "DEZEMBRO"
+    ];
+
+
+    return meses.findIndex(
+        mes => nomeMes.includes(mes)
+    );
+
+}
+
 function renderizarEspelhoCabecalho(calendario) {
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
@@ -30,7 +61,7 @@ function renderizarEspelhoCabecalho(calendario) {
 
     const dataHoje = new Date();
     const diaHojeStr = String(dataHoje.getDate()).trim(); 
-    const mesAtualNum = dataHoje.getMonth(); 
+    const mesAtualNum = descobrirMesCalendario(calendario);
     const anoAtualNum = dataHoje.getFullYear();
 
     // Localiza a linha dos dias (onde tem 1, 2, 3...)
@@ -100,35 +131,13 @@ function renderizarEspelhoCabecalho(calendario) {
                 td.style.color = "#1e293b";
             }
 
-            // Destaque do Dia de Hoje
-            if (indexLinhaDias !== -1 && linhasValidas[indexLinhaDias]) {
-                const valorDiaNaColuna = String(linhasValidas[indexLinhaDias][indexColuna]).trim();
-                if (valorDiaNaColuna && valorDiaNaColuna === diaHojeStr) {
-                    td.style.borderLeft = "2px solid #2563eb";
-                    td.style.borderRight = "2px solid #2563eb";
-                    if (indexLinha === indexLinhaDias) {
-                        td.style.background = "#2563eb"; 
-                        td.style.color = "#ffffff";
-                    } else {
-                        td.style.background = "#eff6ff"; 
-                    }
-                }
-            }
+           
 
             // Marcador de Eventos da Agenda
             if (indexLinha === indexLinhaDias && celula) {
                 const diaNumero = parseInt(celula, 10);
                 if (!isNaN(diaNumero)) {
-                    const mesTexto = String(linhasValidas[0].find(c => c && c.trim() !== "")).toUpperCase();
-                    const mesesMap = { JANEIRO:0, FEVEREIRO:1, MARÇO:2, ABRIL:3, MAIO:4, JUNHO:5, JULHO:6, AGOSTO:7, SETEMBRO:8, OUTUBRO:9, NOVEMBRO:10, DEZEMBRO:11 };
-                    
-                    let mesIndex = mesAtualNum;
-                    for (let m in mesesMap) {
-                        if (mesTexto.includes(m)) {
-                            mesIndex = mesesMap[m];
-                            break;
-                        }
-                    }
+                    const mesIndex = mesAtualNum;
 
                     const dataCelulaStr = `${anoAtualNum}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
                     
@@ -179,31 +188,7 @@ if(indexLinha === indexLinhaDias && celula){
 
     if(!isNaN(diaNumeroClique)){
 
-        const mesTextoClique = String(linhasValidas[0].find(c => c && String(c).trim() !== "")).toUpperCase();
-
-        const mesesMapClique = {
-            JANEIRO:0,
-            FEVEREIRO:1,
-            MARÇO:2,
-            ABRIL:3,
-            MAIO:4,
-            JUNHO:5,
-            JULHO:6,
-            AGOSTO:7,
-            SETEMBRO:8,
-            OUTUBRO:9,
-            NOVEMBRO:10,
-            DEZEMBRO:11
-        };
-
-        let mesIndexClique = mesAtualNum;
-
-        for (let m in mesesMapClique) {
-            if (mesTextoClique.includes(m)) {
-                mesIndexClique = mesesMapClique[m];
-                break;
-            }
-        }
+        const mesIndexClique = mesAtualNum;
 
         const dataClique = `${anoAtualNum}-${String(mesIndexClique + 1).padStart(2,'0')}-${String(diaNumeroClique).padStart(2,'0')}`;
 
