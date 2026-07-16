@@ -36,7 +36,6 @@ linha.dataset.pesquisa = [
 
 }
 
-
 function renderizarEquipe(militares, elementId, tipoServico) {
 
     const container = document.getElementById(elementId);
@@ -45,7 +44,11 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 
     container.innerHTML = "";
 
+    // Inicia sempre com as observações recolhidas
+    container.classList.add("olho-aberto");
+
     container.dataset.servico = tipoServico;
+
     container.dataset.contId = elementId
         .replace("dados-", "cont-")
         .replace("guarda-", "guarda-");
@@ -54,9 +57,9 @@ function renderizarEquipe(militares, elementId, tipoServico) {
 
     militares.forEach(militar => {
 
-   fragment.appendChild(
-    criarLinhaMilitar(militar)
-);
+        fragment.appendChild(
+            criarLinhaMilitar(militar)
+        );
 
     });
 
