@@ -1484,7 +1484,7 @@ align-items:flex-start;
 
 
 /* ==========================================================
-   MODAL DE ANOTAÇÕES
+   MODAL DA AGENDA
    ========================================================== */
 
 .modal-anotacao{
@@ -1499,9 +1499,11 @@ align-items:flex-start;
 
     align-items:center;
 
-    background:rgba(0,0,0,.45);
+    background:rgba(15,23,42,.45);
 
-    backdrop-filter:blur(3px);
+    backdrop-filter:blur(5px);
+
+    animation:fade .18s ease;
 
     z-index:99999;
 
@@ -1509,66 +1511,221 @@ align-items:flex-start;
 
 .janela-anotacao{
 
-    width:540px;
+    width:640px;
 
-    max-width:95%;
+    max-width:94%;
 
-    background:white;
+    background:#fff;
 
-    border-radius:12px;
+    border-radius:16px;
 
-    padding:22px;
+    overflow:hidden;
 
-    box-shadow:0 15px 40px rgba(0,0,0,.25);
+    box-shadow:0 20px 60px rgba(0,0,0,.28);
 
-}
-
-.janela-anotacao h2{
-
-    margin-bottom:15px;
-
-    color:#0d3b66;
+    animation:aparecer .22s ease;
 
 }
 
-.janela-anotacao input,
+/* ==========================================================
+   CABEÇALHO
+   ========================================================== */
 
-.janela-anotacao textarea{
+.cabecalho-anotacao{
 
-    width:100%;
+    display:flex;
 
-    padding:10px;
+    justify-content:space-between;
 
-    margin-top:8px;
+    align-items:center;
 
-    margin-bottom:12px;
+    padding:18px 22px;
 
-    border:1px solid #d6dde6;
+    background:linear-gradient(180deg,#0d3b66,#114b82);
 
-    border-radius:6px;
+    color:#fff;
+
+}
+
+.cabecalho-anotacao h2{
+
+    margin:0;
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+.cabecalho-anotacao small{
+
+    display:block;
+
+    margin-top:4px;
 
     font-size:13px;
 
+    opacity:.85;
+
 }
 
-.janela-anotacao textarea{
+.btn-fechar-anotacao{
+
+    width:38px;
+
+    height:38px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.20s;
+
+}
+
+.btn-fechar-anotacao:hover{
+
+    background:rgba(255,255,255,.22);
+
+    transform:rotate(90deg);
+
+}
+
+/* ==========================================================
+   CORPO
+   ========================================================== */
+
+.corpo-anotacao{
+
+    padding:22px;
+
+}
+
+.corpo-anotacao input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:15px;
+
+    border:1px solid #d6dde6;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+}
+
+.corpo-anotacao textarea{
+
+    width:100%;
+
+    min-height:220px;
 
     resize:vertical;
 
-    min-height:120px;
+    padding:14px;
+
+    border:1px solid #d6dde6;
+
+    border-radius:8px;
+
+    font-size:14px;
 
 }
 
-.botoes-anotacao{
+.corpo-anotacao input:focus,
+
+.corpo-anotacao textarea:focus{
+
+    outline:none;
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+/* ==========================================================
+   RODAPÉ
+   ========================================================== */
+
+.rodape-anotacao{
 
     display:flex;
 
     justify-content:flex-end;
 
-    gap:10px;
+    gap:12px;
+
+    padding:18px 22px;
+
+    background:#f8fafc;
+
+    border-top:1px solid #e2e8f0;
 
 }
 
+.btn-secundario{
+
+    padding:11px 18px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#e5e7eb;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.20s;
+
+}
+
+.btn-secundario:hover{
+
+    background:#d7dbe0;
+
+}
+
+.btn-principal{
+
+    padding:11px 22px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:linear-gradient(#2563eb,#1d4ed8);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:700;
+
+    transition:.20s;
+
+}
+
+.btn-principal:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 10px 22px rgba(37,99,235,.28);
+
+}
 
 /* ==========================================================
    ANIMAÇÕES
@@ -1580,7 +1737,7 @@ align-items:flex-start;
 
         opacity:0;
 
-        transform:translateY(-5px);
+        transform:translateY(-18px) scale(.96);
 
     }
 
@@ -1588,7 +1745,7 @@ align-items:flex-start;
 
         opacity:1;
 
-        transform:translateY(0);
+        transform:translateY(0) scale(1);
 
     }
 
@@ -1610,36 +1767,45 @@ align-items:flex-start;
 
 }
 
+/* ==========================================================
+   OBSERVAÇÕES DOS MILITARES
+   ========================================================== */
+
 .bloco-observacoes{
+
+    display:block;
+
+    width:100%;
 
     margin-top:4px;
 
     margin-left:18px;
 
-    width:100%;
-
     font-size:12px;
 
     color:#666;
 
-    max-height:120px;
-
-    opacity:1;
-
-    overflow:hidden;
-
-    transition:
-        max-height .25s ease,
-        opacity .25s ease;
-
-}
-
-.lista-militares.olho-aberto .bloco-observacoes{
+    line-height:1.45;
 
     max-height:0;
 
     opacity:0;
 
-    margin-top:0;
+    overflow:hidden;
+
+    transition:
+        max-height .25s ease,
+        opacity .25s ease,
+        margin-top .25s ease;
+
+}
+
+.lista-militares.olho-aberto .bloco-observacoes{
+
+    max-height:150px;
+
+    opacity:1;
+
+    margin-top:6px;
 
 }
