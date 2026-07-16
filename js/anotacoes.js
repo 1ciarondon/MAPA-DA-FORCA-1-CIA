@@ -16,41 +16,66 @@ function abrirJanelaAnotacao(data) {
 
         modal.innerHTML = `
 
-            <div class="janela-anotacao">
+<div class="janela-anotacao">
 
-                <h2>Anotação</h2>
+    <div class="cabecalho-anotacao">
 
-                <p id="data-anotacao"></p>
+        <div>
 
-                <input
-                    id="titulo-anotacao"
-                    type="text"
-                    placeholder="Título">
+            <h2>📅 Nova Anotação</h2>
 
-                <textarea
-                    id="texto-anotacao"
-                    rows="8"
-                    placeholder="Digite a anotação..."></textarea>
+            <small id="data-anotacao"></small>
 
-                <div class="botoes-anotacao">
+        </div>
 
-                    <button onclick="fecharJanelaAnotacao()">
+        <button
+            class="btn-fechar-anotacao"
+            onclick="fecharJanelaAnotacao()">
 
-                        Cancelar
+            ✕
 
-                    </button>
+        </button>
 
-                    <button onclick="salvarAnotacao()">
+    </div>
 
-                        Salvar
+    <div class="corpo-anotacao">
 
-                    </button>
+        <input
+            id="titulo-anotacao"
+            type="text"
+            maxlength="80"
+            placeholder="Título">
 
-                </div>
+        <textarea
+            id="texto-anotacao"
+            rows="8"
+            placeholder="Descreva o evento..."></textarea>
 
-            </div>
+    </div>
 
-        `;
+    <div class="rodape-anotacao">
+
+        <button
+            class="btn-secundario"
+            onclick="fecharJanelaAnotacao()">
+
+            Cancelar
+
+        </button>
+
+        <button
+            class="btn-principal"
+            onclick="salvarAnotacao()">
+
+            💾 Salvar
+
+        </button>
+
+    </div>
+
+</div>
+
+`;
 
         document.body.appendChild(modal);
 
