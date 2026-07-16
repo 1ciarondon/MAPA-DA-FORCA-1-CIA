@@ -1,10 +1,20 @@
 function descobrirMesCalendario(calendario){
 
+    if(
+        !calendario ||
+        !calendario.dados ||
+        !calendario.dados[0]
+    ){
+        return -1;
+    }
+
+
     const nomeMes = String(
-        calendario.dados[0].find(
-            c => c && String(c).trim() !== ""
-        )
-    ).toUpperCase();
+        calendario.dados[0][0]
+    )
+    .toUpperCase()
+    .trim();
+
 
 
     const meses = [
@@ -23,9 +33,7 @@ function descobrirMesCalendario(calendario){
     ];
 
 
-    return meses.findIndex(
-        mes => nomeMes.includes(mes)
-    );
+    return meses.indexOf(nomeMes);
 
 }
 
@@ -98,8 +106,8 @@ function gerarMesEscala(ano, mes){
 
 
     const linhaMes = [
-        nomesMeses[mes]
-    ];
+    `${nomesMeses[mes]} / ${ano}`
+];
 
 
     const linhaDias = [];
@@ -306,12 +314,14 @@ if(indexLinha === indexLinhaDias){
             td.innerText = (celula !== null && celula !== undefined) ? celula : "";
             td.dataset.valor = celula;
             
-            td.style.padding = "6px 4px";
-            td.style.border = "1px solid #cbd5e1";
-            td.style.fontSize = "11px";
-            td.style.fontWeight = "600";
-            td.style.minWidth = "28px";
-            td.style.textAlign = "center";
+           td.style.padding = "8px 5px";
+td.style.border = "1px solid #d1d5db";
+td.style.fontSize = "12px";
+td.style.fontWeight = "700";
+td.style.minWidth = "38px";
+td.style.height = "35px";
+td.style.textAlign = "center";
+td.style.verticalAlign = "middle";
 
             // Cores vindas do Sheets
             let corFundoOriginal = (coresCabecalho && coresCabecalho[indexLinha]) ? coresCabecalho[indexLinha][indexColuna] : "#ffffff";
@@ -325,6 +335,32 @@ if(indexLinha === indexLinhaDias){
             } else {
                 td.style.background = "#ffffff";
                 td.style.color = "#1e293b";
+
+                // Estilo automático do calendário
+
+if(indexLinha === 1){
+
+    td.style.background = "#0d3b66";
+    td.style.color = "white";
+    td.style.fontWeight = "800";
+
+}
+
+
+if(indexLinha === 2){
+
+    td.style.background = "#dbeafe";
+    td.style.color = "#1e3a8a";
+
+}
+
+
+if(indexLinha === 3){
+
+    td.style.background = "#fef3c7";
+    td.style.color = "#78350f";
+
+}
             }
 
            
