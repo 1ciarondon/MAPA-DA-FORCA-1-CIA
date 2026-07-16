@@ -556,7 +556,7 @@ function atualizarTituloCalendario() {
     const dadosCalendario = listaCalendarios[index].dados;
     if (dadosCalendario && dadosCalendario[0]) {
         const nomeMes = dadosCalendario[0].find(c => c && String(c).trim() !== "");
-        titulo.innerText = nomeMes || "";
+        titulo.innerText = "";
     }
 }
 
