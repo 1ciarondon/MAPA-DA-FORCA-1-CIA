@@ -1608,3 +1608,25 @@ header p{
 
 }
 
+.bloco-observacoes{
+
+    max-height:120px;
+
+    opacity:1;
+
+    overflow:hidden;
+
+    transition:
+        max-height .25s ease,
+        opacity .25s ease;
+
+}
+
+.lista-militares.olho-aberto .bloco-observacoes{
+
+    max-height:0;
+
+    opacity:0;
+
+}
+
