@@ -569,6 +569,12 @@ function atualizarBotoesCalendario() {
 }
 
 function proximoMes() {
+    
+    console.log(
+        "ANTES:",
+        window.calendarioAtual
+    );
+    
     const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
     let index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
 
@@ -577,6 +583,11 @@ function proximoMes() {
     index++;
     if (window.calendarioAtual !== undefined) window.calendarioAtual = index;
     if (typeof calendarioAtual !== 'undefined') calendarioAtual = index;
+
+    console.log(
+        "DEPOIS:",
+        window.calendarioAtual
+    );
 
     renderizarCalendarioAtual();
 }
