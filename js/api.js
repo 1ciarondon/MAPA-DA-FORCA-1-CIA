@@ -3,8 +3,8 @@ const API_URL = CONFIG.API_URL;
 // =========================================================================
 // DECLARAÇÃO FORÇADA DE ESCOPO GLOBAL (Para garantir visibilidade entre scripts)
 // =========================================================================
-window.calendarios = window.calendarios || [];
-window.calendarioAtual = window.calendarioAtual || 0;
+window.calendarios = [];
+window.calendarioAtual = 0;
 window.dadosGlobaisAfastados = window.dadosGlobaisAfastados || [];
 window.dadosGlobaisEventos = window.dadosGlobaisEventos || {};
 
@@ -18,8 +18,6 @@ async function carregarMapa() {
         }
 
         const dados = await response.json();
-        console.log(dados.calendarios);
-
         gerenciarAlertaConexao(false);
 
         // ==========================================
@@ -34,7 +32,6 @@ async function carregarMapa() {
 // ==========================================
 
 window.calendarios = gerarCalendariosAutomaticos();
-
 window.calendarioAtual = 0;
 
 
