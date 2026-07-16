@@ -1607,3 +1607,20 @@ header p{
     }
 
 }
+
+/* ==========================================================
+   CONTROLE DO OLHO DAS EQUIPES
+   ========================================================== */
+
+.lista-militares:not(.olho-aberto) {
+
+    display:none;
+
+}
+
+
+.lista-militares.olho-aberto {
+
+    display:flex;
+
+}
