@@ -73,11 +73,18 @@ function toggleMenuLateral() {
 }
 
 function alternarOlhoEquipe(containerId, elementoIcone) {
+
     const alvo = document.getElementById(containerId);
-    if (alvo) {
-        alvo.classList.toggle("olho-aberto");
-        elementoIcone.classList.toggle("ativo");
-    }
+
+    if (!alvo) return;
+
+    alvo.classList.toggle("olho-aberto");
+
+    elementoIcone.textContent =
+        alvo.classList.contains("olho-aberto")
+            ? "📘"
+            : "📖";
+
 }
 
 // Transições de estados textuais e desativação do botão de salvar (Melhoria 4)
