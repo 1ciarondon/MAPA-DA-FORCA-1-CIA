@@ -272,11 +272,46 @@ const diaHoje = dataHoje.getDate();
 const mesHoje = dataHoje.getMonth();
 const anoHoje = dataHoje.getFullYear();
 
+const mesSistema = mesHoje;
+const anoSistema = anoHoje;
 
-const calendarioData = obterAnoMesDoCalendario(calendario);
 
-const mesAtualNum = calendarioData.mes;
-const anoAtualNum = calendarioData.ano;
+// mês que o calendário aberto representa
+const nomeMesTela = String(
+    linhasValidas[0].find(c => c && String(c).trim() !== "")
+).toUpperCase();
+
+
+const mapaMeses = {
+    JANEIRO:0,
+    FEVEREIRO:1,
+    MARÇO:2,
+    ABRIL:3,
+    MAIO:4,
+    JUNHO:5,
+    JULHO:6,
+    AGOSTO:7,
+    SETEMBRO:8,
+    OUTUBRO:9,
+    NOVEMBRO:10,
+    DEZEMBRO:11
+};
+
+
+let mesCalendario = mesSistema;
+
+
+for(const mes in mapaMeses){
+
+    if(nomeMesTela.includes(mes)){
+        mesCalendario = mapaMeses[mes];
+        break;
+    }
+
+}
+
+
+const anoCalendario = 2026;
 
     // Localiza a linha dos dias (onde tem 1, 2, 3...)
     let indexLinhaDias = -1;
@@ -332,7 +367,7 @@ if(indexLinha === indexLinhaDias){
 
 
         const dataCelula = new Date(
-            anoAtualNum,
+            anoCalendario,
             mesDoCalendario,
             diaCelula
         );
@@ -369,8 +404,8 @@ if(indexLinha === indexLinhaDias && celula){
     const dia = Number(celula);
 
     const data = new Date(
-        anoAtualNum,
-        mesAtualNum,
+        anoCalendario,
+        mesCalendario,
         dia
     );
 
@@ -446,7 +481,7 @@ if(indexLinha === 3){
                 if (!isNaN(diaNumero)) {
                     const mesIndex = descobrirMesCalendario(calendario);
 
-                    const dataCelulaStr = `${anoAtualNum}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
+                    const dataCelulaStr = `${anoCalendario}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
                     
                     // Verifica se existe anotação salva para este dia
 const anotacaoSalva = localStorage.getItem("anotacao_" + dataCelulaStr);
@@ -497,7 +532,7 @@ if(indexLinha === indexLinhaDias && celula){
 
         const mesIndexClique = descobrirMesCalendario(calendario);
 
-        const dataClique = `${anoAtualNum}-${String(mesIndexClique + 1).padStart(2,'0')}-${String(diaNumeroClique).padStart(2,'0')}`;
+        const dataClique = `${anoCalendario}-${String(mesIndexClique + 1).padStart(2,'0')}-${String(diaNumeroClique).padStart(2,'0')}`;
 
         td.style.cursor = "pointer";
 
