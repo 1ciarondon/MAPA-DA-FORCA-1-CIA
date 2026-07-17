@@ -26,28 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 4. Sincroniza os botões de navegação do calendário (com tratamento de existência)
-    const btnAnterior = document.getElementById("btn-mes-anterior");
-    if (btnAnterior) {
-        btnAnterior.addEventListener("click", () => {
-            if (typeof mesAnterior === "function") {
-                mesAnterior();
-            } else {
-                console.error("Erro: Função 'mesAnterior' não está definida.");
-            }
-        });
-    }
+    
 
-    const btnProximo = document.getElementById("btn-proximo-mes");
-    if (btnProximo) {
-        btnProximo.addEventListener("click", () => {
-            if (typeof proximoMes === "function") {
-                proximoMes();
-            } else {
-                console.error("Erro: Função 'proximoMes' não está definida.");
-            }
-        });
-    }
-});
+    
 
 // Exibe indicador visual de carregamento nas tabelas (Melhoria 1)
 function mostrarLoading() {
