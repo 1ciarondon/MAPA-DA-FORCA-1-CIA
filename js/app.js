@@ -61,8 +61,8 @@ function alternarOlhoEquipe(containerId, elementoIcone) {
 
     elementoIcone.textContent =
         alvo.classList.contains("olho-aberto")
-            ? "📘"
-            : "📖";
+            ? "📖"
+            : "📘";
 
 }
 
