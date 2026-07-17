@@ -20,3 +20,23 @@ async function quitarDebitoCaveirinha(linhaPlanilha) {
         return await enviarDadosAPI(payload);
     }
 }
+
+function abrirModalCaveirinha(){
+
+    document.getElementById(
+        "modal-caveirinha"
+    ).style.display="flex";
+
+    carregarCaveirinhas();
+
+}
+
+
+
+function fecharModalCaveirinha(){
+
+    document.getElementById(
+        "modal-caveirinha"
+    ).style.display="none";
+
+}
