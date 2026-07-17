@@ -23,9 +23,16 @@ async function quitarDebitoCaveirinha(linhaPlanilha) {
 
 function abrirModalCaveirinha(){
 
-    document.getElementById(
+    const modal = document.getElementById(
         "modal-caveirinha"
-    ).style.display="flex";
+    );
+
+    if(modal){
+
+        modal.style.display="flex";
+
+    }
+
 
     carregarCaveirinhas();
 
@@ -35,8 +42,43 @@ function abrirModalCaveirinha(){
 
 function fecharModalCaveirinha(){
 
-    document.getElementById(
+    const modal = document.getElementById(
         "modal-caveirinha"
-    ).style.display="none";
+    );
+
+    if(modal){
+
+        modal.style.display="none";
+
+    }
+
+}
+
+
+
+// Temporário até ligar na API
+
+function carregarCaveirinhas(){
+
+    const lista =
+        document.getElementById(
+            "lista-caveirinhas-atual"
+        );
+
+
+    if(!lista) return;
+
+
+    lista.innerHTML =
+    `
+        <div style="
+            padding:10px;
+            color:#777;
+            font-size:13px;
+            text-align:center;
+        ">
+            Nenhum débito carregado.
+        </div>
+    `;
 
 }
