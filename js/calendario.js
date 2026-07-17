@@ -408,21 +408,16 @@ if(indexLinha === indexLinhaDias && celula){
 
 
     // Domingo
-    if(semana === 0){
+   if (semana === 0) {
+    td.classList.add("domingo");
+}
 
-        td.style.background = "#d4af37";
-        td.style.color = "#000";
-
-    }
 
 
     // Sábado
-    if(semana === 6){
-
-        td.style.background = "#2563eb";
-        td.style.color = "#fff";
-
-    }
+   if (semana === 6) {
+    td.classList.add("sabado");
+}
 
 }
 td.style.verticalAlign = "middle";
@@ -573,6 +568,7 @@ function renderizarCalendarioAtual() {
 
     renderizarEspelhoCabecalho(calendario);
     atualizarBotoesCalendario();
+    atualizarTituloCalendario();
 }
 
 function atualizarTituloCalendario(){
@@ -581,7 +577,12 @@ function atualizarTituloCalendario(){
 
     if(!titulo) return;
 
-    titulo.innerText = "";
+    const lista = window.calendarios;
+
+    if(!lista || !lista.length) return;
+
+    titulo.innerText =
+        lista[window.calendarioAtual].dados[0][0];
 
 }
 
