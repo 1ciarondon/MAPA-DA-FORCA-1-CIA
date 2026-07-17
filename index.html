@@ -403,5 +403,107 @@ onclick="toggleMenuLateral()">
 
 <script src="js/app.js"></script>
 
+    <!-- MODAL CAVEIRINHA -->
+
+<div id="modal-caveirinha" class="modal-caveirinha">
+
+    <div class="janela-caveirinha">
+
+
+        <div class="cabecalho-caveirinha">
+
+            <div>
+                <h2>💀 Caveirinha</h2>
+                <small>Controle de débitos de serviço</small>
+            </div>
+
+            <button onclick="fecharModalCaveirinha()">
+                ✖
+            </button>
+
+        </div>
+
+
+
+        <div class="corpo-caveirinha">
+
+
+            <form id="form-caveirinha"
+                  onsubmit="salvarDebitoCaveirinha(event)">
+
+
+                <label>
+                    Militar devedor
+                </label>
+
+                <input 
+                    type="text"
+                    id="caveira-militar"
+                    list="lista-militares"
+                    placeholder="Digite o nome..."
+                    required>
+
+
+                <label>
+                    Data da folga extraordinária
+                </label>
+
+                <input 
+                    type="date"
+                    id="caveira-data-folga"
+                    required>
+
+
+                <label>
+                    Motivo
+                </label>
+
+                <input 
+                    type="text"
+                    id="caveira-motivo"
+                    placeholder="Ex: Permuta não paga..."
+                    required>
+
+
+                <label>
+                    Data prevista para pagamento
+                </label>
+
+                <input 
+                    type="date"
+                    id="caveira-data-pagamento"
+                    required>
+
+
+
+                <button class="btn-cadastrar-caveira">
+                    💀 Lançar débito
+                </button>
+
+
+            </form>
+
+
+            <hr>
+
+
+            <h3>
+                Débitos ativos
+            </h3>
+
+
+            <div id="lista-caveirinhas-atual">
+
+                Carregando...
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>
