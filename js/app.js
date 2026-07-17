@@ -4,8 +4,8 @@
 let instanciasSortable = [];
 let modoEdicao = false;
 let dadosGlobaisAfastados = [];
-let calendarioAtual = 0;
-let calendarios = [];
+window.calendarioAtual = 0;
+window.calendarios = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Inicializa a estrutura de Toasts de forma segura
