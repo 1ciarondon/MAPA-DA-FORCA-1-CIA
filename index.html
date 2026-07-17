@@ -51,6 +51,130 @@ onclick="toggleMenuLateral()">
 
 </aside>
 
+    <!-- =====================================================
+     MODAL IMPEDIMENTOS
+===================================================== -->
+
+<div id="modal-impedimentos" class="modal-sistema">
+
+    <div class="janela-sistema">
+
+        <div class="cabecalho-modal">
+
+            <h2>
+                📅 Lançar Impedimento
+            </h2>
+
+            <button
+                class="btn-fechar-modal"
+                onclick="fecharModalImpedimentos()">
+                ✖
+            </button>
+
+        </div>
+
+
+        <div class="corpo-modal">
+
+
+            <form id="form-afastamento" onsubmit="salvarAfastamento(event)">
+
+
+                <label>
+                    Militar (Nome de Guerra)
+                </label>
+
+                <input
+                    type="text"
+                    id="afast-nome"
+                    list="lista-militares"
+                    placeholder="Busque ou digite..."
+                    required>
+
+
+                <datalist id="lista-militares"></datalist>
+
+
+
+                <label>
+                    Tipo de Impedimento
+                </label>
+
+                <select id="afast-tipo" required>
+
+                    <option value="FÉRIAS">
+                        FÉRIAS
+                    </option>
+
+                    <option value="MISSÃO">
+                        MISSÃO
+                    </option>
+
+                    <option value="DISPENSA">
+                        DISPENSA
+                    </option>
+
+                    <option value="LTS">
+                        LTS
+                    </option>
+
+                </select>
+
+
+
+                <label>
+                    Data Início
+                </label>
+
+                <input
+                    type="date"
+                    id="afast-inicio"
+                    required>
+
+
+
+                <label>
+                    Quantidade de Dias
+                </label>
+
+                <input
+                    type="number"
+                    id="afast-dias"
+                    min="1"
+                    required>
+
+
+
+                <label>
+                    Observação
+                </label>
+
+                <textarea
+                    id="afast-obs"
+                    placeholder="Informações adicionais...">
+                </textarea>
+
+
+
+                <button
+                    type="submit"
+                    class="btn-principal">
+
+                    Lançar Impedimento
+
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
     <!-- Cabeçalho -->
  <header class="cabecalho-principal">
 
