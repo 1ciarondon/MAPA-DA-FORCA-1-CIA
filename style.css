@@ -1,52 +1,54 @@
 /* ==========================================================
    SISTEMA DE ESCALAS - PMRO
    CONFIGURAÇÕES GERAIS
-   ========================================================== */
+========================================================== */
 
 :root{
 
     /* Cores */
 
     --azul:#0d3b66;
-    --azul-claro:#114b82;
-    --azul-hover:#0d6efd;
+    --azul-claro:#14548f;
+    --azul-hover:#1976d2;
 
     --dourado:#b58317;
 
-    --cinza-fundo:#f4f6f9;
+    --cinza-fundo:#f3f5f7;
     --cinza-claro:#eef2f6;
-    --cinza-borda:#d6dde6;
+    --cinza-borda:#d7dde5;
 
-    --texto:#333;
-    --texto-claro:#666;
-    --branco:#fff;
+    --texto:#263238;
+    --texto-claro:#6b7280;
+    --branco:#ffffff;
+
+    --verde:#16a34a;
+    --vermelho:#dc2626;
+    --laranja:#ea580c;
 
     /* Sombras */
 
     --sombra-pequena:0 2px 8px rgba(0,0,0,.08);
     --sombra-media:0 5px 18px rgba(0,0,0,.12);
-    --sombra-forte:0 8px 25px rgba(0,0,0,.18);
+    --sombra-forte:0 10px 28px rgba(0,0,0,.18);
 
     /* Bordas */
 
-    --radius:10px;
+    --radius:12px;
 
     /* Transições */
 
-    --animacao:.18s ease;
+    --animacao:.20s ease;
 
 }
 
 /* ==========================================================
    RESET
-   ========================================================== */
+========================================================== */
 
 *{
-
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
 body{
@@ -57,37 +59,35 @@ body{
 
     color:var(--texto);
 
-    line-height:1.45;
+    line-height:1.4;
 
     -webkit-font-smoothing:antialiased;
-
     -moz-osx-font-smoothing:grayscale;
 
 }
 
 /* ==========================================================
    HEADER
-   ========================================================== */
+========================================================== */
 
 header{
 
     position:relative;
 
-    padding:22px 20px;
+    padding:18px 20px;
 
     text-align:center;
 
-    color:white;
+    color:#fff;
 
     background:
+        linear-gradient(
+            180deg,
+            var(--azul),
+            var(--azul-claro)
+        );
 
-    linear-gradient(
-        180deg,
-        var(--azul),
-        var(--azul-claro)
-    );
-
-    border-bottom:4px solid #1b5ea5;
+    border-bottom:3px solid #1b5ea5;
 
     box-shadow:var(--sombra-media);
 
@@ -95,98 +95,103 @@ header{
 
 header h1{
 
-    font-size:28px;
+    font-size:26px;
 
     font-weight:700;
 
-    letter-spacing:1px;
+    letter-spacing:.8px;
 
-    text-shadow:0 2px 4px rgba(0,0,0,.25);
+    text-shadow:0 2px 6px rgba(0,0,0,.30);
 
 }
 
 header p{
 
-    margin-top:8px;
+    margin-top:5px;
 
-    font-size:14px;
+    font-size:13px;
 
-    opacity:.92;
+    opacity:.90;
 
-    letter-spacing:.4px;
+    letter-spacing:.3px;
 
 }
 
 /* ==========================================================
    GRANDES DIVISÕES
-   ========================================================== */
+========================================================== */
 
 .secao-titulo{
 
     width:100%;
 
-    padding:12px;
+    padding:10px 15px;
 
     text-align:center;
 
     color:#fff;
 
-    font-size:21px;
+    font-size:20px;
 
     font-weight:700;
 
     text-transform:uppercase;
 
-    letter-spacing:2px;
+    letter-spacing:1.5px;
 
-    text-shadow:0 1px 3px rgba(0,0,0,.25);
+    text-shadow:0 1px 3px rgba(0,0,0,.30);
 
 }
 
-/* Radiopatrulha */
+/* ==========================================================
+   RÁDIO PATRULHA
+========================================================== */
 
 .radiopatrulha-bg{
 
-    margin-top:15px;
+    margin-top:18px;
 
     background:
+        linear-gradient(
+            180deg,
+            #4b98dd,
+            #2f75b3
+        );
 
-    linear-gradient(
-        180deg,
-        #3f8ed6,
-        #2f75b3
-    );
+    border-radius:12px 12px 0 0;
 
     box-shadow:
         inset 0 -2px rgba(255,255,255,.08),
-        0 2px 8px rgba(0,0,0,.08);
+        0 4px 12px rgba(0,0,0,.10);
 
 }
 
-/* Guarda */
+/* ==========================================================
+   GUARDA
+========================================================== */
 
 .guarda-bg{
 
-    margin-top:30px;
+    margin-top:28px;
 
     background:
+        linear-gradient(
+            180deg,
+            #c99522,
+            #9d6d08
+        );
 
-    linear-gradient(
-        180deg,
-        #c08b19,
-        #9f710d
-    );
+    border-radius:12px 12px 0 0;
 
     box-shadow:
         inset 0 -2px rgba(255,255,255,.08),
-        0 2px 8px rgba(0,0,0,.08);
+        0 4px 12px rgba(0,0,0,.10);
 
 }
 
-
 /* ==========================================================
    GRID PRINCIPAL
-   ========================================================== */
+========================================================== */
 
 .painel-equipes{
 
@@ -194,18 +199,17 @@ header p{
 
     grid-template-columns:repeat(5,1fr);
 
-    gap:12px;
+    gap:14px;
 
-    padding:14px;
+    padding:15px;
 
     background:#eef2f6;
 
 }
 
-
 /* ==========================================================
    CARTÕES DAS EQUIPES
-   ========================================================== */
+========================================================== */
 
 .quadro-equipe{
 
@@ -215,9 +219,9 @@ header p{
 
     min-height:180px;
 
-    background:white;
+    background:#fff;
 
-    border:1px solid #d8dee7;
+    border:1px solid #d9e0e8;
 
     border-radius:12px;
 
@@ -228,26 +232,22 @@ header p{
         box-shadow .20s ease;
 
     box-shadow:
-        0 2px 8px rgba(0,0,0,.06);
+        0 3px 10px rgba(0,0,0,.08);
 
 }
-
-/* efeito elegante */
 
 .quadro-equipe:hover{
 
-    transform:translateY(-4px);
+    transform:translateY(-3px);
 
     box-shadow:
-
-        0 12px 24px rgba(0,0,0,.12);
+        0 12px 26px rgba(0,0,0,.14);
 
 }
 
-
 /* ==========================================================
    CABEÇALHO DOS CARTÕES
-   ========================================================== */
+========================================================== */
 
 .quadro-equipe h2{
 
@@ -257,38 +257,38 @@ header p{
 
     align-items:center;
 
-    gap:6px;
+    gap:8px;
 
     margin:0;
 
-    padding:12px;
+    padding:11px;
 
     font-size:15px;
 
     font-weight:700;
 
-    letter-spacing:.8px;
+    letter-spacing:.6px;
 
     border-bottom:1px solid rgba(0,0,0,.08);
 
-}
+    text-shadow:0 1px 1px rgba(255,255,255,.30);
 
+}
 
 /* ==========================================================
    CONTADOR
-   ========================================================== */
+========================================================== */
 
 .contador-equipe{
 
-    padding:7px;
+    padding:8px;
 
     background:
-
-    linear-gradient(
-        180deg,
-        #fbfcfd,
-        #f1f3f6
-    );
+        linear-gradient(
+            180deg,
+            #fcfdff,
+            #f3f5f8
+        );
 
     border-bottom:1px solid #dde4eb;
 
@@ -296,111 +296,104 @@ header p{
 
     font-weight:700;
 
-    color:#56606a;
+    color:#58646f;
 
     text-align:center;
 
 }
 
-
 /* ==========================================================
    CORES DAS EQUIPES
-   ========================================================== */
-
+========================================================== */
 
 /* A */
 
 #equipe-A h2,
 #guarda-A h2{
 
-    background:linear-gradient(#9ed99a,#84c97d);
+    background:linear-gradient(#a9e1a4,#85c97d);
 
-    color:#194918;
+    color:#1a4718;
 
 }
-
 
 /* B */
 
 #equipe-B h2,
 #guarda-B h2{
 
-    background:linear-gradient(#82abd8,#678fc0);
+    background:linear-gradient(#8cb7e5,#6793c7);
 
-    color:#14304b;
+    color:#15334e;
 
 }
-
 
 /* C */
 
 #equipe-C h2,
 #guarda-C h2{
 
-    background:linear-gradient(#abc8f7,#91b6f2);
+    background:linear-gradient(#b4d2fb,#94bbf5);
 
     color:#163b6a;
 
 }
-
 
 /* D */
 
 #equipe-D h2,
 #guarda-D h2{
 
-    background:linear-gradient(#ddb0c5,#ca93af);
+    background:linear-gradient(#e2b7cb,#cf95b3);
 
-    color:#521c35;
+    color:#55203a;
 
 }
-
 
 /* E */
 
 #equipe-E h2,
 #guarda-E h2{
 
-    background:linear-gradient(#f7c13d,#e5aa00);
+    background:linear-gradient(#ffd15b,#e9ae07);
 
-    color:#594100;
+    color:#5b4300;
 
 }
 
 /* ==========================================================
    LISTA DOS MILITARES
-   ========================================================== */
+========================================================== */
 
 .lista-militares{
 
     flex:1;
 
+    display:flex;
+
+    flex-direction:column;
+
     background:#fff;
+
+}
+
+/* ==========================================================
+   LINHA DO MILITAR
+========================================================== */
+
+.linha-militar{
+
+    position:relative;
 
     display:flex;
 
     flex-direction:column;
 
-}
+    align-items:flex-start;
 
+    padding:9px 12px;
 
-/* ==========================================================
-   LINHA DO MILITAR
-   ========================================================== */
-
-.linha-militar{
-
-    position:relative;
-   
-   display:flex;
-   
-   flex-direction:column;
-   
-align-items:flex-start;
-
-    padding:10px 12px;
-
-    min-height:42px;
+    min-height:40px;
 
     font-size:13px;
 
@@ -408,7 +401,7 @@ align-items:flex-start;
 
     background:#fff;
 
-    border-bottom:1px solid #edf1f5;
+    border-bottom:1px solid #edf2f6;
 
     overflow:hidden;
 
@@ -417,17 +410,12 @@ align-items:flex-start;
     text-overflow:ellipsis;
 
     transition:
-
         background .18s ease,
-
         padding-left .18s ease,
-
-        box-shadow .18s ease,
-
-        transform .18s ease;
+        transform .18s ease,
+        box-shadow .18s ease;
 
 }
-
 
 /* Barra lateral */
 
@@ -445,291 +433,206 @@ align-items:flex-start;
 
     height:100%;
 
-    background:#0d6efd;
+    background:#1976d2;
 
-    transition:.18s;
+    transition:.18s ease;
 
 }
-
 
 /* Hover */
 
 .linha-militar:hover{
 
-    background:#f7fbff;
+    background:#f5faff;
 
     padding-left:18px;
 
     transform:translateX(2px);
 
     box-shadow:
-
-        inset 0 0 0 1px rgba(13,110,253,.08);
+        inset 0 0 0 1px rgba(25,118,210,.10);
 
 }
-
 
 .linha-militar:hover::before{
 
-    width:5px;
+    width:4px;
 
 }
-
 
 /* ==========================================================
-   DIVISÃO DAS GUARNIÇÕES
+   CALENDÁRIO
    ========================================================== */
 
-.lista-militares .linha-militar:nth-child(4n){
+#wrapper-cabecalho-sheets{
 
-    border-bottom:3px solid #0d3b66;
+    margin:18px;
 
-    margin-bottom:8px;
+    background:#fff;
 
-}
+    border:1px solid #d8dee7;
 
+    border-radius:12px;
 
-/* ==========================================================
-   TEXTO
-   ========================================================== */
+    overflow:hidden;
 
-.linha-militar span{
-
-    color:#6b7280;
-
-    font-weight:500;
+    box-shadow:0 4px 15px rgba(0,0,0,.08);
 
 }
 
+#tabela-espelho-sheets{
 
-.linha-militar strong{
+    width:100%;
 
-    color:#111827;
+    border-collapse:collapse;
 
-    font-weight:700;
-
-    letter-spacing:.2px;
-
-}
-
-
-/* ==========================================================
-   POLICIAL INDISPONÍVEL
-   ========================================================== */
-
-.linha-militar.militar-indisponivel{
-
-    background:#f4f4f4;
-
-    color:#9ca3af;
-
-    text-decoration:line-through;
-
-    opacity:.78;
+    table-layout:fixed;
 
 }
 
+#tabela-espelho-sheets td{
 
-.linha-militar.militar-indisponivel strong,
+    position:relative;
 
-.linha-militar.militar-indisponivel span{
-
-    color:#9ca3af !important;
-
-}
-
-
-.linha-militar.militar-indisponivel::before{
-
-    background:#c62828;
-
-}
-
-
-/* ==========================================================
-   PESQUISA
-   ========================================================== */
-
-.resultado-pesquisa{
-
-    animation:pulsarPesquisa .35s ease;
-
-    background:#fff7cf !important;
-
-    border-left:6px solid #0d6efd;
-
-    box-shadow:
-
-        0 0 15px rgba(13,110,253,.18);
-
-}
-
-
-.resultado-pesquisa strong{
-
-    color:#0d3b66;
-
-}
-
-
-/* ==========================================================
-   CARREGAMENTO
-   ========================================================== */
-
-.carregando{
-
-    padding:20px;
+    height:40px;
 
     text-align:center;
 
     font-size:12px;
 
-    color:#7b7b7b;
+    font-weight:700;
 
-    font-style:italic;
+    border:1px solid #e7edf3;
 
-}
-
-
-/* ==========================================================
-   ESPAÇO DA GUARDA
-   ========================================================== */
-
-[id^="dados-guarda-"]{
-
-    padding-bottom:35px;
+    transition:
+        background .15s ease,
+        color .15s ease,
+        transform .12s ease;
 
 }
 
+#tabela-espelho-sheets tr:first-child td{
 
-/* ==========================================================
-   ANIMAÇÕES
-   ========================================================== */
+    background:linear-gradient(
+        180deg,
+        #0d3b66,
+        #114b82
+    );
 
-@keyframes pulsarPesquisa{
+    color:#fff;
 
-    0%{
+    font-size:16px;
 
-        transform:scale(.97);
-
-    }
-
-    50%{
-
-        transform:scale(1.015);
-
-    }
-
-    100%{
-
-        transform:scale(1);
-
-    }
-
-}
-
-
-/* ==========================================================
-   BOTÕES PRINCIPAIS
-   ========================================================== */
-
-#btn-editar,
-#btn-olho,
-#btn-menu{
-
-    border:none;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    font-size:13px;
+    letter-spacing:1px;
 
     font-weight:700;
 
-    transition:all .20s ease;
+}
 
-    box-shadow:0 3px 10px rgba(0,0,0,.18);
+#tabela-espelho-sheets tr:nth-child(2) td{
+
+    background:#eef4fa;
+
+    color:#4b5563;
+
+    font-size:11px;
+
+    font-weight:700;
 
 }
 
-#btn-editar{
+#tabela-espelho-sheets tr:nth-child(3) td{
 
-    margin-top:10px;
+    background:#ffffff;
 
-    padding:10px 18px;
+    color:#1f2937;
 
-    background:linear-gradient(#f6c328,#e8ad00);
-
-    color:#222;
+    font-size:13px;
 
 }
 
-#btn-editar:hover{
+#tabela-espelho-sheets tr:nth-child(4) td,
+#tabela-espelho-sheets tr:nth-child(5) td{
 
-    transform:translateY(-2px);
+    background:#fafafa;
 
-    box-shadow:0 8px 18px rgba(0,0,0,.20);
-
-}
-
-#btn-editar.modo-ativo{
-
-    background:linear-gradient(#ef5350,#d32f2f);
-
-    color:white;
+    font-size:12px;
 
 }
 
-#btn-olho{
+#tabela-espelho-sheets td:hover{
 
-    margin-top:10px;
+    background:#edf6ff;
 
-    margin-left:10px;
+    transform:scale(1.04);
 
-    padding:10px 18px;
-
-    background:linear-gradient(#26c6da,#00acc1);
-
-    color:#fff;
+    z-index:2;
 
 }
 
-#btn-olho:hover{
+#tabela-espelho-sheets td.sabado{
 
-    transform:translateY(-2px);
-
-}
-
-#btn-olho.olho-ativo{
-
-    background:linear-gradient(#5c6bc0,#3949ab);
+    background:#f7f9fc;
 
 }
 
-#btn-menu{
+#tabela-espelho-sheets td.domingo{
+
+    background:#fff4f4;
+
+}
+
+#tabela-espelho-sheets td.dia-hoje{
+
+    background:#0d6efd !important;
+
+    color:#fff !important;
+
+    box-shadow:
+        inset 0 0 0 2px #ffffff,
+        0 0 12px rgba(13,110,253,.35);
+
+}
+
+.ponto-evento{
 
     position:absolute;
 
-    left:20px;
+    bottom:3px;
 
-    top:50%;
+    left:50%;
 
-    transform:translateY(-50%);
+    transform:translateX(-50%);
 
-    padding:10px 18px;
+    width:7px;
 
-    background:linear-gradient(#343a40,#1f2327);
+    height:7px;
 
-    color:#fff;
+    border-radius:50%;
 
-    border:1px solid rgba(255,255,255,.15);
+    background:#ff1744;
+
+    box-shadow:0 0 6px rgba(255,23,68,.45);
 
 }
 
-#btn-menu:hover{
+.ponto-anotacao{
 
-    transform:translateY(-50%) translateY(-2px);
+    position:absolute;
+
+    top:3px;
+
+    right:3px;
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#ff9800;
+
+    box-shadow:0 0 6px rgba(255,152,0,.45);
 
 }
 
@@ -802,9 +705,9 @@ align-items:flex-start;
 
     top:0;
 
-    left:-320px;
+    left:-350px;
 
-    width:310px;
+    width:340px;
 
     height:100%;
 
@@ -878,13 +781,13 @@ align-items:flex-start;
 
 .btn-fechar{
 
-    width:34px;
+    width:36px;
 
-    height:34px;
+    height:36px;
 
     border:none;
 
-    border-radius:6px;
+    border-radius:50%;
 
     background:transparent;
 
@@ -898,7 +801,8 @@ align-items:flex-start;
 
 .btn-fechar:hover{
 
-    background:rgba(255,255,255,.10);
+    background:rgba(255,255,255,.18);
+transform:rotate(90deg);
 
 }
 
@@ -1324,50 +1228,80 @@ align-items:flex-start;
 
 
 /* ==========================================================
-   ESPELHO DA ESCALA
+   ESPELHO DA ESCALA - PAINEL MODERNO
    ========================================================== */
 
 .scroll-escala{
 
     margin:18px;
 
-    padding:12px;
+    padding:16px;
 
-    background:#fff;
+    background:#ffffff;
 
-    border-radius:12px;
+    border-radius:16px;
 
-    border:1px solid #dfe7ef;
+    border:1px solid #d8e1eb;
 
     overflow-x:auto;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.08);
+
+    position:relative;
 
 }
+
+
+/* barra horizontal */
 
 .scroll-escala::-webkit-scrollbar{
 
-    height:6px;
+    height:8px;
 
 }
 
+
 .scroll-escala::-webkit-scrollbar-thumb{
 
-    background:#b7c5d4;
+    background:#9fb3c8;
 
     border-radius:20px;
 
 }
 
+
 .scroll-escala::-webkit-scrollbar-thumb:hover{
 
-    background:#91a4b8;
+    background:#64748b;
 
 }
 
+
+/* barra horizontal */
+
+.scroll-escala::-webkit-scrollbar{
+
+    height:8px;
+
+}
+
+
+.scroll-escala::-webkit-scrollbar-thumb{
+
+    background:#94a3b8;
+
+    border-radius:20px;
+
+}
+
+
+/* tabela */
 #tabela-espelho-sheets{
 
-    width:100%;
+    width:max-content;
+
+    min-width:100%;
 
     border-collapse:separate;
 
@@ -1377,90 +1311,191 @@ align-items:flex-start;
 
 }
 
+
+/* todas as células */
+
 #tabela-espelho-sheets td{
 
-    padding:8px;
+    padding:8px 10px;
 
-    min-width:34px;
+    min-width:38px;
 
-    border-right:1px solid #e2e8f0;
+    height:36px;
 
-    border-bottom:1px solid #e2e8f0;
+    border-right:1px solid #dbe4ee;
 
-    font-size:11px;
+    border-bottom:1px solid #dbe4ee;
 
-    font-weight:600;
+    font-size:12px;
+
+    font-weight:700;
 
     color:#334155;
+
+    background:#fff;
+
+    position:relative;
 
     transition:.15s;
 
 }
 
-#tabela-espelho-sheets td:last-child{
 
-    border-right:none;
 
-}
+/* primeira linha - MÊS / ANO */
 
 #tabela-espelho-sheets tr:first-child td{
 
-    background:#f8fafc !important;
+    background:
+    linear-gradient(
+        180deg,
+        #0d3b66,
+        #114b82
+    ) !important;
 
-    font-size:15px;
+    color:#ffffff;
+
+    font-size:18px;
 
     font-weight:800;
 
-    letter-spacing:4px;
+    letter-spacing:3px;
 
-    color:#0f172a;
-
-    padding:12px;
+    height:48px;
 
 }
+
+
+/* dias da semana */
 
 #tabela-espelho-sheets tr:nth-child(2) td{
 
-    background:#f8fafc;
+    background:#eef4fa;
 
-    text-transform:uppercase;
+    color:#475569;
 
-    font-size:10px;
+    font-size:11px;
 
-    color:#64748b;
+    font-weight:800;
 
 }
+
+
+/* números dos dias */
 
 #tabela-espelho-sheets tr:nth-child(3) td{
 
+    background:#ffffff;
+
+    font-size:14px;
+
+    color:#0f172a;
+
+}
+
+
+
+/* turnos */
+
+#tabela-espelho-sheets tr:nth-child(4) td,
+#tabela-espelho-sheets tr:nth-child(5) td{
+
     font-size:13px;
 
-    font-weight:700;
+    font-weight:800;
 
 }
 
-#tabela-espelho-sheets tr:not(:first-child) td:hover{
 
-    background:#eef6ff !important;
+/* efeito mouse */
+
+#tabela-espelho-sheets td:hover{
+
+    background:#eaf3ff !important;
+
+    transform:scale(1.05);
+
+    z-index:2;
 
 }
 
-#tabela-espelho-sheets td[style*="ffff00"]{
 
-    background:#fff4a8 !important;
+/* sábado */
 
-    color:#7a5200 !important;
+#tabela-espelho-sheets td.sabado{
+
+    background:#dbeafe !important;
+
+    color:#1e3a8a !important;
 
 }
 
-#tabela-espelho-sheets td[style*="3a86c8"]{
+
+/* domingo */
+
+#tabela-espelho-sheets td.domingo{
+
+    background:#fef3c7 !important;
+
+    color:#92400e !important;
+
+}
+
+
+
+/* dia atual */
+
+.dia-hoje::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:3px;
+
+    border:3px solid #dc2626;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+}
+
+
+
+/* ponto de evento */
+
+.ponto-evento{
+
+    width:8px !important;
+
+    height:8px !important;
+
+    background:#ef4444 !important;
+
+    border-radius:50%;
+
+    box-shadow:
+
+        0 0 8px rgba(239,68,68,.8);
+
+}
+
+
+
+/* ponto de anotação */
+
+.ponto-anotacao{
+
+    width:8px !important;
+
+    height:8px !important;
 
     background:#2563eb !important;
 
-    color:white !important;
+    border-radius:50%;
 
 }
-
 
 /* ==========================================================
    PESQUISA
@@ -1893,3 +1928,40 @@ align-items:flex-start;
     font-weight:700;
 
 }
+
+/* ==========================================================
+   MARCADOR DE EVENTO NO CALENDÁRIO
+   ========================================================== */
+
+.ponto-evento{
+
+    box-shadow:
+        0 0 6px rgba(244,63,94,.8);
+
+    animation:pulsarEvento 1.5s infinite;
+
+}
+
+
+@keyframes pulsarEvento{
+
+    0%{
+
+        transform:translateX(-50%) scale(1);
+
+    }
+
+    50%{
+
+        transform:translateX(-50%) scale(1.5);
+
+    }
+
+    100%{
+
+        transform:translateX(-50%) scale(1);
+
+    }
+
+}
+
