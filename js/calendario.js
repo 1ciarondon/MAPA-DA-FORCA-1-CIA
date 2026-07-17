@@ -8,14 +8,9 @@ function descobrirMesCalendario(calendario){
         return -1;
     }
 
-
-    const nomeMes = String(
+    const titulo = String(
         calendario.dados[0][0]
-    )
-    .toUpperCase()
-    .trim();
-
-
+    ).toUpperCase();
 
     const meses = [
         "JANEIRO",
@@ -32,8 +27,7 @@ function descobrirMesCalendario(calendario){
         "DEZEMBRO"
     ];
 
-
-    return meses.indexOf(nomeMes);
+    return meses.findIndex(mes => titulo.includes(mes));
 
 }
 
