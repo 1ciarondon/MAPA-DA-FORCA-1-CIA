@@ -17,82 +17,39 @@
 <body>
 
     <!-- Menu Administrativo -->
-   <aside id="menu-lateral" class="menu-lateral">
+  <aside id="menu-lateral" class="menu-lateral">
 
-    <button
-        class="btn-fechar"
-        type="button"
-        onclick="toggleMenuLateral()">
+<button
+class="btn-fechar"
+onclick="toggleMenuLateral()">
+✖
+</button>
 
-        ✖
 
-    </button>
+<div class="menu-corpo">
 
-    <div class="menu-corpo">
-        
-        <form id="form-afastamento" onsubmit="salvarAfastamento(event)">
-            <label for="afast-nome">Militar (Nome de Guerra):</label>
-            <input type="text" id="afast-nome" list="lista-militares" placeholder="Busque ou digite o nome..." required>
-            <datalist id="lista-militares"></datalist>
 
-            <label for="afast-tipo">Tipo de Impedimento:</label>
-            <select id="afast-tipo" required>
-                <option value="FÉRIAS">FÉRIAS</option>
-                <option value="MISSÃO">MISSÃO</option>
-                <option value="DISPENSA">DISPENSA</option>
-                <option value="LTS">LTS</option>
-            </select>
+<h3>⚙ Administração</h3>
 
-            <label for="afast-inicio">Data Início:</label>
-            <input type="date" id="afast-inicio" required>
 
-            <label for="afast-dias">Qtd. Dias:</label>
-            <input type="number" id="afast-dias" min="1" placeholder="Ex: 8" required>
+<button class="menu-opcao" onclick="abrirModalImpedimentos()">
+📅 Impedimentos
+</button>
 
-            <label for="afast-obs">Observação Específica:</label>
-            <textarea id="afast-obs" placeholder="Ex: Horário especial..."></textarea>
 
-            <button type="submit" id="btn-cadastrar-ausencia">Lançar Afastamento</button>
-        </form>
+<button class="menu-opcao" onclick="abrirModalCaveirinha()">
+💀 Caveirinha
+</button>
 
-        <hr class="divisor" style="border: 0; border-top: 1px solid #3d4d5d; margin: 20px 0;">
 
-        <div id="secao-caveirinha">
-            <h4 style="color: #ff5252; margin: 0 0 10px 0; display: flex; align-items: center; gap: 6px;">
-                💀 O Caveirinha (Deve Serviço)
-            </h4>
-            
-            <form id="form-caveirinha" onsubmit="salvarDebitoCaveirinha(event)" style="background: #243447; padding: 12px; border-radius: 6px; margin-bottom: 15px;">
-                <label style="display:block; font-size:11px; color:#c8d2da; margin-bottom:3px;">Militar devedor:</label>
-                <input type="text" id="caveira-militar" list="lista-militares" placeholder="Selecione o militar..." required style="width:100%; padding:7px; background:#1a2634; color:#fff; border:1px solid #3d4d5d; border-radius:4px; font-size:12px; box-sizing:border-box;">
-                
-                <label style="display:block; font-size:11px; color:#c8d2da; margin: 6px 0 3px 0;">Data da Folga Extraordinária:</label>
-                <input type="date" id="caveira-data-folga" required style="width:100%; padding:7px; background:#1a2634; color:#fff; border:1px solid #3d4d5d; border-radius:4px; font-size:12px; box-sizing:border-box;">
+<button class="menu-opcao" onclick="abrirModalRelatorios()">
+📊 Relatórios
+</button>
 
-                <label style="display:block; font-size:11px; color:#c8d2da; margin: 6px 0 3px 0;">Motivo do Afastamento/Falta:</label>
-                <input type="text" id="caveira-motivo" placeholder="Ex: Permuta não paga / Dispensado..." required style="width:100%; padding:7px; background:#1a2634; color:#fff; border:1px solid #3d4d5d; border-radius:4px; font-size:12px; box-sizing:border-box;">
-                
-                <label style="display:block; font-size:11px; color:#c8d2da; margin: 6px 0 3px 0;">Data Prevista para Pagamento:</label>
-                <input type="date" id="caveira-data-pagamento" required style="width:100%; padding:7px; background:#1a2634; color:#fff; border:1px solid #3d4d5d; border-radius:4px; font-size:12px; box-sizing:border-box;">
 
-                <button type="submit" style="width:100%; margin-top:12px; padding:8px; background:linear-gradient(180deg, #ff5252, #c62828); color:#fff; border:none; border-radius:4px; font-weight:700; cursor:pointer; font-size:12px;">
-                    💀 Lançar no Caveirinha
-                </button>
-            </form>
+</div>
 
-            <h4 style="font-size: 13px; color: #fff; margin-bottom: 8px;">Lista do Caveirinha Actuante</h4>
-            <div id="lista-caveirinhas-atual" style="max-height: 250px; overflow-y: auto;">
-                <em style="font-size:11px; color:#888;">Carregando devedores...</em>
-            </div>
-        </div>
-
-        <hr class="divisor" style="border: 0; border-top: 1px solid #3d4d5d; margin: 20px 0;">
-
-        <h4>Militares Afastados Hoje</h4>
-        <div id="lista-afastados-atual">Carregando lista...</div>
-    </div>
-
-    </aside>
+</aside>
 
     <!-- Cabeçalho -->
  <header class="cabecalho-principal">
