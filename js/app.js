@@ -203,7 +203,3 @@ function pesquisarMilitar(texto){
         });
 
 }
-
-// Adicione estas duas funções ao final do seu js/app.js para dar vida ao Caveirinha no front:
-
-
