@@ -2082,3 +2082,133 @@ transform:rotate(90deg);
     color:#475569 !important;
 
 }
+
+/* =====================================================
+   MODAIS DO SISTEMA
+===================================================== */
+
+.modal-sistema{
+
+    position:fixed;
+
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:rgba(15,23,42,.55);
+
+    backdrop-filter:blur(4px);
+
+    z-index:99999;
+
+}
+
+
+.janela-sistema{
+
+    width:420px;
+
+    max-width:92%;
+
+    background:white;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.35);
+
+}
+
+
+.cabecalho-modal{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px 20px;
+
+    background:
+    linear-gradient(
+    180deg,
+    #0d3b66,
+    #114b82
+    );
+
+    color:white;
+
+}
+
+
+.btn-fechar-modal{
+
+    width:34px;
+
+    height:34px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.15);
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+.corpo-modal{
+
+    padding:20px;
+
+}
+
+
+.corpo-modal label{
+
+    display:block;
+
+    margin-top:10px;
+
+    margin-bottom:4px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    color:#334155;
+
+}
+
+
+.corpo-modal input,
+.corpo-modal select,
+.corpo-modal textarea{
+
+    width:100%;
+
+    padding:10px;
+
+    border-radius:8px;
+
+    border:1px solid #cbd5e1;
+
+}
+
+
+.corpo-modal textarea{
+
+    min-height:80px;
+
+}
+
