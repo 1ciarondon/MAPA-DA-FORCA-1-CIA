@@ -1,3 +1,35 @@
+function formatarCabecalhoAnotacao(dataISO){
+
+    const partes = dataISO.split("-");
+
+    const data = new Date(
+        Number(partes[0]),
+        Number(partes[1]) - 1,
+        Number(partes[2])
+    );
+
+    const diasSemana = [
+        "DOMINGO",
+        "SEGUNDA-FEIRA",
+        "TERÇA-FEIRA",
+        "QUARTA-FEIRA",
+        "QUINTA-FEIRA",
+        "SEXTA-FEIRA",
+        "SÁBADO"
+    ];
+
+    const diaSemana = diasSemana[data.getDay()];
+
+    const horaAtual = new Date();
+
+    const hora = String(horaAtual.getHours()).padStart(2,"0");
+
+    const minuto = String(horaAtual.getMinutes()).padStart(2,"0");
+
+     return `${diasSemana[data.getDay()]} | ${dia}/${mes}/${ano} | ${String(agora.getHours()).padStart(2,"0")}h${String(agora.getMinutes()).padStart(2,"0")}min`;
+}
+
+
 // ==========================================
 // ANOTAÇÕES DO CALENDÁRIO
 // ==========================================
@@ -83,7 +115,8 @@ function abrirJanelaAnotacao(data) {
 
    modal.style.display = "flex";
 
-document.getElementById("data-anotacao").innerText = data;
+document.getElementById("data-anotacao").innerText =
+    formatarCabecalhoAnotacao(data);
 
 
 // Carrega anotação existente
