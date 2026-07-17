@@ -201,3 +201,6 @@ function pesquisarMilitar(texto){
         });
 
 }
+
+window.calendarioAtual = calendarioAtual;
+window.calendarios = calendarios;
