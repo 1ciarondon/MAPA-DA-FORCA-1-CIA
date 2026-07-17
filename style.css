@@ -377,6 +377,7 @@ header p{
 
 }
 
+
 /* ==========================================================
    LINHA DO MILITAR
 ========================================================== */
@@ -410,14 +411,35 @@ header p{
     text-overflow:ellipsis;
 
     transition:
+
         background .18s ease,
+
         padding-left .18s ease,
+
         transform .18s ease,
+
         box-shadow .18s ease;
 
 }
 
-/* Barra lateral */
+
+/* ==========================================================
+   SEPARAÇÃO DAS GUARNIÇÕES (A CADA 4 MILITARES)
+========================================================== */
+
+.lista-militares .linha-militar:nth-child(4n){
+
+    border-bottom:3px solid #0d3b66;
+
+    margin-bottom:8px;
+
+}
+
+
+
+/* ==========================================================
+   BARRA LATERAL
+========================================================== */
 
 .linha-militar::before{
 
@@ -439,7 +461,10 @@ header p{
 
 }
 
-/* Hover */
+
+/* ==========================================================
+   HOVER
+========================================================== */
 
 .linha-militar:hover{
 
@@ -450,15 +475,75 @@ header p{
     transform:translateX(2px);
 
     box-shadow:
+
         inset 0 0 0 1px rgba(25,118,210,.10);
 
 }
+
 
 .linha-militar:hover::before{
 
     width:4px;
 
 }
+
+
+
+/* ==========================================================
+   POLICIAL INDISPONÍVEL
+========================================================== */
+
+.linha-militar.militar-indisponivel{
+
+    background:#f4f4f4;
+
+    color:#9ca3af;
+
+    text-decoration:line-through;
+
+    opacity:.78;
+
+}
+
+
+.linha-militar.militar-indisponivel strong,
+
+.linha-militar.militar-indisponivel span{
+
+    color:#9ca3af !important;
+
+}
+
+
+.linha-militar.militar-indisponivel::before{
+
+    background:#c62828;
+
+}
+
+
+/* ==========================================================
+   OBSERVAÇÕES
+========================================================== */
+
+.bloco-observacoes{
+
+    display:block;
+
+    width:100%;
+
+    margin-top:4px;
+
+    margin-left:18px;
+
+    font-size:12px;
+
+    color:#666;
+
+    line-height:1.45;
+
+}
+
 
 /* ==========================================================
    CALENDÁRIO
