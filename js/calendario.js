@@ -325,11 +325,7 @@ const anoCalendario = 2026;
     linhasValidas.forEach((linha, indexLinha) => {
         const tr = document.createElement("tr");
         
-        // Se for a primeira linha (Título do Mês)
-        if (indexLinha === 0){
-    return;
-            
-}
+        
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
             // Destaque real do dia atual
