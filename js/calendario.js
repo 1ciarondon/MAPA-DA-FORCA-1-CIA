@@ -126,7 +126,16 @@ function gerarMesEscala(ano, mes){
     ];
 
 
-    const primeiroDia = new Date(ano, mes, 1);
+    const nomesDias = [
+        "DOM",
+        "SEG",
+        "TER",
+        "QUA",
+        "QUI",
+        "SEX",
+        "SAB"
+    ];
+
 
     const ultimoDia = new Date(
         ano,
@@ -135,22 +144,18 @@ function gerarMesEscala(ano, mes){
     ).getDate();
 
 
-
     const linhaMes = [
-    `${nomesMeses[mes]} / ${ano}`
-];
+        `${nomesMeses[mes]} / ${ano}`
+    ];
 
 
+    const linhaSemana = [];
     const linhaDias = [];
     const linhaPrimeiroTurno = [];
     const linhaSegundoTurno = [];
 
 
-
     for(let dia = 1; dia <= ultimoDia; dia++){
-
-
-        linhaDias.push(dia);
 
 
         const dataAtual = new Date(
@@ -160,55 +165,61 @@ function gerarMesEscala(ano, mes){
         );
 
 
-        const referencia = new Date(
-    2026,
-    2,
-    1
-);
+        linhaSemana.push(
+            nomesDias[dataAtual.getDay()]
+        );
 
-referencia.setHours(0,0,0,0);
-dataAtual.setHours(0,0,0,0);
+
+        linhaDias.push(dia);
+
+
+
+        const referencia = new Date(
+            2026,
+            2,
+            1
+        );
+
+
+        referencia.setHours(0,0,0,0);
+        dataAtual.setHours(0,0,0,0);
+
 
 
         const diferenca =
             Math.floor(
-                (dataAtual - referencia)
-                /
-                (1000 * 60 * 60 * 24)
+                (dataAtual - referencia) /
+                86400000
             );
 
 
+
         const ciclo =
-            ((diferenca % 5) + 5) % 5;
+            ((diferenca % 5)+5)%5;
 
 
 
-        // Primeiro turno
-        const turno1 = [
-            "B",
-            "A",
-            "E",
-            "C",
-            "D"
-        ][ciclo];
+        linhaPrimeiroTurno.push(
+            [
+                "B",
+                "A",
+                "E",
+                "C",
+                "D"
+            ][ciclo]
+        );
 
 
 
-        // Segundo turno
-        const turno2 = [
-            "D",
-            "B",
-            "A",
-            "E",
-            "C"
-        ][ciclo];
-
-
-
-        linhaPrimeiroTurno.push(turno1);
-
-        linhaSegundoTurno.push(turno2);
-
+        linhaSegundoTurno.push(
+            [
+                "D",
+                "B",
+                "A",
+                "E",
+                "C"
+            ][ciclo]
+        );
 
     }
 
@@ -218,15 +229,14 @@ dataAtual.setHours(0,0,0,0);
 
         dados:[
             linhaMes,
+            linhaSemana,
             linhaDias,
             linhaPrimeiroTurno,
             linhaSegundoTurno
         ],
 
         cores:[]
-
     };
-
 
 }
 
@@ -310,36 +320,53 @@ const anoCalendario = 2026;
     // Localiza a linha dos dias (onde tem 1, 2, 3...)
     let indexLinhaDias = -1;
     let indexLinhaSemana = -1;
-   for (let i = 0; i < linhasValidas.length; i++) {
+  for (let i = 0; i < linhasValidas.length; i++) {
 
-    const textoLinha = linhasValidas[i]
+
+    const textoLinha =
+        linhasValidas[i]
         .join(" ")
         .toUpperCase();
+
 
 
     if(
         textoLinha.includes("DOM") ||
         textoLinha.includes("SEG") ||
-        textoLinha.includes("TER")
+        textoLinha.includes("TER") ||
+        textoLinha.includes("QUA") ||
+        textoLinha.includes("QUI") ||
+        textoLinha.includes("SEX") ||
+        textoLinha.includes("SAB")
     ){
+
         indexLinhaSemana = i;
+
     }
 
 
-    let temDiasValidos = linhasValidas[i].some(c => {
 
-        let n = parseInt(c,10);
+    const temDias =
+        linhasValidas[i].some(c => {
 
-        return !isNaN(n) && n >=1 && n<=31;
+            let n = Number(c);
 
-    });
+            return (
+                !isNaN(n) &&
+                n >=1 &&
+                n <=31
+            );
+
+        });
 
 
-    if(temDiasValidos){
+
+    if(temDias){
 
         indexLinhaDias = i;
 
     }
+
 
 }
 
@@ -583,22 +610,30 @@ function atualizarBotoesCalendario() {
     }
 }
 
-function proximoMes() {
+function proximoMes(){
 
-    if (calendarioAtual >= calendarios.length - 1)
+    if(calendarioAtual >= calendarios.length - 1){
         return;
+    }
+
 
     calendarioAtual++;
 
     renderizarCalendarioAtual();
+
 }
 
-function mesAnterior() {
 
-    if (calendarioAtual <= 0)
+
+function mesAnterior(){
+
+    if(calendarioAtual <=0){
         return;
+    }
+
 
     calendarioAtual--;
 
     renderizarCalendarioAtual();
+
 }
