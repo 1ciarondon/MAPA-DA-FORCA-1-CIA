@@ -397,53 +397,73 @@ function renderizarEspelhoCabecalho(calendario) {
 
                 }
 
-// ==========================================================
-// CLIQUE NAS DATAS DA AGENDA
-// BLOQUEIA DATAS ANTERIORES AO DIA ATUAL
-// ==========================================================
+                // ===============================
+                // Clique nas datas da agenda
+                // ===============================
 
-td.style.cursor = "pointer";
-
-
-const hoje = new Date();
-
-hoje.setHours(0,0,0,0);
+                td.style.cursor = "pointer";
 
 
-const dataSelecionada = new Date(dataISO);
+                const hojeComparacao = new Date();
 
-dataSelecionada.setHours(0,0,0,0);
-
-
-
-if(dataSelecionada < hoje){
-
-    // Data passada
-    td.style.cursor = "not-allowed";
-
-    td.title = "Não é permitido lançar observações em datas anteriores";
-
-    td.style.opacity = "0.65";
-
-    td.onclick = () => {
-
-        alert(
-            "Não é permitido criar observações em datas anteriores."
-        );
-
-    };
+                hojeComparacao.setHours(0,0,0,0);
 
 
-}else{
+                const dataSelecionada = new Date(dataISO);
+
+                dataSelecionada.setHours(0,0,0,0);
 
 
-    // Data atual ou futura
-    td.onclick = () => {
 
-        abrirJanelaAnotacao(dataISO);
+                if(dataSelecionada < hojeComparacao){
 
-    };
+                    td.style.cursor = "not-allowed";
 
+                    td.title =
+                    "Não é permitido lançar observações em datas anteriores";
+
+
+                    td.style.opacity = "0.65";
+
+
+                    td.onclick = () => {
+
+                        alert(
+                            "Não é permitido criar observações em datas anteriores."
+                        );
+
+                    };
+
+
+                }else{
+
+
+                    td.onclick = () => {
+
+                        abrirJanelaAnotacao(dataISO);
+
+                    };
+
+                }
+
+
+            }
+
+
+            tr.appendChild(td);
+
+        });
+
+
+        fragment.appendChild(tr);
+
+    });
+
+
+    tabela.appendChild(fragment);
+
+
+    atualizarBotoesCalendario();
 
 }
 
