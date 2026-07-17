@@ -20,7 +20,10 @@ function formatarCabecalhoAnotacao(dataISO){
 
     const agora = new Date();
 
-    return `${diasSemana[data.getDay()]} | ${dia}/${mes}/${ano} | ${String(agora.getHours()).padStart(2,"0")}h${String(agora.getMinutes()).padStart(2,"0")}min`;
+    const hora = String(agora.getHours()).padStart(2, "0");
+    const minuto = String(agora.getMinutes()).padStart(2, "0");
+
+    return `${diasSemana[data.getDay()]} | ${dia}/${mes}/${ano} | ${hora}h${minuto}min`;
 
 }
 
