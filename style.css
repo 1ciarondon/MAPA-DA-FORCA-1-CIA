@@ -2212,3 +2212,197 @@ transform:rotate(90deg);
 
 }
 
+/* ==========================================================
+   MODAL CAVEIRINHA
+========================================================== */
+
+
+.modal-caveirinha{
+
+    position:fixed;
+    inset:0;
+
+    display:none;
+
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.45);
+
+    backdrop-filter:blur(4px);
+
+    z-index:99999;
+
+}
+
+
+
+.janela-caveirinha{
+
+    width:520px;
+    max-width:95%;
+
+    background:#fff;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,.30);
+
+}
+
+
+
+.cabecalho-caveirinha{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 22px;
+
+    background:
+    linear-gradient(
+        180deg,
+        #7f0000,
+        #b71c1c
+    );
+
+    color:white;
+
+}
+
+
+
+.cabecalho-caveirinha h2{
+
+    margin:0;
+
+}
+
+
+
+.cabecalho-caveirinha button{
+
+    width:36px;
+    height:36px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:
+    rgba(255,255,255,.15);
+
+    color:white;
+
+    cursor:pointer;
+
+}
+
+
+
+.corpo-caveirinha{
+
+    padding:22px;
+
+}
+
+
+
+.corpo-caveirinha label{
+
+    display:block;
+
+    margin-top:12px;
+
+    margin-bottom:5px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    color:#374151;
+
+}
+
+
+
+.corpo-caveirinha input{
+
+
+    width:100%;
+
+    padding:11px;
+
+    border-radius:8px;
+
+    border:1px solid #d1d5db;
+
+    font-size:14px;
+
+}
+
+
+
+.corpo-caveirinha input:focus{
+
+    outline:none;
+
+    border-color:#b91c1c;
+
+    box-shadow:
+    0 0 0 3px rgba(185,28,28,.15);
+
+}
+
+
+
+.btn-cadastrar-caveira{
+
+    width:100%;
+
+    margin-top:20px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:
+    linear-gradient(
+        #ef4444,
+        #991b1b
+    );
+
+    color:white;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+}
+
+
+.btn-cadastrar-caveira:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+
+#lista-caveirinhas-atual{
+
+    max-height:220px;
+
+    overflow-y:auto;
+
+    margin-top:10px;
+
+}
