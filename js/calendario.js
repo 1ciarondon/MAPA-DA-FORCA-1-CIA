@@ -1,130 +1,117 @@
+// ==========================================================
+// DESCOBRE O MÊS E ANO DO CALENDÁRIO
+// ==========================================================
+const NOMES_MESES = [
+    "JANEIRO",
+    "FEVEREIRO",
+    "MARÇO",
+    "ABRIL",
+    "MAIO",
+    "JUNHO",
+    "JULHO",
+    "AGOSTO",
+    "SETEMBRO",
+    "OUTUBRO",
+    "NOVEMBRO",
+    "DEZEMBRO"
+];
+
 function descobrirMesCalendario(calendario){
 
     if(
         !calendario ||
         !calendario.dados ||
-        !calendario.dados[0]
+        !calendario.dados.length
     ){
         return -1;
     }
 
     const titulo = String(
-        calendario.dados[0][0]
+        calendario.dados[0].find(
+            c => c && String(c).trim() !== ""
+        ) || ""
     ).toUpperCase();
 
-    const meses = [
-        "JANEIRO",
-        "FEVEREIRO",
-        "MARÇO",
-        "ABRIL",
-        "MAIO",
-        "JUNHO",
-        "JULHO",
-        "AGOSTO",
-        "SETEMBRO",
-        "OUTUBRO",
-        "NOVEMBRO",
-        "DEZEMBRO"
-    ];
-
-    return meses.findIndex(mes => titulo.includes(mes));
+    return NOMES_MESES.findIndex(
+        mes => titulo.includes(mes)
+    );
 
 }
 
 function obterAnoMesDoCalendario(calendario){
 
-    const nomeMes = String(
+    if(
+        !calendario ||
+        !calendario.dados ||
+        !calendario.dados.length
+    ){
+        return {
+            ano: new Date().getFullYear(),
+            mes: -1
+        };
+    }
+
+    const titulo = String(
         calendario.dados[0].find(
             c => c && String(c).trim() !== ""
-        )
+        ) || ""
     ).toUpperCase();
 
+    const mes = descobrirMesCalendario(calendario);
 
-    const meses = [
-        "JANEIRO",
-        "FEVEREIRO",
-        "MARÇO",
-        "ABRIL",
-        "MAIO",
-        "JUNHO",
-        "JULHO",
-        "AGOSTO",
-        "SETEMBRO",
-        "OUTUBRO",
-        "NOVEMBRO",
-        "DEZEMBRO"
-    ];
-
-
-    const mes = meses.findIndex(
-        m => nomeMes.includes(m)
-    );
-
+    // Procura um ano de quatro dígitos
+    const anoEncontrado = titulo.match(/\b20\d{2}\b/);
 
     return {
-        ano: 2026,
+        ano: anoEncontrado
+            ? Number(anoEncontrado[0])
+            : new Date().getFullYear(),
         mes: mes
     };
 
 }
 
 // ==========================================================
-// GERADOR AUTOMÁTICO DE CALENDÁRIO DE ESCALA
-// Base da sequência: 01/03/2026
+// GERADOR AUTOMÁTICO DE CALENDÁRIOS
+// Base da escala: 01/03/2026
 // ==========================================================
 
-function gerarCalendariosAutomaticos(){
+const DATA_BASE_ESCALA = new Date(2026, 2, 1);
+DATA_BASE_ESCALA.setHours(0, 0, 0, 0);
+
+const EQUIPES_PRIMEIRO_TURNO = ["B", "A", "E", "C", "D"];
+const EQUIPES_SEGUNDO_TURNO = ["D", "B", "A", "E", "C"];
+
+function gerarCalendariosAutomaticos() {
 
     const hoje = new Date();
 
-    const lista = [];
-
-    // Remove horário para evitar erro de comparação
     hoje.setHours(0,0,0,0);
 
+    const lista = [];
 
-    for(let i = 0; i <= 5; i++){
+    for (let i = 0; i < 6; i++) {
 
-        const dataMes = new Date(
+        const data = new Date(
             hoje.getFullYear(),
             hoje.getMonth() + i,
             1
         );
 
-
         lista.push(
             gerarMesEscala(
-                dataMes.getFullYear(),
-                dataMes.getMonth()
+                data.getFullYear(),
+                data.getMonth()
             )
         );
 
     }
 
-
     return lista;
 
 }
 
-
-
-function gerarMesEscala(ano, mes){
-
-    const nomesMeses = [
-        "JANEIRO",
-        "FEVEREIRO",
-        "MARÇO",
-        "ABRIL",
-        "MAIO",
-        "JUNHO",
-        "JULHO",
-        "AGOSTO",
-        "SETEMBRO",
-        "OUTUBRO",
-        "NOVEMBRO",
-        "DEZEMBRO"
-    ];
-
+function gerarMesEscala(ano, mes) {
 
     const nomesDias = [
         "DOM",
@@ -136,27 +123,22 @@ function gerarMesEscala(ano, mes){
         "SAB"
     ];
 
-
     const ultimoDia = new Date(
         ano,
         mes + 1,
         0
     ).getDate();
 
-
     const linhaMes = [
-        `${nomesMeses[mes]} / ${ano}`
+        `${NOMES_MESES[mes]} / ${ano}`
     ];
-
 
     const linhaSemana = [];
     const linhaDias = [];
     const linhaPrimeiroTurno = [];
     const linhaSegundoTurno = [];
 
-
-    for(let dia = 1; dia <= ultimoDia; dia++){
-
+    for (let dia = 1; dia <= ultimoDia; dia++) {
 
         const dataAtual = new Date(
             ano,
@@ -164,70 +146,34 @@ function gerarMesEscala(ano, mes){
             dia
         );
 
+        dataAtual.setHours(0,0,0,0);
 
         linhaSemana.push(
             nomesDias[dataAtual.getDay()]
         );
 
-
         linhaDias.push(dia);
 
-
-
-        const referencia = new Date(
-            2026,
-            2,
-            1
+        const diferencaDias = Math.floor(
+            (dataAtual - DATA_BASE_ESCALA) / 86400000
         );
-
-
-        referencia.setHours(0,0,0,0);
-        dataAtual.setHours(0,0,0,0);
-
-
-
-        const diferenca =
-            Math.floor(
-                (dataAtual - referencia) /
-                86400000
-            );
-
-
 
         const ciclo =
-            ((diferenca % 5)+5)%5;
-
-
+            ((diferencaDias % 5) + 5) % 5;
 
         linhaPrimeiroTurno.push(
-            [
-                "B",
-                "A",
-                "E",
-                "C",
-                "D"
-            ][ciclo]
+            EQUIPES_PRIMEIRO_TURNO[ciclo]
         );
 
-
-
         linhaSegundoTurno.push(
-            [
-                "D",
-                "B",
-                "A",
-                "E",
-                "C"
-            ][ciclo]
+            EQUIPES_SEGUNDO_TURNO[ciclo]
         );
 
     }
 
-
-
     return {
 
-        dados:[
+        dados: [
             linhaMes,
             linhaSemana,
             linhaDias,
@@ -235,405 +181,299 @@ function gerarMesEscala(ano, mes){
             linhaSegundoTurno
         ],
 
-        cores:[]
+        cores: []
+
     };
 
 }
 
 function renderizarEspelhoCabecalho(calendario) {
+
     const tabela = document.getElementById("tabela-espelho-sheets");
     const wrapper = document.getElementById("wrapper-cabecalho-sheets");
-    
+
     if (!tabela) {
-        console.error("Erro Crítico: Não foi encontrada uma tag com id='tabela-espelho-sheets' no seu HTML.");
+        console.error("Tabela do calendário não encontrada.");
         return;
     }
 
-    // 1. LIMPA O "Carregando calendário..." IMEDIATAMENTE
     tabela.innerHTML = "";
 
-    if (!calendario || !calendario.dados || calendario.dados.length === 0) {
-        console.warn("Aviso: Dados do calendário vieram vazios ou nulos da API.");
-        if (wrapper) wrapper.style.display = "none";
-        tabela.innerHTML = "<tr><td style='padding:10px; color:red;'>Nenhum dado de calendário encontrado na planilha.</td></tr>";
+    if (
+        !calendario ||
+        !calendario.dados ||
+        calendario.dados.length === 0
+    ) {
+
+        if (wrapper) {
+            wrapper.style.display = "none";
+        }
+
+        tabela.innerHTML =
+            "<tr><td style='padding:15px'>Nenhum calendário disponível.</td></tr>";
+
         return;
     }
 
-    if (wrapper) wrapper.style.display = "block";
-
-    const linhasCabecalho = calendario.dados;
-    const coresCabecalho = calendario.cores;
-    const eventosGlobais = window.dadosGlobaisEventos || {}; 
-
-    // Remove linhas totalmente vazias
-    const linhasValidas = linhasCabecalho.filter(linha => 
-        linha && linha.some(celula => celula !== null && String(celula).trim() !== "")
-    );
-
-   const dataHoje = new Date();
-
-const diaHoje = dataHoje.getDate();
-const mesHoje = dataHoje.getMonth();
-const anoHoje = dataHoje.getFullYear();
-
-const mesSistema = mesHoje;
-const anoSistema = anoHoje;
-
-
-// mês que o calendário aberto representa
-const nomeMesTela = String(
-    linhasValidas[0].find(c => c && String(c).trim() !== "")
-).toUpperCase();
-
-
-const mapaMeses = {
-    JANEIRO:0,
-    FEVEREIRO:1,
-    MARÇO:2,
-    ABRIL:3,
-    MAIO:4,
-    JUNHO:5,
-    JULHO:6,
-    AGOSTO:7,
-    SETEMBRO:8,
-    OUTUBRO:9,
-    NOVEMBRO:10,
-    DEZEMBRO:11
-};
-
-
-let mesCalendario = mesSistema;
-
-
-for(const mes in mapaMeses){
-
-    if(nomeMesTela.includes(mes)){
-        mesCalendario = mapaMeses[mes];
-        break;
+    if (wrapper) {
+        wrapper.style.display = "block";
     }
 
-}
+    const linhas = calendario.dados;
+    const cores = calendario.cores || [];
+    const eventosGlobais = window.dadosGlobaisEventos || {};
 
+    const { ano, mes } = obterAnoMesDoCalendario(calendario);
 
-const anoCalendario = 2026;
+    const hoje = new Date();
 
-    // Localiza a linha dos dias (onde tem 1, 2, 3...)
-    let indexLinhaDias = -1;
-    let indexLinhaSemana = -1;
-  for (let i = 0; i < linhasValidas.length; i++) {
+    const diaHoje = hoje.getDate();
+    const mesHoje = hoje.getMonth();
+    const anoHoje = hoje.getFullYear();
 
-
-    const textoLinha =
-        linhasValidas[i]
-        .join(" ")
-        .toUpperCase();
-
-
-
-    if(
-        textoLinha.includes("DOM") ||
-        textoLinha.includes("SEG") ||
-        textoLinha.includes("TER") ||
-        textoLinha.includes("QUA") ||
-        textoLinha.includes("QUI") ||
-        textoLinha.includes("SEX") ||
-        textoLinha.includes("SAB")
-    ){
-
-        indexLinhaSemana = i;
-
-    }
-
-
-
-    const temDias =
-        linhasValidas[i].some(c => {
-
-            let n = Number(c);
-
-            return (
-                !isNaN(n) &&
-                n >=1 &&
-                n <=31
-            );
-
-        });
-
-
-
-    if(temDias){
-
-        indexLinhaDias = i;
-
-    }
-
-
-}
+    const indexLinhaSemana = 1;
+    const indexLinhaDias = 2;
 
     const fragment = document.createDocumentFragment();
 
-    linhasValidas.forEach((linha, indexLinha) => {
+    // =====================================================
+    // Cabeçalho com navegação
+    // =====================================================
+
+    const trTitulo = document.createElement("tr");
+
+    const tdTitulo = document.createElement("td");
+
+    tdTitulo.colSpan = linhas[indexLinhaDias].length;
+
+    tdTitulo.className = "cabecalho-calendario";
+
+    tdTitulo.innerHTML = `
+        <div class="barra-calendario">
+
+            <button
+                id="btn-mes-anterior"
+                class="btn-cal-nav"
+                onclick="mesAnterior()">
+                ◀
+            </button>
+
+            <span class="titulo-calendario">
+                ${linhas[0][0]}
+            </span>
+
+            <button
+                id="btn-proximo-mes"
+                class="btn-cal-nav"
+                onclick="proximoMes()">
+                ▶
+            </button>
+
+        </div>
+    `;
+
+    trTitulo.appendChild(tdTitulo);
+
+    fragment.appendChild(trTitulo);
+
+    // =====================================================
+    // Renderização das linhas
+    // =====================================================
+
+    linhas.forEach((linha, indexLinha) => {
+
+        // não desenha novamente a linha do título
+        if (indexLinha === 0) return;
+
         const tr = document.createElement("tr");
-        
-        
-        linha.forEach((celula, indexColuna) => {
+                linha.forEach((celula, indexColuna) => {
+
             const td = document.createElement("td");
-            // Destaque real do dia atual
-if(indexLinha === indexLinhaDias){
 
-    const diaCelula = parseInt(celula,10);
+            td.innerText = celula ?? "";
+            td.dataset.valor = celula ?? "";
+            td.style.position = "relative";
+            td.style.padding = "8px 5px";
+            td.style.border = "1px solid #d1d5db";
+            td.style.fontSize = "12px";
+            td.style.fontWeight = "700";
+            td.style.minWidth = "38px";
+            td.style.height = "35px";
+            td.style.textAlign = "center";
+            td.style.verticalAlign = "middle";
 
-    if(!isNaN(diaCelula)){
+            // =====================================
+            // Cores vindas do Google Sheets
+            // =====================================
 
-        const mesDoCalendario = descobrirMesCalendario(calendario);
+            const cor =
+                cores[indexLinha]?.[indexColuna];
 
+            if (
+                cor &&
+                cor !== "#ffffff" &&
+                cor !== "transparent"
+            ) {
 
-        const dataCelula = new Date(
-            anoCalendario,
-            mesDoCalendario,
-            diaCelula
-        );
+                td.style.background = cor;
+                td.style.color =
+                    (cor === "#000000" || cor === "#424242")
+                        ? "#fff"
+                        : "#1e293b";
 
-
-        if(
-            dataCelula.getDate() === diaHoje &&
-            dataCelula.getMonth() === mesHoje &&
-            dataCelula.getFullYear() === anoHoje
-        ){
-
-            td.classList.add("dia-hoje");
-
-        }
-
-    }
-
-}
-            td.style.position = "relative"; 
-            td.innerText = (celula !== null && celula !== undefined) ? celula : "";
-            td.dataset.valor = celula;
-            
-           td.style.padding = "8px 5px";
-td.style.border = "1px solid #d1d5db";
-td.style.fontSize = "12px";
-td.style.fontWeight = "700";
-td.style.minWidth = "38px";
-td.style.height = "35px";
-td.style.textAlign = "center";
-            // Marca finais de semana
-
-if(indexLinha === indexLinhaDias && celula){
-
-    const dia = Number(celula);
-
-    const data = new Date(
-    anoCalendario,
-    mesCalendario,
-    dia
-);
-
-data.setHours(12);
-
-    const semana = data.getDay();
-
-
-    // Domingo
-   if (semana === 0) {
-    td.classList.add("domingo");
-}
-
-
-
-    // Sábado
-   if (semana === 6) {
-    td.classList.add("sabado");
-}
-
-}
-td.style.verticalAlign = "middle";
-
-            // Cores vindas do Sheets
-            let corFundoOriginal = (coresCabecalho && coresCabecalho[indexLinha]) ? coresCabecalho[indexLinha][indexColuna] : "#ffffff";
-            if (corFundoOriginal === "#ffffff" || corFundoOriginal === "transparent") {
-                corFundoOriginal = "";
             }
 
-            if (corFundoOriginal) {
-                td.style.background = corFundoOriginal;
-                td.style.color = (corFundoOriginal === "#424242" || corFundoOriginal === "#000000") ? "#ffffff" : "#1e293b";
-            } else {
-                td.style.background = "#ffffff";
-                td.style.color = "#1e293b";
+            // =====================================
+            // Linha dos dias
+            // =====================================
 
-                // Estilo automático do calendário
+            if (
+                indexLinha === indexLinhaDias &&
+                !isNaN(Number(celula))
+            ) {
 
-           }
+                const dia = Number(celula);
 
-           
+                const data = new Date(
+                    ano,
+                    mes,
+                    dia,
+                    12
+                );
 
-            // Marcador de Eventos da Agenda
-            if (indexLinha === indexLinhaDias && celula) {
-                const diaNumero = parseInt(celula, 10);
-                if (!isNaN(diaNumero)) {
-                    const mesIndex = descobrirMesCalendario(calendario);
+                // Dia atual
 
-                    const dataCelulaStr = `${anoCalendario}-${String(mesIndex + 1).padStart(2, '0')}-${String(diaNumero).padStart(2, '0')}`;
-                    
-                    // Verifica se existe anotação salva para este dia
-const anotacaoSalva = localStorage.getItem("anotacao_" + dataCelulaStr);
+                if (
+                    data.getDate() === diaHoje &&
+                    data.getMonth() === mesHoje &&
+                    data.getFullYear() === anoHoje
+                ) {
 
-if (anotacaoSalva) {
+                    td.classList.add("dia-hoje");
 
-    const pontoAnotacao = document.createElement("span");
-
-    pontoAnotacao.className = "ponto-anotacao";
-
-    pontoAnotacao.title = "Existe anotação neste dia";
-
-    pontoAnotacao.style.position = "absolute";
-    pontoAnotacao.style.bottom = "2px";
-    pontoAnotacao.style.left = "50%";
-    pontoAnotacao.style.transform = "translateX(-50%)";
-    pontoAnotacao.style.width = "7px";
-    pontoAnotacao.style.height = "7px";
-    pontoAnotacao.style.borderRadius = "50%";
-    pontoAnotacao.style.background = "#dc2626";
-
-    td.appendChild(pontoAnotacao);
-
-}
-
-                    if (eventosGlobais[dataCelulaStr]) {
-                        const ponto = document.createElement("span");
-                        ponto.className = "ponto-evento";
-                        ponto.title = eventosGlobais[dataCelulaStr].map(ev => `• ${ev.descricao}`).join("\n");
-                        ponto.style.position = "absolute";
-                        ponto.style.bottom = "2px";
-                        ponto.style.left = "50%";
-                        ponto.style.transform = "translateX(-50%)";
-                        ponto.style.width = "5px";
-                        ponto.style.height = "5px";
-                        ponto.style.borderRadius = "50%";
-                        ponto.style.background = "#f43f5e"; 
-                        td.appendChild(ponto);
-                    }
                 }
+
+                // Domingo
+
+                if (data.getDay() === 0) {
+                    td.classList.add("domingo");
+                }
+
+                // Sábado
+
+                if (data.getDay() === 6) {
+                    td.classList.add("sabado");
+                }
+
+                // ==========================
+                // Eventos
+                // ==========================
+
+                const dataISO =
+                    `${ano}-${String(mes + 1).padStart(2, "0")}-${String(dia).padStart(2, "0")}`;
+
+                if (localStorage.getItem("anotacao_" + dataISO)) {
+
+                    const ponto = document.createElement("span");
+
+                    ponto.className = "ponto-anotacao";
+
+                    td.appendChild(ponto);
+
+                }
+
+                if (eventosGlobais[dataISO]) {
+
+                    const ponto = document.createElement("span");
+
+                    ponto.className = "ponto-evento";
+
+                    ponto.title =
+                        eventosGlobais[dataISO]
+                            .map(e => "• " + e.descricao)
+                            .join("\n");
+
+                    td.appendChild(ponto);
+
+                }
+
+                td.style.cursor = "pointer";
+
+                td.onclick = () =>
+                    abrirJanelaAnotacao(dataISO);
+
             }
-            // Apenas os dias do mês podem ser clicados
-if(indexLinha === indexLinhaDias && celula){
 
-    const diaNumeroClique = parseInt(celula, 10);
-
-    if(!isNaN(diaNumeroClique)){
-
-        const mesIndexClique = descobrirMesCalendario(calendario);
-
-        const dataClique = `${anoCalendario}-${String(mesIndexClique + 1).padStart(2,'0')}-${String(diaNumeroClique).padStart(2,'0')}`;
-
-        td.style.cursor = "pointer";
-
-        td.onclick = () => {
-
-            abrirJanelaAnotacao(dataClique);
-
-        };
-
-    }
-
-}
             tr.appendChild(td);
+
         });
+
         fragment.appendChild(tr);
+
     });
 
     tabela.appendChild(fragment);
+
+    atualizarBotoesCalendario();
+
 }
 
 function renderizarCalendarioAtual() {
-    // Busca a variável de forma segura na janela global
-    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
 
-    if (!listaCalendarios || !listaCalendarios.length) {
-        console.warn("Aviso: Variável 'calendarios' ainda não está pronta ou está vazia.");
+    if (!window.calendarios || !window.calendarios.length) {
+        console.warn("Nenhum calendário disponível.");
         return;
     }
 
-    // Garante que o index atual é válido
-    const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
-    const calendario = listaCalendarios[index];
-
-    console.log(
-    "CALENDÁRIO ATUAL:",
-    index,
-    calendario.dados[0][0]
-);
+    const calendario = window.calendarios[window.calendarioAtual];
 
     if (!calendario) {
-        console.error("Erro: Calendário não encontrado para o índice:", index);
+        console.error("Calendário inválido.");
         return;
     }
 
     renderizarEspelhoCabecalho(calendario);
     atualizarBotoesCalendario();
-    atualizarTituloCalendario();
-}
-
-function atualizarTituloCalendario(){
-
-    const titulo = document.getElementById("titulo-calendario");
-
-    if(!titulo) return;
-
-    const lista = window.calendarios;
-
-    if(!lista || !lista.length) return;
-
-    titulo.innerText =
-        lista[window.calendarioAtual].dados[0][0];
 
 }
 
-function atualizarBotoesCalendario() {
-    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
-    const index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
+function atualizarBotoesCalendario(){
 
     const btnAnterior = document.getElementById("btn-mes-anterior");
-    const btnProximo = document.getElementById("btn-proximo-mes");
+    const btnProximo  = document.getElementById("btn-proximo-mes");
 
-    if (!listaCalendarios) return;
+    if(!btnAnterior || !btnProximo) return;
 
-    if (btnAnterior) {
-        btnAnterior.disabled = index === 0;
-    }
+    btnAnterior.disabled =
+        window.calendarioAtual === 0;
 
-    if (btnProximo) {
-        btnProximo.disabled = index >= listaCalendarios.length - 1;
-    }
+    btnProximo.disabled =
+        window.calendarioAtual >= window.calendarios.length - 1;
+
 }
 
 function proximoMes(){
 
-    if(calendarioAtual >= calendarios.length - 1){
+    if(window.calendarioAtual >= window.calendarios.length - 1){
         return;
     }
 
-
-    calendarioAtual++;
+    window.calendarioAtual++;
 
     renderizarCalendarioAtual();
 
 }
-
-
 
 function mesAnterior(){
 
-    if(calendarioAtual <=0){
+    if(window.calendarioAtual <= 0){
         return;
     }
 
-
-    calendarioAtual--;
+    window.calendarioAtual--;
 
     renderizarCalendarioAtual();
 
 }
+
+
