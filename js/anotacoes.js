@@ -1,11 +1,11 @@
 function formatarCabecalhoAnotacao(dataISO){
 
-    const partes = dataISO.split("-");
+    const [ano, mes, dia] = dataISO.split("-");
 
     const data = new Date(
-        Number(partes[0]),
-        Number(partes[1]) - 1,
-        Number(partes[2])
+        Number(ano),
+        Number(mes) - 1,
+        Number(dia)
     );
 
     const diasSemana = [
@@ -18,17 +18,11 @@ function formatarCabecalhoAnotacao(dataISO){
         "SÁBADO"
     ];
 
-    const diaSemana = diasSemana[data.getDay()];
+    const agora = new Date();
 
-    const horaAtual = new Date();
+    return `${diasSemana[data.getDay()]} | ${dia}/${mes}/${ano} | ${String(agora.getHours()).padStart(2,"0")}h${String(agora.getMinutes()).padStart(2,"0")}min`;
 
-    const hora = String(horaAtual.getHours()).padStart(2,"0");
-
-    const minuto = String(horaAtual.getMinutes()).padStart(2,"0");
-
-     return `${diasSemana[data.getDay()]} | ${dia}/${mes}/${ano} | ${String(agora.getHours()).padStart(2,"0")}h${String(agora.getMinutes()).padStart(2,"0")}min`;
 }
-
 
 // ==========================================
 // ANOTAÇÕES DO CALENDÁRIO
