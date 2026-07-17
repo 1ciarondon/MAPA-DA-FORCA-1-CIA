@@ -326,29 +326,10 @@ const anoCalendario = 2026;
         const tr = document.createElement("tr");
         
         // Se for a primeira linha (Título do Mês)
-        if (indexLinha === 0) {
-            
-            const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
-
-const thMes = document.createElement("th");
-
-thMes.innerText = nomeMes.toUpperCase();
-thMes.colSpan = linhasValidas[indexLinhaDias].length;
-            thMes.style.background = "#0f4c81";
-            thMes.style.color = "#ffffff";
-            thMes.style.fontSize = "16px";
-            thMes.style.fontWeight = "800";
-            thMes.style.letterSpacing = "2px";
-            thMes.style.padding = "10px";
-            thMes.style.border = "2px solid #0f4c81";
-            thMes.style.textAlign = "center";
-            thMes.style.verticalAlign = "middle";
-            thMes.style.height = "40px";
-            
-            tr.appendChild(thMes);
-            fragment.appendChild(tr);
-            return; 
-        }
+        if (indexLinha === 0){
+    return;
+}
+    }
 
         linha.forEach((celula, indexColuna) => {
             const td = document.createElement("td");
@@ -584,38 +565,21 @@ function atualizarBotoesCalendario() {
 }
 
 function proximoMes() {
-    
-    console.log(
-        "ANTES:",
-        window.calendarioAtual
-    );
-    
-    const listaCalendarios = window.calendarios || (typeof calendarios !== 'undefined' ? calendarios : null);
-    let index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
 
-    if (!listaCalendarios || index >= listaCalendarios.length - 1) return;
+    if (calendarioAtual >= calendarios.length - 1)
+        return;
 
-    index++;
-    if (window.calendarioAtual !== undefined) window.calendarioAtual = index;
-    if (typeof calendarioAtual !== 'undefined') calendarioAtual = index;
-
-    console.log(
-        "DEPOIS:",
-        window.calendarioAtual
-    );
+    calendarioAtual++;
 
     renderizarCalendarioAtual();
 }
 
 function mesAnterior() {
-    let index = window.calendarioAtual !== undefined ? window.calendarioAtual : (typeof calendarioAtual !== 'undefined' ? calendarioAtual : 0);
 
-    if (index <= 0) return;
+    if (calendarioAtual <= 0)
+        return;
 
-    index--;
-    if (window.calendarioAtual !== undefined) window.calendarioAtual = index;
-    if (typeof calendarioAtual !== 'undefined') calendarioAtual = index;
+    calendarioAtual--;
 
     renderizarCalendarioAtual();
-
-    }
+}
