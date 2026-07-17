@@ -309,16 +309,39 @@ const anoCalendario = 2026;
 
     // Localiza a linha dos dias (onde tem 1, 2, 3...)
     let indexLinhaDias = -1;
-    for (let i = 0; i < linhasValidas.length; i++) {
-        let temDiasValidos = linhasValidas[i].some(c => {
-            let n = parseInt(c, 10);
-            return !isNaN(n) && n >= 1 && n <= 31;
-        });
-        if (temDiasValidos) {
-            indexLinhaDias = i;
-            break;
-        }
+    let indexLinhaSemana = -1;
+   for (let i = 0; i < linhasValidas.length; i++) {
+
+    const textoLinha = linhasValidas[i]
+        .join(" ")
+        .toUpperCase();
+
+
+    if(
+        textoLinha.includes("DOM") ||
+        textoLinha.includes("SEG") ||
+        textoLinha.includes("TER")
+    ){
+        indexLinhaSemana = i;
     }
+
+
+    let temDiasValidos = linhasValidas[i].some(c => {
+
+        let n = parseInt(c,10);
+
+        return !isNaN(n) && n >=1 && n<=31;
+
+    });
+
+
+    if(temDiasValidos){
+
+        indexLinhaDias = i;
+
+    }
+
+}
 
     const fragment = document.createDocumentFragment();
 
@@ -376,11 +399,12 @@ if(indexLinha === indexLinhaDias && celula){
     const dia = Number(celula);
 
     const data = new Date(
-        anoCalendario,
-        mesCalendario,
-        dia
-    );
+    anoCalendario,
+    mesCalendario,
+    dia
+);
 
+data.setHours(12);
 
     const semana = data.getDay();
 
