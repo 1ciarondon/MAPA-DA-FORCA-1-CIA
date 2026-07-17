@@ -397,26 +397,57 @@ function renderizarEspelhoCabecalho(calendario) {
 
                 }
 
-                td.style.cursor = "pointer";
+// ==========================================================
+// CLIQUE NAS DATAS DA AGENDA
+// BLOQUEIA DATAS ANTERIORES AO DIA ATUAL
+// ==========================================================
 
-                td.onclick = () =>
-                    abrirJanelaAnotacao(dataISO);
+td.style.cursor = "pointer";
 
-            }
 
-            tr.appendChild(td);
+const hoje = new Date();
 
-        });
+hoje.setHours(0,0,0,0);
 
-        fragment.appendChild(tr);
 
-    });
+const dataSelecionada = new Date(dataISO);
 
-    tabela.appendChild(fragment);
+dataSelecionada.setHours(0,0,0,0);
 
-    atualizarBotoesCalendario();
+
+
+if(dataSelecionada < hoje){
+
+    // Data passada
+    td.style.cursor = "not-allowed";
+
+    td.title = "Não é permitido lançar observações em datas anteriores";
+
+    td.style.opacity = "0.65";
+
+    td.onclick = () => {
+
+        alert(
+            "Não é permitido criar observações em datas anteriores."
+        );
+
+    };
+
+
+}else{
+
+
+    // Data atual ou futura
+    td.onclick = () => {
+
+        abrirJanelaAnotacao(dataISO);
+
+    };
+
 
 }
+
+
 
 function renderizarCalendarioAtual() {
 
