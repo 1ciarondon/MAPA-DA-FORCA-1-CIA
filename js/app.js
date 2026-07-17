@@ -24,11 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typeof configurarAtualizacaoAutomatica === "function") {
         configurarAtualizacaoAutomatica();
     }
+    });
 
-    // 4. Sincroniza os botões de navegação do calendário (com tratamento de existência)
-    
-
-    
+   
 
 // Exibe indicador visual de carregamento nas tabelas (Melhoria 1)
 function mostrarLoading() {
