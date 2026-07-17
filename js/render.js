@@ -16,6 +16,7 @@ linha.dataset.pesquisa = [
     ...(militar.observacoes || []),
     ...(militar.afastamentos || []).map(a => a.tipo)
 ]
+    
 .join(" ")
 .toUpperCase();
     if (militar.prontidao === "INDISPONÍVEL") {
@@ -45,7 +46,7 @@ function renderizarEquipe(militares, elementId, tipoServico) {
     container.innerHTML = "";
 
     // Inicia sempre com as observações recolhidas
-    container.classList.add("olho-aberto");
+    container.classList.remove("olho-aberto");
 
     container.dataset.servico = tipoServico;
 
