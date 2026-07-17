@@ -1832,3 +1832,64 @@ align-items:flex-start;
     pointer-events:none;
 
 }
+
+.calendario-topo{
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+
+}
+
+#titulo-calendario{
+
+    margin:0;
+    min-width:220px;
+    text-align:center;
+
+}
+
+.btn-calendario{
+
+    width:38px;
+    height:38px;
+
+    border:none;
+    border-radius:50%;
+
+    background:#0f4c81;
+    color:white;
+
+    cursor:pointer;
+
+    font-size:18px;
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+.btn-calendario:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* Sábado */
+#tabela-espelho-sheets td.sabado{
+
+    background:#dbe4ef !important;
+    color:#234 !important;
+    font-weight:700;
+
+}
+
+/* Domingo */
+#tabela-espelho-sheets td.domingo{
+
+    background:#e2c76b !important;
+    color:#4b3a00 !important;
+    font-weight:700;
+
+}
