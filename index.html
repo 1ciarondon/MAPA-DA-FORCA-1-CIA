@@ -389,6 +389,113 @@ onclick="toggleMenuLateral()">
 
 </main>
 
+    <div id="modal-impedimentos" class="modal-sistema">
+
+    <div class="janela-sistema">
+
+        <div class="cabecalho-sistema">
+
+            <h2>
+                📅 Lançar Impedimento
+            </h2>
+
+            <button onclick="fecharModalImpedimentos()">
+                ✖
+            </button>
+
+        </div>
+
+
+        <div class="corpo-sistema">
+
+
+            <form id="form-afastamento"
+            onsubmit="salvarAfastamento(event)">
+
+
+                <label>
+                    Militar
+                </label>
+
+                <input 
+                type="text"
+                id="afast-nome"
+                list="lista-militares"
+                placeholder="Digite o nome..."
+                required>
+
+
+                <label>
+                    Tipo
+                </label>
+
+                <select id="afast-tipo">
+
+                    <option>FÉRIAS</option>
+                    <option>MISSÃO</option>
+                    <option>DISPENSA</option>
+                    <option>LTS</option>
+
+                </select>
+
+
+                <label>
+                    Data início
+                </label>
+
+                <input 
+                type="date"
+                id="afast-inicio"
+                required>
+
+
+                <label>
+                    Quantidade de dias
+                </label>
+
+                <input
+                type="number"
+                id="afast-dias"
+                min="1"
+                required>
+
+
+                <label>
+                    Observação
+                </label>
+
+                <textarea id="afast-obs"></textarea>
+
+
+                <button class="btn-salvar-modal">
+
+                    Lançar Impedimento
+
+                </button>
+
+
+            </form>
+
+
+            <hr>
+
+
+            <h3>
+                Militares afastados hoje
+            </h3>
+
+
+            <div id="lista-afastados-atual">
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
 <script src="js/config.js"></script>
 
 <script src="js/calendario.js"></script>
