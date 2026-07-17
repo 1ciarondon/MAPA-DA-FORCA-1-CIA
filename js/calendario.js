@@ -327,11 +327,13 @@ const anoCalendario = 2026;
         
         // Se for a primeira linha (Título do Mês)
         if (indexLinha === 0) {
-            const thMes = document.createElement("th");
-            const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
             
-            thMes.innerText = nomeMes.toUpperCase();
-           thMes.setAttribute("colspan",linhasValidas[indexLinhaDias].length);
+            const nomeMes = linha.find(c => c && String(c).trim() !== "") || "MAPA DE SERVIÇO";
+
+const thMes = document.createElement("th");
+
+thMes.innerText = nomeMes.toUpperCase();
+thMes.colSpan = linhasValidas[indexLinhaDias].length;
             thMes.style.background = "#0f4c81";
             thMes.style.color = "#ffffff";
             thMes.style.fontSize = "16px";
@@ -437,30 +439,7 @@ td.style.verticalAlign = "middle";
 
                 // Estilo automático do calendário
 
-if(indexLinha === 1){
-
-    td.style.background = "#0d3b66";
-    td.style.color = "white";
-    td.style.fontWeight = "800";
-
-}
-
-
-if(indexLinha === 2){
-
-    td.style.background = "#dbeafe";
-    td.style.color = "#1e3a8a";
-
-}
-
-
-if(indexLinha === 3){
-
-    td.style.background = "#fef3c7";
-    td.style.color = "#78350f";
-
-}
-            }
+           }
 
            
 
