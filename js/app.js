@@ -156,6 +156,8 @@ async function processarMudancasDeEquipe() {
 
 }
 
+
+
 async function salvarAfastamento(event) {
     event.preventDefault();
     const payload = {
@@ -199,6 +201,33 @@ function pesquisarMilitar(texto){
             }
 
         });
+
+}
+
+function abrirModalImpedimentos(){
+
+    const modal =
+        document.getElementById("modal-impedimentos");
+
+    if(modal){
+
+        modal.style.display="flex";
+
+    }
+
+}
+
+
+function fecharModalImpedimentos(){
+
+    const modal =
+        document.getElementById("modal-impedimentos");
+
+    if(modal){
+
+        modal.style.display="none";
+
+    }
 
 }
 
