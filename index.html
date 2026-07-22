@@ -16,164 +16,56 @@
 
 <body>
 
+    <!-- Datalist global -->
     <datalist id="lista-militares"></datalist>
 
-    <!-- Menu Administrativo -->
-  <aside id="menu-lateral" class="menu-lateral">
+   <!-- ==========================================================
+     MENU ADMINISTRATIVO
+========================================================== -->
 
-<button
-class="btn-fechar"
-onclick="toggleMenuLateral()">
-✖
-</button>
+<aside id="menu-lateral" class="menu-lateral">
 
+    <button
+        class="btn-fechar"
+        onclick="toggleMenuLateral()">
 
-<div class="menu-corpo">
+        ✖
 
+    </button>
 
-<h3>⚙ Administração</h3>
+    <div class="menu-corpo">
 
+        <h3>⚙ Administração</h3>
 
-<button class="menu-opcao" onclick="abrirModalImpedimentos()">
-📅 Impedimentos
-</button>
+        <button
+            class="menu-opcao"
+            onclick="abrirModalImpedimentos()">
 
+            📅 Impedimentos
 
-<button class="menu-opcao" onclick="abrirModalCaveirinha()">
-💀 Caveirinha
-</button>
+        </button>
 
+        <button
+            class="menu-opcao"
+            onclick="abrirModalCaveirinha()">
 
-<button class="menu-opcao" onclick="abrirModalRelatorios()">
-📊 Relatórios
-</button>
+            💀 Caveirinha
 
+        </button>
 
-</div>
+        <button
+            class="menu-opcao"
+            onclick="abrirModalRelatorios()">
+
+            📊 Relatórios
+
+        </button>
+
+    </div>
 
 </aside>
 
-    <!-- =====================================================
-     MODAL IMPEDIMENTOS
-===================================================== -->
-
-<div id="modal-impedimentos" class="modal-sistema">
-
-    <div class="janela-sistema">
-
-        <div class="cabecalho-modal">
-
-            <h2>
-                📅 Lançar Impedimento
-            </h2>
-
-            <button
-                class="btn-fechar-modal"
-                onclick="fecharModalImpedimentos()">
-                ✖
-            </button>
-
-        </div>
-
-
-        <div class="corpo-modal">
-
-
-            <form id="form-afastamento" onsubmit="salvarAfastamento(event)">
-
-
-                <label>
-                    Militar (Nome de Guerra)
-                </label>
-
-                <input
-                    type="text"
-                    id="afast-nome"
-                    list="lista-militares"
-                    placeholder="Busque ou digite..."
-                    required>
-
-
-                <datalist id="lista-militares"></datalist>
-
-
-
-                <label>
-                    Tipo de Impedimento
-                </label>
-
-                <select id="afast-tipo" required>
-
-                    <option value="FÉRIAS">
-                        FÉRIAS
-                    </option>
-
-                    <option value="MISSÃO">
-                        MISSÃO
-                    </option>
-
-                    <option value="DISPENSA">
-                        DISPENSA
-                    </option>
-
-                    <option value="LTS">
-                        LTS
-                    </option>
-
-                </select>
-
-
-
-                <label>
-                    Data Início
-                </label>
-
-                <input
-                    type="date"
-                    id="afast-inicio"
-                    required>
-
-
-
-                <label>
-                    Quantidade de Dias
-                </label>
-
-                <input
-                    type="number"
-                    id="afast-dias"
-                    min="1"
-                    required>
-
-
-
-                <label>
-                    Observação
-                </label>
-
-                <textarea
-                    id="afast-obs"
-                    placeholder="Informações adicionais...">
-                </textarea>
-
-
-
-                <button
-                    type="submit"
-                    class="btn-principal">
-
-                    Lançar Impedimento
-
-                </button>
-
-
-            </form>
-
-
-        </div>
-
-
-    </div>
+       </div>
 
 </div>
 
@@ -389,225 +281,248 @@ onclick="toggleMenuLateral()">
 
 </main>
 
-    <div id="modal-impedimentos" class="modal-sistema">
+<!-- ==========================================================
+     MODAL DA AGENDA
+========================================================== -->
+
+<div id="modal-anotacao" class="modal-anotacao">
+
+    <div class="janela-anotacao">
+
+        <div class="cabecalho-anotacao">
+
+            <div>
+
+                <h2 id="titulo-anotacao">
+                    Agenda
+                </h2>
+
+                <small id="data-anotacao">
+                    --
+                </small>
+
+            </div>
+
+            <button
+                class="btn-fechar-anotacao"
+                type="button"
+                onclick="fecharJanelaAnotacao()">
+
+                ✖
+
+            </button>
+
+        </div>
+
+        <div class="corpo-anotacao">
+
+            <input
+                id="titulo-evento"
+                type="text"
+                placeholder="Título">
+
+            <textarea
+                id="texto-anotacao"
+                placeholder="Digite a anotação..."></textarea>
+
+        </div>
+
+        <div class="rodape-anotacao">
+
+            <button
+                class="btn-secundario"
+                type="button"
+                onclick="fecharJanelaAnotacao()">
+
+                Cancelar
+
+            </button>
+
+            <button
+                class="btn-principal"
+                type="button"
+                onclick="salvarAnotacao()">
+
+                Salvar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==========================================================
+     MODAL DE IMPEDIMENTOS
+========================================================== -->
+
+<div id="modal-impedimentos" class="modal-sistema">
 
     <div class="janela-sistema">
 
         <div class="cabecalho-sistema">
 
-            <h2>
-                📅 Lançar Impedimento
-            </h2>
+            <h2>📅 Lançar Impedimento</h2>
 
-            <button onclick="fecharModalImpedimentos()">
+            <button
+                type="button"
+                onclick="fecharModalImpedimentos()">
+
                 ✖
+
             </button>
 
         </div>
 
-
         <div class="corpo-sistema">
 
+            <form
+                id="form-afastamento"
+                onsubmit="salvarAfastamento(event)">
 
-            <form id="form-afastamento"
-            onsubmit="salvarAfastamento(event)">
+                <label>Militar</label>
 
+                <input
+                    type="text"
+                    id="afast-nome"
+                    list="lista-militares"
+                    placeholder="Digite o nome..."
+                    required>
 
-                <label>
-                    Militar
-                </label>
+                <label>Tipo</label>
 
-                <input 
-                type="text"
-                id="afast-nome"
-                list="lista-militares"
-                placeholder="Digite o nome..."
-                required>
+                <select
+                    id="afast-tipo"
+                    required>
 
-
-                <label>
-                    Tipo
-                </label>
-
-                <select id="afast-tipo">
-
-                    <option>FÉRIAS</option>
-                    <option>MISSÃO</option>
-                    <option>DISPENSA</option>
-                    <option>LTS</option>
+                    <option value="FÉRIAS">FÉRIAS</option>
+                    <option value="MISSÃO">MISSÃO</option>
+                    <option value="DISPENSA">DISPENSA</option>
+                    <option value="LTS">LTS</option>
 
                 </select>
 
-
-                <label>
-                    Data início
-                </label>
-
-                <input 
-                type="date"
-                id="afast-inicio"
-                required>
-
-
-                <label>
-                    Quantidade de dias
-                </label>
+                <label>Data início</label>
 
                 <input
-                type="number"
-                id="afast-dias"
-                min="1"
-                required>
+                    type="date"
+                    id="afast-inicio"
+                    required>
 
+                <label>Quantidade de dias</label>
 
-                <label>
-                    Observação
-                </label>
+                <input
+                    type="number"
+                    id="afast-dias"
+                    min="1"
+                    required>
 
-                <textarea id="afast-obs"></textarea>
+                <label>Observação</label>
 
+                <textarea
+                    id="afast-obs"></textarea>
 
-                <button class="btn-salvar-modal">
+                <button
+                    class="btn-salvar-modal"
+                    type="submit">
 
                     Lançar Impedimento
 
                 </button>
 
-
             </form>
-
 
             <hr>
 
-
-            <h3>
-                Militares afastados hoje
-            </h3>
-
+            <h3>Militares afastados hoje</h3>
 
             <div id="lista-afastados-atual">
 
             </div>
 
-
         </div>
 
     </div>
 
 </div>
 
-<script src="js/config.js"></script>
 
-<script src="js/calendario.js"></script>
+<!-- ==========================================================
+     MODAL DO CAVEIRINHA
+========================================================== -->
 
-<script src="js/api.js"></script>
-<script src="js/anotacoes.js"></script>
+<div id="modal-caveirinha" class="modal-sistema">
 
-<script src="js/formatadores.js"></script>
-<script src="js/toast.js"></script>
+    <div class="janela-sistema">
 
-<script src="js/render.js"></script>
-<script src="js/dragdrop.js"></script>
-<script src="js/pesquisa.js"></script>
-<script src="js/caveirinha.js"></script>
-    
-<script src="js/app.js"></script>
+        <div class="cabecalho-sistema">
 
-    <!-- MODAL CAVEIRINHA -->
+            <h2>💀 Caveirinha</h2>
 
-<div id="modal-caveirinha" class="modal-caveirinha">
+            <button
+                type="button"
+                onclick="fecharModalCaveirinha()">
 
-    <div class="janela-caveirinha">
-
-
-        <div class="cabecalho-caveirinha">
-
-            <div>
-                <h2>💀 Caveirinha</h2>
-                <small>Controle de débitos de serviço</small>
-            </div>
-
-            <button onclick="fecharModalCaveirinha()">
                 ✖
+
             </button>
 
         </div>
 
+        <div class="corpo-sistema">
 
+            <form
+                id="form-caveirinha"
+                onsubmit="salvarDebitoCaveirinha(event)">
 
-        <div class="corpo-caveirinha">
+                <label>Militar</label>
 
-
-            <form id="form-caveirinha"
-                  onsubmit="salvarDebitoCaveirinha(event)">
-
-
-                <label>
-                    Militar devedor
-                </label>
-
-                <input 
+                <input
                     type="text"
                     id="caveira-militar"
                     list="lista-militares"
-                    placeholder="Digite o nome..."
                     required>
 
+                <label>Folga extraordinária</label>
 
-                <label>
-                    Data da folga extraordinária
-                </label>
-
-                <input 
+                <input
                     type="date"
                     id="caveira-data-folga"
                     required>
 
+                <label>Motivo</label>
 
-                <label>
-                    Motivo
-                </label>
-
-                <input 
+                <input
                     type="text"
                     id="caveira-motivo"
-                    placeholder="Ex: Permuta não paga..."
                     required>
 
+                <label>Data prevista do pagamento</label>
 
-                <label>
-                    Data prevista para pagamento
-                </label>
-
-                <input 
+                <input
                     type="date"
                     id="caveira-data-pagamento"
                     required>
 
+                <button
+                    class="btn-salvar-modal"
+                    type="submit">
 
+                    Lançar Débito
 
-                <button class="btn-cadastrar-caveira">
-                    💀 Lançar débito
                 </button>
-
 
             </form>
 
-
             <hr>
 
-
-            <h3>
-                Débitos ativos
-            </h3>
-
+            <h3>Débitos pendentes</h3>
 
             <div id="lista-caveirinhas-atual">
 
-                Carregando...
-
             </div>
-
 
         </div>
 
@@ -615,5 +530,78 @@ onclick="toggleMenuLateral()">
 
 </div>
 
+
+<!-- ==========================================================
+     MODAL DE RELATÓRIOS
+========================================================== -->
+
+<div id="modal-relatorios" class="modal-sistema">
+
+    <div class="janela-sistema">
+
+        <div class="cabecalho-sistema">
+
+            <h2>📊 Relatórios</h2>
+
+            <button
+                type="button"
+                onclick="fecharModalRelatorios()">
+
+                ✖
+
+            </button>
+
+        </div>
+
+        <div class="corpo-sistema">
+
+            <button class="btn-relatorio">
+
+                📅 Escala do dia
+
+            </button>
+
+            <button class="btn-relatorio">
+
+                👮 Efetivo disponível
+
+            </button>
+
+            <button class="btn-relatorio">
+
+                🚫 Impedimentos
+
+            </button>
+
+            <button class="btn-relatorio">
+
+                💀 Caveirinha
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    
+<script src="js/config.js"></script>
+
+<script src="js/api.js"></script>
+
+<script src="js/calendario.js"></script>
+<script src="js/anotacoes.js"></script>
+<script src="js/caveirinha.js"></script>
+
+
+
+<script src="js/formatadores.js"></script>
+<script src="js/render.js"></script>
+<script src="js/dragdrop.js"></script>
+<script src="js/pesquisa.js"></script>
+<script src="js/toast.js"></script>
+
+<script src="js/app.js"></script>
+  
 </body>
 </html>
