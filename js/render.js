@@ -1,118 +1,324 @@
-// Renderiza o esqueleto de cada equipe (Melhoria 5)
+/* ==========================================================
+   RENDERIZAÇÃO DO MAPA DA FORÇA
+========================================================== */
 
-function criarLinhaMilitar(militar) {
+
+/* ==========================================================
+   CRIA LINHA DO MILITAR
+========================================================== */
+
+function criarLinhaMilitar(militar){
 
     const linha = document.createElement("div");
 
     linha.className = "linha-militar";
 
-    linha.dataset.militarBruto = militar.texto;
 
-linha.dataset.prontidaoInicial = militar.prontidao;
+    linha.dataset.nome = militar.texto;
 
-linha.dataset.pesquisa = [
-    militar.texto,
-    militar.prontidao,
-    ...(militar.observacoes || []),
-    ...(militar.afastamentos || []).map(a => a.tipo)
-]
-    
-.join(" ")
-.toUpperCase();
-    if (militar.prontidao === "INDISPONÍVEL") {
-        linha.classList.add("militar-indisponivel");
+    linha.dataset.prontidao = militar.prontidao;
+
+
+    linha.dataset.pesquisa = [
+
+        militar.texto,
+
+        militar.prontidao,
+
+        ...(militar.observacoes || []),
+
+        ...(militar.afastamentos || [])
+            .map(a => a.tipo)
+
+    ]
+
+    .join(" ")
+
+    .toUpperCase();
+
+
+
+    if(militar.prontidao === "INDISPONÍVEL"){
+
+        linha.classList.add(
+            "militar-indisponivel"
+        );
+
     }
 
+
+
     linha.innerHTML = `
+
         <div class="militar-identidade">
+
             ${formatarNomeMilitar(militar.texto)}
+
         </div>
 
+
         <div class="bloco-observacoes">
-            ${montarTags(militar.afastamentos, militar.observacoes)}
+
+            ${montarTags(
+                militar.afastamentos,
+                militar.observacoes
+            )}
+
         </div>
+
     `;
+
 
     return linha;
 
 }
 
-function renderizarEquipe(militares, elementId, tipoServico) {
 
-    const container = document.getElementById(elementId);
 
-    if (!container) return;
+
+/* ==========================================================
+   RENDERIZA UMA EQUIPE
+========================================================== */
+
+function renderizarEquipe(
+    militares,
+    elementId,
+    tipoServico
+){
+
+    const container =
+        document.getElementById(elementId);
+
+
+    if(!container){
+
+        console.warn(
+            "Container não encontrado:",
+            elementId
+        );
+
+        return;
+
+    }
+
+
 
     container.innerHTML = "";
 
-    // Inicia sempre com as observações recolhidas
-    container.classList.remove("olho-aberto");
 
-    container.dataset.servico = tipoServico;
+    container.dataset.servico =
+        tipoServico;
 
-    container.dataset.contId = elementId
-        .replace("dados-", "cont-")
-        .replace("guarda-", "guarda-");
 
-    const fragment = document.createDocumentFragment();
+
+    container.classList.remove(
+        "olho-aberto"
+    );
+
+
+
+    const fragment =
+        document.createDocumentFragment();
+
+
 
     militares.forEach(militar => {
 
+
         fragment.appendChild(
+
             criarLinhaMilitar(militar)
+
         );
+
 
     });
 
+
+
     container.appendChild(fragment);
+
+
+
+    atualizarContadoresIndividuais(
+
+        elementId,
+
+        elementId
+            .replace(
+                "dados-",
+                "cont-"
+            )
+
+    );
+
 
 }
 
-function renderizarListaMenuAdmin() {
 
-    const div = document.getElementById("lista-afastados-atual");
 
-    if (!div) return;
 
-    if (dadosGlobaisAfastados.length === 0) {
-        div.innerHTML = "<em>Ninguém afastado hoje</em>";
+/* ==========================================================
+   LISTA DE AFASTADOS NO MENU
+========================================================== */
+
+function renderizarListaMenuAdmin(){
+
+
+    const lista =
+        document.getElementById(
+            "lista-afastados-atual"
+        );
+
+
+
+    if(!lista) return;
+
+
+
+    if(
+        !dadosGlobaisAfastados ||
+        dadosGlobaisAfastados.length === 0
+    ){
+
+        lista.innerHTML =
+            "<em>Ninguém afastado hoje</em>";
+
         return;
+
     }
 
-    div.innerHTML = dadosGlobaisAfastados.map(a => `
+
+
+    lista.innerHTML =
+
+    dadosGlobaisAfastados.map(a => `
+
+
         <div class="item-lista-afastado">
+
+
             <div>
-                <strong>${a.nome}</strong> (${a.tipo})<br>
-                <small>Retorno: ${a.retorno}</small>
+
+                <strong>
+                    ${a.nome}
+                </strong>
+
+                (${a.tipo})
+
+                <br>
+
+                <small>
+                    Retorno:
+                    ${a.retorno}
+                </small>
+
             </div>
 
+
+
             <button
+
                 class="btn-dar-pronto"
-                onclick="darProntoMilitar(${a.linha})">
+
+                onclick="
+                darProntoMilitar(${a.linha})
+                "
+
+            >
 
                 Pronto
 
             </button>
+
+
         </div>
+
+
     `).join("");
 
 }
 
-// Atualizador Matemático de Prontos por Coluna
-function atualizarContadoresIndividuais(containerId, contadorId) {
-    const container = document.getElementById(containerId);
-    const painelContador = document.getElementById(contadorId);
-    if (!container || !painelContador) return;
 
-    const totalMilitares = container.querySelectorAll(".linha-militar");
+
+
+
+/* ==========================================================
+   CONTADORES
+========================================================== */
+
+
+function atualizarContadoresIndividuais(
+
+    containerId,
+
+    contadorId
+
+){
+
+
+    const container =
+        document.getElementById(
+            containerId
+        );
+
+
+    const contador =
+        document.getElementById(
+            contadorId
+        );
+
+
+
+    if(
+        !container ||
+        !contador
+    ) return;
+
+
+
     let prontos = 0;
-    let indisp = 0;
 
-    totalMilitares.forEach(el => {
-        if (el.getAttribute("data-prontidao-inicial") === "INDISPONÍVEL") indisp++;
-        else prontos++;
+    let indisponiveis = 0;
+
+
+
+    container
+    .querySelectorAll(".linha-militar")
+    .forEach(linha => {
+
+
+        if(
+            linha.dataset.prontidao ===
+            "INDISPONÍVEL"
+        ){
+
+            indisponiveis++;
+
+        }
+
+        else{
+
+            prontos++;
+
+        }
+
+
     });
 
-    painelContador.innerText = `Prontos: ${prontos} | Indisp: ${indisp}`;
-}
 
+
+    contador.innerHTML = `
+
+        Prontos:
+        <strong>${prontos}</strong>
+
+        |
+
+        Indisp:
+        <strong>${indisponiveis}</strong>
+
+    `;
+
+
+}
