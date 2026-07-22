@@ -1,11 +1,10 @@
 /* ==========================================================
-   SISTEMA DE ESCALAS - PMRO
-   CONFIGURAÇÕES GERAIS
+   01 • VARIÁVEIS
 ========================================================== */
 
 :root{
 
-    /* Cores */
+    /* Cores principais */
 
     --azul:#0d3b66;
     --azul-claro:#14548f;
@@ -13,49 +12,62 @@
 
     --dourado:#b58317;
 
-    --cinza-fundo:#f3f5f7;
-    --cinza-claro:#eef2f6;
-    --cinza-borda:#d7dde5;
-
-    --texto:#263238;
-    --texto-claro:#6b7280;
-    --branco:#ffffff;
-
     --verde:#16a34a;
     --vermelho:#dc2626;
     --laranja:#ea580c;
 
-    /* Sombras */
+    /* Neutras */
 
-    --sombra-pequena:0 2px 8px rgba(0,0,0,.08);
-    --sombra-media:0 5px 18px rgba(0,0,0,.12);
-    --sombra-forte:0 10px 28px rgba(0,0,0,.18);
+    --branco:#ffffff;
+
+    --cinza-50:#f8fafc;
+    --cinza-100:#f3f5f7;
+    --cinza-200:#eef2f6;
+    --cinza-300:#d7dde5;
+
+    --texto:#263238;
+    --texto-secundario:#6b7280;
 
     /* Bordas */
 
     --radius:12px;
+    --radius-sm:8px;
 
-    /* Transições */
+    /* Sombras */
 
-    --animacao:.20s ease;
+    --sombra-sm:0 2px 8px rgba(0,0,0,.08);
+    --sombra-md:0 5px 18px rgba(0,0,0,.12);
+    --sombra-lg:0 10px 28px rgba(0,0,0,.18);
+
+    /* Transição */
+
+    --transicao:.20s ease;
 
 }
 
 /* ==========================================================
-   RESET
+   02 • RESET
 ========================================================== */
 
-*{
+*,
+*::before,
+*::after{
+
     margin:0;
     padding:0;
     box-sizing:border-box;
+
 }
+
+/* ==========================================================
+   03 • BODY
+========================================================== */
 
 body{
 
     font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
 
-    background:var(--cinza-fundo);
+    background:var(--cinza-100);
 
     color:var(--texto);
 
@@ -67,18 +79,16 @@ body{
 }
 
 /* ==========================================================
-   HEADER
+   04 • HEADER
 ========================================================== */
 
 header{
-
-    position:relative;
 
     padding:18px 20px;
 
     text-align:center;
 
-    color:#fff;
+    color:var(--branco);
 
     background:
         linear-gradient(
@@ -89,7 +99,7 @@ header{
 
     border-bottom:3px solid #1b5ea5;
 
-    box-shadow:var(--sombra-media);
+    box-shadow:var(--sombra-md);
 
 }
 
@@ -101,7 +111,7 @@ header h1{
 
     letter-spacing:.8px;
 
-    text-shadow:0 2px 6px rgba(0,0,0,.30);
+    text-shadow:0 2px 6px rgba(0,0,0,.3);
 
 }
 
@@ -111,14 +121,12 @@ header p{
 
     font-size:13px;
 
-    opacity:.90;
-
-    letter-spacing:.3px;
+    opacity:.9;
 
 }
 
 /* ==========================================================
-   GRANDES DIVISÕES
+   05 • SEÇÕES
 ========================================================== */
 
 .secao-titulo{
@@ -129,7 +137,7 @@ header p{
 
     text-align:center;
 
-    color:#fff;
+    color:white;
 
     font-size:20px;
 
@@ -139,58 +147,63 @@ header p{
 
     letter-spacing:1.5px;
 
-    text-shadow:0 1px 3px rgba(0,0,0,.30);
+    text-shadow:0 1px 3px rgba(0,0,0,.3);
 
 }
 
 /* ==========================================================
-   RÁDIO PATRULHA
+   06 • FUNDOS
 ========================================================== */
+
+.radiopatrulha-bg,
+.guarda-bg{
+
+    margin-top:22px;
+
+    border-radius:var(--radius) var(--radius) 0 0;
+
+    box-shadow:
+
+        inset 0 -2px rgba(255,255,255,.08),
+
+        var(--sombra-sm);
+
+}
 
 .radiopatrulha-bg{
 
-    margin-top:18px;
-
     background:
+
         linear-gradient(
+
             180deg,
+
             #4b98dd,
+
             #2f75b3
+
         );
 
-    border-radius:12px 12px 0 0;
-
-    box-shadow:
-        inset 0 -2px rgba(255,255,255,.08),
-        0 4px 12px rgba(0,0,0,.10);
-
 }
-
-/* ==========================================================
-   GUARDA
-========================================================== */
 
 .guarda-bg{
 
-    margin-top:28px;
-
     background:
+
         linear-gradient(
+
             180deg,
+
             #c99522,
+
             #9d6d08
+
         );
-
-    border-radius:12px 12px 0 0;
-
-    box-shadow:
-        inset 0 -2px rgba(255,255,255,.08),
-        0 4px 12px rgba(0,0,0,.10);
 
 }
 
 /* ==========================================================
-   GRID PRINCIPAL
+   07 • GRID
 ========================================================== */
 
 .painel-equipes{
@@ -203,12 +216,12 @@ header p{
 
     padding:15px;
 
-    background:#eef2f6;
+    background:var(--cinza-200);
 
 }
 
 /* ==========================================================
-   CARTÕES DAS EQUIPES
+   08 • CARD
 ========================================================== */
 
 .quadro-equipe{
@@ -219,20 +232,21 @@ header p{
 
     min-height:180px;
 
-    background:#fff;
+    background:var(--branco);
 
     border:1px solid #d9e0e8;
 
-    border-radius:12px;
+    border-radius:var(--radius);
 
     overflow:hidden;
 
-    transition:
-        transform .20s ease,
-        box-shadow .20s ease;
+    box-shadow:var(--sombra-sm);
 
-    box-shadow:
-        0 3px 10px rgba(0,0,0,.08);
+    transition:
+
+        transform var(--transicao),
+
+        box-shadow var(--transicao);
 
 }
 
@@ -240,13 +254,12 @@ header p{
 
     transform:translateY(-3px);
 
-    box-shadow:
-        0 12px 26px rgba(0,0,0,.14);
+    box-shadow:var(--sombra-lg);
 
 }
 
 /* ==========================================================
-   CABEÇALHO DOS CARTÕES
+   09 • CABEÇALHO DOS CARDS
 ========================================================== */
 
 .quadro-equipe h2{
@@ -259,8 +272,6 @@ header p{
 
     gap:8px;
 
-    margin:0;
-
     padding:11px;
 
     font-size:15px;
@@ -271,26 +282,17 @@ header p{
 
     border-bottom:1px solid rgba(0,0,0,.08);
 
-    text-shadow:0 1px 1px rgba(255,255,255,.30);
-
 }
 
 /* ==========================================================
-   CONTADOR
+   10 • CONTADOR
 ========================================================== */
 
 .contador-equipe{
 
     padding:8px;
 
-    background:
-        linear-gradient(
-            180deg,
-            #fcfdff,
-            #f3f5f8
-        );
-
-    border-bottom:1px solid #dde4eb;
+    text-align:center;
 
     font-size:11px;
 
@@ -298,88 +300,82 @@ header p{
 
     color:#58646f;
 
-    text-align:center;
+    background:
+
+        linear-gradient(
+
+            #fcfdff,
+
+            #f3f5f8
+
+        );
+
+    border-bottom:1px solid #dde4eb;
 
 }
 
 /* ==========================================================
-   CORES DAS EQUIPES
+   11 • CORES DAS EQUIPES
 ========================================================== */
-
-/* A */
 
 #equipe-A h2,
 #guarda-A h2{
 
     background:linear-gradient(#a9e1a4,#85c97d);
-
     color:#1a4718;
 
 }
-
-/* B */
 
 #equipe-B h2,
 #guarda-B h2{
 
     background:linear-gradient(#8cb7e5,#6793c7);
-
     color:#15334e;
 
 }
-
-/* C */
 
 #equipe-C h2,
 #guarda-C h2{
 
     background:linear-gradient(#b4d2fb,#94bbf5);
-
     color:#163b6a;
 
 }
-
-/* D */
 
 #equipe-D h2,
 #guarda-D h2{
 
     background:linear-gradient(#e2b7cb,#cf95b3);
-
     color:#55203a;
 
 }
-
-/* E */
 
 #equipe-E h2,
 #guarda-E h2{
 
     background:linear-gradient(#ffd15b,#e9ae07);
-
     color:#5b4300;
 
 }
 
 /* ==========================================================
-   LISTA DOS MILITARES
+   12 • LISTA DOS MILITARES
 ========================================================== */
 
 .lista-militares{
-
-    flex:1;
 
     display:flex;
 
     flex-direction:column;
 
-    background:#fff;
+    flex:1;
+
+    background:var(--branco);
 
 }
 
-
 /* ==========================================================
-   LINHA DO MILITAR
+   13 • MILITAR
 ========================================================== */
 
 .linha-militar{
@@ -392,19 +388,19 @@ header p{
 
     align-items:flex-start;
 
-    padding:9px 12px;
-
     min-height:40px;
 
-    font-size:13px;
+    padding:9px 12px;
 
-    line-height:1.35;
-
-    background:#fff;
+    background:var(--branco);
 
     border-bottom:1px solid #edf2f6;
 
     overflow:hidden;
+
+    font-size:13px;
+
+    line-height:1.35;
 
     white-space:nowrap;
 
@@ -412,34 +408,15 @@ header p{
 
     transition:
 
-        background .18s ease,
+        background var(--transicao),
 
-        padding-left .18s ease,
+        padding-left var(--transicao),
 
-        transform .18s ease,
+        transform var(--transicao),
 
-        box-shadow .18s ease;
-
-}
-
-
-/* ==========================================================
-   SEPARAÇÃO DAS GUARNIÇÕES (A CADA 4 MILITARES)
-========================================================== */
-
-.lista-militares .linha-militar:nth-child(4n){
-
-    border-bottom:3px solid #0d3b66;
-
-    margin-bottom:8px;
+        box-shadow var(--transicao);
 
 }
-
-
-
-/* ==========================================================
-   BARRA LATERAL
-========================================================== */
 
 .linha-militar::before{
 
@@ -447,24 +424,27 @@ header p{
 
     position:absolute;
 
-    left:0;
-
     top:0;
+
+    left:0;
 
     width:0;
 
     height:100%;
 
-    background:#1976d2;
+    background:var(--azul-hover);
 
-    transition:.18s ease;
+    transition:width var(--transicao);
 
 }
 
+.lista-militares .linha-militar:nth-child(4n){
 
-/* ==========================================================
-   HOVER
-========================================================== */
+    border-bottom:3px solid var(--azul);
+
+    margin-bottom:8px;
+
+}
 
 .linha-militar:hover{
 
@@ -476,10 +456,9 @@ header p{
 
     box-shadow:
 
-        inset 0 0 0 1px rgba(25,118,210,.10);
+        inset 0 0 0 1px rgba(25,118,210,.12);
 
 }
-
 
 .linha-militar:hover::before{
 
@@ -487,13 +466,11 @@ header p{
 
 }
 
-
-
 /* ==========================================================
-   POLICIAL INDISPONÍVEL
+   14 • MILITAR INDISPONÍVEL
 ========================================================== */
 
-.linha-militar.militar-indisponivel{
+.militar-indisponivel{
 
     background:#f4f4f4;
 
@@ -501,230 +478,67 @@ header p{
 
     text-decoration:line-through;
 
-    opacity:.78;
+    opacity:.8;
 
 }
 
-
-.linha-militar.militar-indisponivel strong,
-
-.linha-militar.militar-indisponivel span{
+.militar-indisponivel *{
 
     color:#9ca3af !important;
 
 }
 
+.militar-indisponivel::before{
 
-.linha-militar.militar-indisponivel::before{
-
-    background:#c62828;
+    background:var(--vermelho);
 
 }
 
-
 /* ==========================================================
-   OBSERVAÇÕES
+   15 • OBSERVAÇÕES
 ========================================================== */
 
 .bloco-observacoes{
 
-    display:block;
-
     width:100%;
 
-    margin-top:4px;
-
-    margin-left:18px;
-
-    font-size:12px;
+    margin:4px 0 0 18px;
 
     color:#666;
 
+    font-size:12px;
+
     line-height:1.45;
-
-}
-
-
-/* ==========================================================
-   CALENDÁRIO
-   ========================================================== */
-
-#wrapper-cabecalho-sheets{
-
-    margin:18px;
-
-    background:#fff;
-
-    border:1px solid #d8dee7;
-
-    border-radius:12px;
 
     overflow:hidden;
 
-    box-shadow:0 4px 15px rgba(0,0,0,.08);
+    max-height:0;
 
-}
-
-#tabela-espelho-sheets{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-    table-layout:fixed;
-
-}
-
-#tabela-espelho-sheets td{
-
-    position:relative;
-
-    height:40px;
-
-    text-align:center;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    border:1px solid #e7edf3;
+    opacity:0;
 
     transition:
-        background .15s ease,
-        color .15s ease,
-        transform .12s ease;
+
+        max-height .25s,
+
+        opacity .25s,
+
+        margin-top .25s;
 
 }
 
-#tabela-espelho-sheets tr:first-child td{
+.lista-militares.olho-aberto .bloco-observacoes{
 
-    background:linear-gradient(
-        180deg,
-        #0d3b66,
-        #114b82
-    );
+    max-height:150px;
 
-    color:#fff;
+    margin-top:6px;
 
-    font-size:16px;
-
-    letter-spacing:1px;
-
-    font-weight:700;
+    opacity:1;
 
 }
-
-#tabela-espelho-sheets tr:nth-child(2) td{
-
-    background:#eef4fa;
-
-    color:#4b5563;
-
-    font-size:11px;
-
-    font-weight:700;
-
-}
-
-#tabela-espelho-sheets tr:nth-child(3) td{
-
-    background:#ffffff;
-
-    color:#1f2937;
-
-    font-size:13px;
-
-}
-
-#tabela-espelho-sheets tr:nth-child(4) td,
-#tabela-espelho-sheets tr:nth-child(5) td{
-
-    background:#fafafa;
-
-    font-size:12px;
-
-}
-
-#tabela-espelho-sheets td:hover{
-
-    background:#edf6ff;
-
-    transform:scale(1.04);
-
-    z-index:2;
-
-}
-
-#tabela-espelho-sheets td.sabado{
-
-    background:#f7f9fc;
-
-}
-
-#tabela-espelho-sheets td.domingo{
-
-    background:#fff4f4;
-
-}
-
-#tabela-espelho-sheets td.dia-hoje{
-
-    background:#0d6efd !important;
-
-    color:#fff !important;
-
-    box-shadow:
-        inset 0 0 0 2px #ffffff,
-        0 0 12px rgba(13,110,253,.35);
-
-}
-
-.ponto-evento{
-
-    position:absolute;
-
-    bottom:3px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:7px;
-
-    height:7px;
-
-    border-radius:50%;
-
-    background:#ff1744;
-
-    box-shadow:0 0 6px rgba(255,23,68,.45);
-
-}
-
-.ponto-anotacao{
-
-    position:absolute;
-
-    top:3px;
-
-    right:3px;
-
-    width:8px;
-
-    height:8px;
-
-    border-radius:50%;
-
-    background:#ff9800;
-
-    box-shadow:0 0 6px rgba(255,152,0,.45);
-
-}
-
 
 /* ==========================================================
-   MODO EDIÇÃO
-   ========================================================== */
+   16 • MODO EDIÇÃO
+========================================================== */
 
 .modo-edicao-ativo .lista-militares{
 
@@ -756,9 +570,6 @@ header p{
 
 }
 
-
-/* Drag */
-
 .sortable-ghost{
 
     opacity:.45;
@@ -769,7 +580,7 @@ header p{
 
 .sortable-chosen{
 
-    box-shadow:0 8px 20px rgba(0,0,0,.22);
+    box-shadow:var(--sombra-lg);
 
 }
 
@@ -779,1127 +590,141 @@ header p{
 
 }
 
-
 /* ==========================================================
-   MENU LATERAL
-   ========================================================== */
+   LISTA DOS MILITARES
+========================================================== */
 
-.menu-lateral{
+.lista-militares{
 
-    position:fixed;
-
-    top:0;
-
-    left:-350px;
-
-    width:340px;
-
-    height:100%;
-
-    background:linear-gradient(#1f2d3a,#16212b);
-
-    color:white;
-
-    transition:left .30s ease;
-
-    box-shadow:10px 0 30px rgba(0,0,0,.35);
-
-    z-index:9999;
-
-    overflow-y:auto;
-
-    padding:18px;
-
-}
-
-.menu-lateral.aberto{
-
-    left:0;
-
-}
-
-
-/* Scroll */
-
-.menu-lateral::-webkit-scrollbar{
-
-    width:7px;
-
-}
-
-.menu-lateral::-webkit-scrollbar-thumb{
-
-    background:#5d7287;
-
-    border-radius:20px;
-
-}
-
-
-/* ==========================================================
-   CABEÇALHO MENU
-   ========================================================== */
-
-.menu-header{
-
+    flex:1;
     display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:15px;
-
-    padding-bottom:12px;
-
-    border-bottom:1px solid rgba(255,255,255,.15);
-
-}
-
-.menu-header h3{
-
-    font-size:18px;
-
-    color:#43d9ec;
-
-}
-
-.btn-fechar{
-
-    width:36px;
-
-    height:36px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:transparent;
-
-    color:white;
-
-    cursor:pointer;
-
-    transition:.2s;
-
-}
-
-.btn-fechar:hover{
-
-    background:rgba(255,255,255,.18);
-transform:rotate(90deg);
-
-}
-
-
-/* ==========================================================
-   FORMULÁRIO
-   ========================================================== */
-
-#form-afastamento label{
-
-    display:block;
-
-    margin:14px 0 5px;
-
-    font-size:11px;
-
-    font-weight:700;
-
-    color:#d3dde5;
-
-}
-
-#form-afastamento input,
-#form-afastamento select,
-#form-afastamento textarea{
-
-    width:100%;
-
-    padding:10px;
-
-    border-radius:6px;
-
-    border:1px solid #41586d;
-
-    background:#2b3d4e;
-
-    color:white;
-
-    font-size:12px;
-
-    transition:.18s;
-
-}
-
-#form-afastamento textarea{
-
-    resize:vertical;
-
-    min-height:80px;
-
-}
-
-#form-afastamento input:focus,
-#form-afastamento select:focus,
-#form-afastamento textarea:focus{
-
-    outline:none;
-
-    border-color:#39d0e5;
-
-    box-shadow:0 0 0 3px rgba(57,208,229,.15);
-
-}
-
-
-/* ==========================================================
-   BOTÃO CADASTRAR
-   ========================================================== */
-
-#btn-cadastrar-ausencia{
-
-    width:100%;
-
-    margin-top:18px;
-
-    padding:11px;
-
-    border:none;
-
-    border-radius:7px;
-
-    cursor:pointer;
-
-    font-size:13px;
-
-    font-weight:700;
-
-    color:white;
-
-    background:linear-gradient(#39bf73,#249454);
-
-    transition:.20s;
-
-}
-
-#btn-cadastrar-ausencia:hover{
-
-    transform:translateY(-2px);
-
-}
-
-
-/* ==========================================================
-   LISTA DE AFASTADOS
-   ========================================================== */
-
-.item-lista-afastado{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:10px;
-
-    padding:10px;
-
-    border-left:4px solid #39d0e5;
-
-    border-radius:8px;
-
-    background:#304556;
-
-    font-size:11px;
-
-    transition:.18s;
-
-}
-
-.item-lista-afastado:hover{
-
-    background:#3b5367;
-
-}
-
-
-/* ==========================================================
-   BOTÃO DAR PRONTO
-   ========================================================== */
-
-.btn-dar-pronto{
-
-    border:none;
-
-    border-radius:6px;
-
-    background:linear-gradient(#ef5350,#d32f2f);
-
-    color:white;
-
-    padding:6px 12px;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.18s;
-
-}
-
-.btn-dar-pronto:hover{
-
-    transform:scale(1.05);
-
-}
-/* ==========================================================
-   RESPONSIVIDADE
-   ========================================================== */
-
-/* ---------- Tablets ---------- */
-
-@media (max-width:1024px){
-
-    header{
-
-        padding:20px 15px;
-
-    }
-
-    header h1{
-
-        font-size:24px;
-
-    }
-
-    .painel-equipes{
-
-        grid-template-columns:repeat(3,1fr);
-
-        gap:12px;
-
-        padding:12px;
-
-    }
-
-    .quadro-equipe{
-
-        min-height:190px;
-
-    }
-
-    .secao-titulo{
-
-        font-size:19px;
-
-    }
-
-}
-
-
-/* ---------- Celulares ---------- */
-
-@media (max-width:600px){
-
-    body{
-
-        font-size:14px;
-
-    }
-
-    header{
-
-        padding:18px 12px;
-
-    }
-
-    header h1{
-
-        font-size:20px;
-
-        line-height:1.3;
-
-    }
-
-    header p{
-
-        font-size:13px;
-
-    }
-
-    .painel-equipes{
-
-        grid-template-columns:1fr;
-
-        gap:12px;
-
-        padding:12px;
-
-    }
-
-    .quadro-equipe{
-
-        border-radius:10px;
-
-    }
-
-    .quadro-equipe h2{
-
-        font-size:15px;
-
-    }
-
-    .linha-militar{
-
-        font-size:13px;
-
-    }
-
-    #btn-menu{
-
-        position:static;
-
-        width:100%;
-
-        margin-bottom:12px;
-
-        transform:none;
-
-    }
-
-    #btn-editar{
-
-        width:100%;
-
-    }
-
-    #btn-olho{
-
-        width:100%;
-
-        margin-left:0;
-
-        margin-top:8px;
-
-    }
-
-    .menu-lateral{
-
-        width:95%;
-
-        left:-100%;
-
-    }
-
-    .menu-lateral.aberto{
-
-        left:0;
-
-    }
-
-}
-
-
-/* ==========================================================
-   TOASTS
-   ========================================================== */
-
-#toast-container{
-
-    position:fixed;
-
-    right:20px;
-
-    bottom:20px;
-
-    display:flex;
-
     flex-direction:column;
-
-    gap:10px;
-
-    z-index:10000;
-
-    pointer-events:none;
+    background:var(--branco);
 
 }
-
-.toast{
-
-    min-width:240px;
-
-    padding:14px 20px;
-
-    border-radius:8px;
-
-    color:white;
-
-    font-size:13px;
-
-    font-weight:700;
-
-    opacity:0;
-
-    transform:translateY(20px);
-
-    transition:.30s;
-
-    box-shadow:0 10px 30px rgba(0,0,0,.20);
-
-}
-
-.toast.mostrar{
-
-    opacity:1;
-
-    transform:translateY(0);
-
-}
-
-.toast-sucesso{
-
-    background:linear-gradient(135deg,#2ecc71,#27ae60);
-
-}
-
-.toast-erro{
-
-    background:linear-gradient(135deg,#e74c3c,#c0392b);
-
-}
-
-.toast-aviso{
-
-    background:linear-gradient(135deg,#f1c40f,#f39c12);
-
-    color:#222;
-
-}
-
 
 /* ==========================================================
-   ALERTA DE CONEXÃO
-   ========================================================== */
+   LINHA DO MILITAR
+========================================================== */
 
-#alerta-conexao{
-
-    display:none;
-
-    position:sticky;
-
-    top:0;
-
-    z-index:10001;
-
-    padding:8px;
-
-    text-align:center;
-
-    background:#d32f2f;
-
-    color:white;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    box-shadow:0 3px 12px rgba(0,0,0,.15);
-
-}
-
-
-/* ==========================================================
-   ESPELHO DA ESCALA - PAINEL MODERNO
-   ========================================================== */
-
-.scroll-escala{
-
-    margin:18px;
-
-    padding:16px;
-
-    background:#ffffff;
-
-    border-radius:16px;
-
-    border:1px solid #d8e1eb;
-
-    overflow-x:auto;
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.08);
+.linha-militar{
 
     position:relative;
 
-}
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
 
+    padding:10px 12px;
 
-/* barra horizontal */
+    min-height:42px;
 
-.scroll-escala::-webkit-scrollbar{
+    background:var(--branco);
 
-    height:8px;
-
-}
-
-
-.scroll-escala::-webkit-scrollbar-thumb{
-
-    background:#9fb3c8;
-
-    border-radius:20px;
-
-}
-
-
-.scroll-escala::-webkit-scrollbar-thumb:hover{
-
-    background:#64748b;
-
-}
-
-
-/* barra horizontal */
-
-.scroll-escala::-webkit-scrollbar{
-
-    height:8px;
-
-}
-
-
-.scroll-escala::-webkit-scrollbar-thumb{
-
-    background:#94a3b8;
-
-    border-radius:20px;
-
-}
-
-
-/* tabela */
-#tabela-espelho-sheets{
-
-    width:max-content;
-
-    min-width:100%;
-
-    border-collapse:separate;
-
-    border-spacing:0;
-
-    text-align:center;
-
-}
-
-
-/* todas as células */
-
-#tabela-espelho-sheets td{
-
-    padding:8px 10px;
-
-    min-width:38px;
-
-    height:36px;
-
-    border-right:1px solid #dbe4ee;
-
-    border-bottom:1px solid #dbe4ee;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    color:#334155;
-
-    background:#fff;
-
-    position:relative;
-
-    transition:.15s;
-
-}
-
-
-
-/* primeira linha - MÊS / ANO */
-
-#tabela-espelho-sheets tr:first-child td{
-
-    background:
-    linear-gradient(
-        180deg,
-        #0d3b66,
-        #114b82
-    ) !important;
-
-    color:#ffffff;
-
-    font-size:18px;
-
-    font-weight:800;
-
-    letter-spacing:3px;
-
-    height:48px;
-
-}
-
-
-/* dias da semana */
-
-#tabela-espelho-sheets tr:nth-child(2) td{
-
-    background:#eef4fa;
-
-    color:#475569;
-
-    font-size:11px;
-
-    font-weight:800;
-
-}
-
-
-/* números dos dias */
-
-#tabela-espelho-sheets tr:nth-child(3) td{
-
-    background:#ffffff;
-
-    font-size:14px;
-
-    color:#0f172a;
-
-}
-
-
-
-/* turnos */
-
-#tabela-espelho-sheets tr:nth-child(4) td,
-#tabela-espelho-sheets tr:nth-child(5) td{
+    border-bottom:1px solid #edf2f6;
 
     font-size:13px;
 
-    font-weight:800;
+    line-height:1.35;
+
+    transition:
+        background var(--animacao),
+        transform var(--animacao),
+        padding-left var(--animacao),
+        box-shadow var(--animacao);
 
 }
 
+/* Barra azul lateral */
 
-/* efeito mouse */
-
-#tabela-espelho-sheets td:hover{
-
-    background:#eaf3ff !important;
-
-    transform:scale(1.05);
-
-    z-index:2;
-
-}
-
-
-/* sábado */
-
-#tabela-espelho-sheets td.sabado{
-
-    background:#dbeafe !important;
-
-    color:#1e3a8a !important;
-
-}
-
-
-/* domingo */
-
-#tabela-espelho-sheets td.domingo{
-
-    background:#fef3c7 !important;
-
-    color:#92400e !important;
-
-}
-
-
-
-/* dia atual */
-
-.dia-hoje::after{
+.linha-militar::before{
 
     content:"";
 
     position:absolute;
 
-    inset:3px;
+    left:0;
+    top:0;
 
-    border:3px solid #dc2626;
+    width:0;
 
-    border-radius:50%;
+    height:100%;
 
-    pointer-events:none;
+    background:var(--azul-hover);
+
+    transition:width var(--animacao);
 
 }
 
+/* Hover */
 
+.linha-militar:hover{
 
-/* ponto de evento */
+    background:#f5faff;
 
-.ponto-evento{
+    padding-left:18px;
 
-    width:8px !important;
-
-    height:8px !important;
-
-    background:#ef4444 !important;
-
-    border-radius:50%;
+    transform:translateX(2px);
 
     box-shadow:
-
-        0 0 8px rgba(239,68,68,.8);
-
-}
-
-
-
-/* ponto de anotação */
-
-.ponto-anotacao{
-
-    width:8px !important;
-
-    height:8px !important;
-
-    background:#2563eb !important;
-
-    border-radius:50%;
+        inset 0 0 0 1px rgba(25,118,210,.10);
 
 }
 
-/* ==========================================================
-   PESQUISA
-   ========================================================== */
+.linha-militar:hover::before{
 
-.bloco-pesquisa{
-
-    margin:18px 0;
+    width:4px;
 
 }
 
-#barra-pesquisa{
+/* Separador das guarnições */
 
-    display:flex;
+.lista-militares .linha-militar:nth-child(4n){
 
-    justify-content:flex-end;
+    border-bottom:3px solid var(--azul);
 
-    margin-top:12px;
-
-}
-
-
-/* ==========================================================
-   MODAL DA AGENDA
-   ========================================================== */
-
-.modal-anotacao{
-
-    position:fixed;
-
-    inset:0;
-
-    display:none;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:rgba(15,23,42,.45);
-
-    backdrop-filter:blur(5px);
-
-    animation:fade .18s ease;
-
-    z-index:99999;
+    margin-bottom:8px;
 
 }
 
-.janela-anotacao{
+/* Militar indisponível */
 
-    width:640px;
+.linha-militar.militar-indisponivel{
 
-    max-width:94%;
+    background:#f4f4f4;
 
-    background:#fff;
+    color:#9ca3af;
 
-    border-radius:16px;
+    opacity:.75;
 
-    overflow:hidden;
+    text-decoration:line-through;
 
-    box-shadow:0 20px 60px rgba(0,0,0,.28);
+}
 
-    animation:aparecer .22s ease;
+.linha-militar.militar-indisponivel strong,
+.linha-militar.militar-indisponivel span{
+
+    color:#9ca3af !important;
+
+}
+
+.linha-militar.militar-indisponivel::before{
+
+    background:var(--vermelho);
 
 }
 
 /* ==========================================================
-   CABEÇALHO
-   ========================================================== */
-
-.cabecalho-anotacao{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:18px 22px;
-
-    background:linear-gradient(180deg,#0d3b66,#114b82);
-
-    color:#fff;
-
-}
-
-.cabecalho-anotacao h2{
-
-    margin:0;
-
-    font-size:20px;
-
-    font-weight:700;
-
-}
-
-.cabecalho-anotacao small{
-
-    display:block;
-
-    margin-top:4px;
-
-    font-size:13px;
-
-    opacity:.85;
-
-}
-
-.btn-fechar-anotacao{
-
-    width:38px;
-
-    height:38px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:rgba(255,255,255,.12);
-
-    color:white;
-
-    font-size:18px;
-
-    cursor:pointer;
-
-    transition:.20s;
-
-}
-
-.btn-fechar-anotacao:hover{
-
-    background:rgba(255,255,255,.22);
-
-    transform:rotate(90deg);
-
-}
-
-/* ==========================================================
-   CORPO
-   ========================================================== */
-
-.corpo-anotacao{
-
-    padding:22px;
-
-}
-
-.corpo-anotacao input{
-
-    width:100%;
-
-    padding:12px;
-
-    margin-bottom:15px;
-
-    border:1px solid #d6dde6;
-
-    border-radius:8px;
-
-    font-size:15px;
-
-}
-
-.corpo-anotacao textarea{
-
-    width:100%;
-
-    min-height:220px;
-
-    resize:vertical;
-
-    padding:14px;
-
-    border:1px solid #d6dde6;
-
-    border-radius:8px;
-
-    font-size:14px;
-
-}
-
-.corpo-anotacao input:focus,
-
-.corpo-anotacao textarea:focus{
-
-    outline:none;
-
-    border-color:#2563eb;
-
-    box-shadow:0 0 0 3px rgba(37,99,235,.15);
-
-}
-
-/* ==========================================================
-   RODAPÉ
-   ========================================================== */
-
-.rodape-anotacao{
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    gap:12px;
-
-    padding:18px 22px;
-
-    background:#f8fafc;
-
-    border-top:1px solid #e2e8f0;
-
-}
-
-.btn-secundario{
-
-    padding:11px 18px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#e5e7eb;
-
-    cursor:pointer;
-
-    font-weight:600;
-
-    transition:.20s;
-
-}
-
-.btn-secundario:hover{
-
-    background:#d7dbe0;
-
-}
-
-.btn-principal{
-
-    padding:11px 22px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:linear-gradient(#2563eb,#1d4ed8);
-
-    color:white;
-
-    cursor:pointer;
-
-    font-weight:700;
-
-    transition:.20s;
-
-}
-
-.btn-principal:hover{
-
-    transform:translateY(-2px);
-
-    box-shadow:0 10px 22px rgba(37,99,235,.28);
-
-}
-
-/* ==========================================================
-   ANIMAÇÕES
-   ========================================================== */
-
-@keyframes aparecer{
-
-    from{
-
-        opacity:0;
-
-        transform:translateY(-18px) scale(.96);
-
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:translateY(0) scale(1);
-
-    }
-
-}
-
-@keyframes fade{
-
-    from{
-
-        opacity:0;
-
-    }
-
-    to{
-
-        opacity:1;
-
-    }
-
-}
-
-/* ==========================================================
-   OBSERVAÇÕES DOS MILITARES
-   ========================================================== */
+   OBSERVAÇÕES
+========================================================== */
 
 .bloco-observacoes{
 
-    display:block;
-
     width:100%;
 
-    margin-top:4px;
-
     margin-left:18px;
+
+    margin-top:4px;
 
     font-size:12px;
 
@@ -1914,9 +739,9 @@ transform:rotate(90deg);
     overflow:hidden;
 
     transition:
-        max-height .25s ease,
-        opacity .25s ease,
-        margin-top .25s ease;
+        max-height .25s,
+        opacity .25s,
+        margin-top .25s;
 
 }
 
@@ -1930,12 +755,186 @@ transform:rotate(90deg);
 
 }
 
+/* ==========================================================
+   CALENDÁRIO / ESPELHO DA ESCALA
+========================================================== */
+
+.scroll-escala{
+
+    margin:18px;
+
+    padding:16px;
+
+    background:var(--branco);
+
+    border:1px solid #d8e1eb;
+
+    border-radius:16px;
+
+    overflow-x:auto;
+
+    box-shadow:var(--sombra-media);
+
+}
+
+.scroll-escala::-webkit-scrollbar{
+
+    height:8px;
+
+}
+
+.scroll-escala::-webkit-scrollbar-thumb{
+
+    background:#94a3b8;
+
+    border-radius:20px;
+
+}
+
+#wrapper-cabecalho-sheets{
+
+    margin:18px;
+
+    background:var(--branco);
+
+    border:1px solid #d8dee7;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    box-shadow:var(--sombra-pequena);
+
+}
+
+#tabela-espelho-sheets{
+
+    width:max-content;
+
+    min-width:100%;
+
+    border-collapse:separate;
+
+    border-spacing:0;
+
+    text-align:center;
+
+}
+
+#tabela-espelho-sheets td{
+
+    position:relative;
+
+    min-width:38px;
+
+    height:36px;
+
+    padding:8px 10px;
+
+    background:var(--branco);
+
+    border-right:1px solid #dbe4ee;
+
+    border-bottom:1px solid #dbe4ee;
+
+    color:#334155;
+
+    font-size:12px;
+
+    font-weight:700;
+
+    transition:all .15s;
+
+}
+
+#tabela-espelho-sheets td:hover{
+
+    background:#eaf3ff !important;
+
+    transform:scale(1.05);
+
+    z-index:2;
+
+}
+
+/* Mês */
+
+#tabela-espelho-sheets tr:first-child td{
+
+    background:linear-gradient(var(--azul),var(--azul-claro)) !important;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:800;
+
+    letter-spacing:3px;
+
+    height:48px;
+
+}
+
+/* Semana */
+
+#tabela-espelho-sheets tr:nth-child(2) td{
+
+    background:#eef4fa;
+
+    color:#475569;
+
+    font-size:11px;
+
+}
+
+/* Dias */
+
+#tabela-espelho-sheets tr:nth-child(3) td{
+
+    font-size:14px;
+
+    color:#0f172a;
+
+}
+
+/* Turnos */
+
+#tabela-espelho-sheets tr:nth-child(4) td,
+#tabela-espelho-sheets tr:nth-child(5) td{
+
+    font-size:13px;
+
+    font-weight:800;
+
+}
+
+/* Sábado */
+
+#tabela-espelho-sheets td.sabado{
+
+    background:#dbe4ef !important;
+
+    color:#234 !important;
+
+}
+
+/* Domingo */
+
+#tabela-espelho-sheets td.domingo{
+
+    background:#e2c76b !important;
+
+    color:#4b3a00 !important;
+
+}
+
+/* Dia Atual */
+
 .dia-hoje{
 
     position:relative;
 
 }
-
 
 .dia-hoje::after{
 
@@ -1945,48 +944,99 @@ transform:rotate(90deg);
 
     inset:3px;
 
-    border:3px solid #dc2626;
+    border:3px solid var(--vermelho);
 
     border-radius:50%;
 
-    pointer-events:none;
+}
+
+/* Marcadores */
+
+.ponto-evento{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:3px;
+
+    transform:translateX(-50%);
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    box-shadow:0 0 8px rgba(239,68,68,.7);
+
+    animation:pulsarEvento 1.5s infinite;
+
+}
+
+.ponto-anotacao{
+
+    position:absolute;
+
+    top:3px;
+
+    right:3px;
+
+    width:8px;
+
+    height:8px;
+
+    border-radius:50%;
+
+    background:#2563eb;
 
 }
 
 .calendario-topo{
 
     display:flex;
-    align-items:center;
+
     justify-content:center;
+
+    align-items:center;
+
     gap:16px;
 
 }
 
 #titulo-calendario{
 
-    margin:0;
     min-width:220px;
+
     text-align:center;
+
+    margin:0;
 
 }
 
 .btn-calendario{
 
     width:38px;
+
     height:38px;
 
     border:none;
+
     border-radius:50%;
 
     background:#0f4c81;
+
     color:white;
 
     cursor:pointer;
 
     font-size:18px;
+
     font-weight:bold;
 
-    transition:.2s;
+    transition:transform .2s;
 
 }
 
@@ -1996,110 +1046,31 @@ transform:rotate(90deg);
 
 }
 
-/* Sábado */
-#tabela-espelho-sheets td.sabado{
-
-    background:#dbe4ef !important;
-    color:#234 !important;
-    font-weight:700;
-
-}
-
-/* Domingo */
-#tabela-espelho-sheets td.domingo{
-
-    background:#e2c76b !important;
-    color:#4b3a00 !important;
-    font-weight:700;
-
-}
-
-/* ==========================================================
-   MARCADOR DE EVENTO NO CALENDÁRIO
-   ========================================================== */
-
-.ponto-evento{
-
-    box-shadow:
-        0 0 6px rgba(244,63,94,.8);
-
-    animation:pulsarEvento 1.5s infinite;
-
-}
-
-
 @keyframes pulsarEvento{
 
-    0%{
+    0%{transform:translateX(-50%) scale(1);}
 
-        transform:translateX(-50%) scale(1);
+    50%{transform:translateX(-50%) scale(1.5);}
 
-    }
-
-    50%{
-
-        transform:translateX(-50%) scale(1.5);
-
-    }
-
-    100%{
-
-        transform:translateX(-50%) scale(1);
-
-    }
+    100%{transform:translateX(-50%) scale(1);}
 
 }
 
 /* ==========================================================
-   DESTAQUE DA PESQUISA
+   MODAIS
 ========================================================== */
 
-.resultado-pesquisa{
-
-    background:#fff3b0 !important;
-
-    border-left:6px solid #0d6efd;
-
-    box-shadow:
-        0 0 15px rgba(13,110,253,.20);
-
-    transform:translateX(3px);
-
-    transition:.25s ease;
-
-}
-
-
-.resultado-pesquisa strong{
-
-    color:#0d3b66 !important;
-
-}
-
-
-.resultado-pesquisa span{
-
-    color:#475569 !important;
-
-}
-
-/* =====================================================
-   MODAIS DO SISTEMA
-===================================================== */
-
-.modal-sistema{
+.modal{
 
     position:fixed;
-
     inset:0;
 
     display:none;
 
     justify-content:center;
-
     align-items:center;
 
-    background:rgba(15,23,42,.55);
+    background:rgba(15,23,42,.50);
 
     backdrop-filter:blur(4px);
 
@@ -2107,24 +1078,33 @@ transform:rotate(90deg);
 
 }
 
+.modal.ativo{
 
-.janela-sistema{
+    display:flex;
 
-    width:420px;
+}
 
-    max-width:92%;
+.janela-modal{
 
-    background:white;
+    width:520px;
+
+    max-width:95%;
+
+    background:#fff;
 
     border-radius:14px;
 
     overflow:hidden;
 
-    box-shadow:
-    0 20px 60px rgba(0,0,0,.35);
+    box-shadow:0 20px 60px rgba(0,0,0,.30);
 
 }
 
+.janela-modal.grande{
+
+    width:640px;
+
+}
 
 .cabecalho-modal{
 
@@ -2134,25 +1114,47 @@ transform:rotate(90deg);
 
     align-items:center;
 
-    padding:16px 20px;
-
-    background:
-    linear-gradient(
-    180deg,
-    #0d3b66,
-    #114b82
-    );
+    padding:18px 22px;
 
     color:white;
 
 }
 
+.cabecalho-modal.azul{
+
+    background:linear-gradient(var(--azul),var(--azul-claro));
+
+}
+
+.cabecalho-modal.vermelho{
+
+    background:linear-gradient(#7f0000,#b71c1c);
+
+}
+
+.cabecalho-modal h2{
+
+    margin:0;
+
+    font-size:20px;
+
+}
+
+.cabecalho-modal small{
+
+    display:block;
+
+    margin-top:4px;
+
+    opacity:.85;
+
+}
 
 .btn-fechar-modal{
 
-    width:34px;
+    width:36px;
 
-    height:34px;
+    height:36px;
 
     border:none;
 
@@ -2164,157 +1166,25 @@ transform:rotate(90deg);
 
     cursor:pointer;
 
+    transition:.2s;
+
 }
 
+.btn-fechar-modal:hover{
+
+    transform:rotate(90deg);
+
+    background:rgba(255,255,255,.25);
+
+}
 
 .corpo-modal{
-
-    padding:20px;
-
-}
-
-
-.corpo-modal label{
-
-    display:block;
-
-    margin-top:10px;
-
-    margin-bottom:4px;
-
-    font-size:12px;
-
-    font-weight:700;
-
-    color:#334155;
-
-}
-
-
-.corpo-modal input,
-.corpo-modal select,
-.corpo-modal textarea{
-
-    width:100%;
-
-    padding:10px;
-
-    border-radius:8px;
-
-    border:1px solid #cbd5e1;
-
-}
-
-
-.corpo-modal textarea{
-
-    min-height:80px;
-
-}
-
-/* ==========================================================
-   MODAL CAVEIRINHA
-========================================================== */
-
-
-.modal-caveirinha{
-
-    position:fixed;
-    inset:0;
-
-    display:none;
-
-    justify-content:center;
-    align-items:center;
-
-    background:rgba(0,0,0,.45);
-
-    backdrop-filter:blur(4px);
-
-    z-index:99999;
-
-}
-
-
-
-.janela-caveirinha{
-
-    width:520px;
-    max-width:95%;
-
-    background:#fff;
-
-    border-radius:14px;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 20px 50px rgba(0,0,0,.30);
-
-}
-
-
-
-.cabecalho-caveirinha{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:18px 22px;
-
-    background:
-    linear-gradient(
-        180deg,
-        #7f0000,
-        #b71c1c
-    );
-
-    color:white;
-
-}
-
-
-
-.cabecalho-caveirinha h2{
-
-    margin:0;
-
-}
-
-
-
-.cabecalho-caveirinha button{
-
-    width:36px;
-    height:36px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:
-    rgba(255,255,255,.15);
-
-    color:white;
-
-    cursor:pointer;
-
-}
-
-
-
-.corpo-caveirinha{
 
     padding:22px;
 
 }
 
-
-
-.corpo-caveirinha label{
+.corpo-modal label{
 
     display:block;
 
@@ -2330,79 +1200,62 @@ transform:rotate(90deg);
 
 }
 
-
-
-.corpo-caveirinha input{
-
+.corpo-modal input,
+.corpo-modal select,
+.corpo-modal textarea{
 
     width:100%;
 
     padding:11px;
 
-    border-radius:8px;
-
     border:1px solid #d1d5db;
+
+    border-radius:8px;
 
     font-size:14px;
 
 }
 
+.corpo-modal textarea{
 
+    resize:vertical;
 
-.corpo-caveirinha input:focus{
+    min-height:120px;
+
+}
+
+.corpo-modal input:focus,
+.corpo-modal select:focus,
+.corpo-modal textarea:focus{
 
     outline:none;
 
-    border-color:#b91c1c;
+    border-color:var(--azul-hover);
 
-    box-shadow:
-    0 0 0 3px rgba(185,28,28,.15);
-
-}
-
-
-
-.btn-cadastrar-caveira{
-
-    width:100%;
-
-    margin-top:20px;
-
-    padding:12px;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:
-    linear-gradient(
-        #ef4444,
-        #991b1b
-    );
-
-    color:white;
-
-    font-weight:700;
-
-    cursor:pointer;
+    box-shadow:0 0 0 3px rgba(25,118,210,.15);
 
 }
 
+.rodape-modal{
 
-.btn-cadastrar-caveira:hover{
+    display:flex;
 
-    transform:translateY(-2px);
+    justify-content:flex-end;
+
+    gap:12px;
+
+    padding:18px 22px;
+
+    background:#f8fafc;
+
+    border-top:1px solid #e2e8f0;
 
 }
-
-
 
 #lista-caveirinhas-atual{
 
     max-height:220px;
 
     overflow-y:auto;
-
-    margin-top:10px;
 
 }
